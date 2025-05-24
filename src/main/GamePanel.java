@@ -1,10 +1,15 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Rectangle;
+
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import entity.Player;
 
@@ -38,11 +43,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public GamePanel() {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeigth));//size setting
-		this.setBackground(Color.black);//setting background color
+		this.setBackground(Color.white);//setting background color
 		this.setDoubleBuffered(true);//advanced
 		this.addKeyListener(kh);//key listener added
 		this.setFocusable(true);//to keep looking for event
-		
+	
 		startGameThread();
 	} 
 	

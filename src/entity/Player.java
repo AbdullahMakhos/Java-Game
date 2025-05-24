@@ -1,6 +1,5 @@
 package entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -22,33 +21,46 @@ public class Player extends Entity{
 
 	//update player method to keep GamePanel organized 
 	public void update() {
-		if(kh.upPressed) {
-			y -= speed;
+		//update information about player's position and image
+		
+		try {
+			characterImage = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/right and front.png")); 
+		
+			if(kh.upPressed) {
+				y -= speed;
+				characterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/right and front.png")); 
+			}
+			if(kh.downPressed) {
+				y += speed;
+				characterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/left and front.png")); 
+			}
+			if(kh.rightPressed) {
+				x += speed;
+				characterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/right and front.png")); 
+			}
+			if(kh.leftPressed) {
+				x -= speed;
+				characterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/left and front.png")); 
+			}
+		} catch (IOException e) {
+				e.printStackTrace();
 		}
-		if(kh.downPressed) {
-			y += speed;
-		}
-		if(kh.rightPressed) {
-			x += speed;
-		}
-		if(kh.leftPressed) {
-			x -= speed;
-		}
+		
 	} 
 	//draw player method to keep GamePanel organized
 	public void draw(Graphics2D g2) {
-		getImage();//get the updated image
-		//draw character image
-		g2.drawImage(characterImage, x, y, gp.getTileSize(), gp.getTileSize(), null);
+				
+		g2.drawImage(characterImage, x, y,
+		gp.getTileSize(), gp.getTileSize(), null); //draw character image
+	
 	}
 	
-	public void getImage() {
-		try {
-			characterImage = ImageIO.read(getClass().getResourceAsStream("/entity/resources/Untitled.png")); 
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	
 }

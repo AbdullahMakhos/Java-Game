@@ -20,7 +20,6 @@ class Game {
 		GamePanel gamePanel = new GamePanel(); //creating game panel object
 		window.add(gamePanel); //adding the panel so its displayed in the window 
 		window.pack();//to apply size setting
-		
 		//window.setLocationRelativeTo(null); //to center the window + this needs to be below
 
 	}
