@@ -29,8 +29,8 @@ public class GamePanel extends JPanel implements Runnable{
 	final int maxScreenCol = 16; //16 pixels vertically 
 	final int maxScreenRow = 12; //16 pixels horizontally 
 	
-	final int screenWidth = tileSize * maxScreenCol; //total width 768 pixels
-	final int screenHeigth = tileSize * maxScreenRow; //total Height 576 pixels
+	public final int screenWidth = tileSize * maxScreenCol; //total width 768 pixels
+	public final int screenHeigth = tileSize * maxScreenRow; //total Height 576 pixels
 	final int FPS = 60;
 
 	//game object initiating area
@@ -101,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		player.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient 
+		
 	}
 	
 	public int getTileSize() {

@@ -1,12 +1,15 @@
 package entity;
 
+import main.GamePanel;
+import main.KeyHandler;
+
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
-import main.KeyHandler;
 
 public class Player extends Entity{
 	GamePanel gp;//the gamePanel to be displayed on
@@ -57,10 +60,16 @@ public class Player extends Entity{
 				
 		g2.drawImage(characterImage, x, y,
 		gp.getTileSize(), gp.getTileSize(), null); //draw character image
-	
+		 
+		if(x > gp.screenWidth || y > gp.screenHeigth || x < 0 || y < 0) {
+			g2.setColor(Color.red);
+			g2.setFont(new Font(null, 0, 60));
+			g2.drawString("Player Lost", 230
+					, 100);
+			
+		}
 	}
 	
 
-	
 	
 }
