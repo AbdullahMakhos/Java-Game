@@ -32,7 +32,7 @@ class GamePanel extends JPanel implements Runnable{
 	int playerX = 100;
 	int playerY = 100;
 	int playerSpeed = 4;
-	
+	int FPS = 60;
 	public GamePanel() {
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeigth));//size setting
@@ -40,7 +40,7 @@ class GamePanel extends JPanel implements Runnable{
 		this.setDoubleBuffered(true);//advanced
 		this.addKeyListener(kh);//key listener added
 		this.setFocusable(true);//to keep looking for event
-		 
+		
 		startGameThread();
 	} 
 	
@@ -56,26 +56,38 @@ class GamePanel extends JPanel implements Runnable{
 	//game loop is inside the run method
 	@Override
 	public void run() {	
-		
+		//setting update time to 60 per second
+		double drawInterval = 1000000000/FPS;//update every (0.01666 s)
+		double delta = 0;
+		long lastTime = System.nanoTime();
+		long currentTime;
 		// game loop will keep repeating this as long as the game thread is alive
 		while(gameThread != null) {
 		//game loop consists of three stages
-		
-			//1.Update : update the game status such as players attributes (health, position...etc)
-			update();
-			//2.Draw : draw the screen with the updated frame information
-			repaint();
 			
+			currentTime = System.nanoTime(); // update current time
+			
+			delta += ( currentTime - lastTime ) / drawInterval; 
+			
+			lastTime = currentTime;
+			
+			if(delta >= 1) {
+				//1.Update : update the game status such as players attributes (health, position...etc)
+				update();
+				//2.Draw : draw the screen with the updated frame information
+				repaint();				
+				delta--;
+			}
 		}
 	}
 	public void update() {
 		
 		//update player position
 		if(kh.upPressed) {
-			playerY += playerSpeed;
+			playerY -= playerSpeed;
 		}
 		if(kh.downPressed) {
-			playerY -= playerSpeed;
+			playerY += playerSpeed;
 		}
 		if(kh.rightPressed) {
 			playerX += playerSpeed;
