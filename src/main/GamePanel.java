@@ -1,17 +1,14 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
-import java.awt.Rectangle;
 
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import entity.Player;
+import tiles.TileManager;
 
 //this class represent the game panel so actions will be done here
 //panel is added to the jFrame 
@@ -30,27 +27,27 @@ public class GamePanel extends JPanel implements Runnable{
 	final int maxScreenRow = 12; //16 pixels horizontally 
 	
 	public final int screenWidth = tileSize * maxScreenCol; //total width 768 pixels
-	public final int screenHeigth = tileSize * maxScreenRow; //total Height 576 pixels
+	public final int screenHeight = tileSize * maxScreenRow; //total Height 576 pixels
 	final int FPS = 60;
-
+ 
 	//game object initiating area
 	KeyHandler kh = new KeyHandler(); // to create a key handler object
 	Thread gameThread; // to create a thread object 
 	Player player =  new Player(this, kh);// to create a player object
-
-	
-	
+	TileManager tileManager = new TileManager(this); //to create a tile manager
+	 
+	  
 	public GamePanel() {
 		this.setVisible(true);
-		this.setPreferredSize(new Dimension(screenWidth,screenHeigth));//size setting
+		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
 		this.setBackground(Color.white);//setting background color
-		this.setDoubleBuffered(true);//advanced
+		this.setDoubleBuffered(true);//advanced 
 		this.addKeyListener(kh);//key listener added
 		this.setFocusable(true);//to keep looking for event
-	
+	 
 		startGameThread();
 	} 
-	
+	 
 	/*to set the game cycle we need to work with thread
 	to get in touch with the fourth dimension(time)*/
 	
@@ -59,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 		gameThread = new Thread(this); //we pass the panel because run method is now one of its sub methods
 		gameThread.start(); //بسم الله الرحمن الرحيم
 	}
+	
 	//game loop is inside the run method
 	@Override
 	public void run() {	
@@ -69,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable{
 		long currentTime;
 		
 		// game loop will keep repeating this as long as the game thread is alive
-		while(gameThread != null) {
+		while(gameThread.isAlive()) {
 		//game loop consists of three stages
 			
 			currentTime = System.nanoTime(); // update current time
@@ -86,22 +84,24 @@ public class GamePanel extends JPanel implements Runnable{
 				delta--;
 			}
 		}
-	}
+	} 
+	 
 	public void update() {
 		
 		player.update(); //update player 
-	
-	}
-	  
+		
+	} 
+	   
 	//this is the draw method but we can't rename it because this is a java method
 	public void paintComponent(Graphics g) {
 		// call the java method 
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
-		player.draw(g2);
+		tileManager.draw(g2); //place it before player's draw
+		player.draw(g2);  
 		g2.dispose(); //cleaning component to stay memory efficient 
-		
+		 
 	}
 	
 	public int getTileSize() {

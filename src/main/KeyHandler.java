@@ -6,7 +6,10 @@ import java.awt.event.KeyListener;
 //to get user input
 public class KeyHandler implements KeyListener{
 	
-	public boolean upPressed,downPressed,rightPressed,leftPressed;
+	public boolean upPressed = false;
+	public boolean downPressed = false;
+	public boolean rightPressed = false;
+	public boolean leftPressed = false;
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -20,7 +23,7 @@ public class KeyHandler implements KeyListener{
 		if (code == KeyEvent.VK_W) {
 			upPressed = true;
 		}
-		// s id pressed
+		// s is pressed 
 		if(code == KeyEvent.VK_S) {
 			downPressed = true;
 		}
@@ -42,7 +45,7 @@ public class KeyHandler implements KeyListener{
 		if (code == KeyEvent.VK_W) {
 			upPressed = false;
 		}
-		// s id released
+		// s is released
 		if(code == KeyEvent.VK_S) {
 			downPressed = false;
 		}

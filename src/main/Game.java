@@ -4,24 +4,20 @@ import javax.swing.JFrame;
 
 class Game {
 
-	public static void main(String[] args) {
-		
-		//this is going to be the main window
-		JFrame window = new JFrame();
-		  
-		//some basic setting 
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //setting exit button
-		window.setResizable(false); //we can't resize the window
-		window.setTitle("GAME"); //naming the window
-		window.setVisible(true); //so we can see the window
-		//we don't need this because we will depend on the panel screen setting
-		//window.setSize(new Dimension(500,500)); //setting window's dimensions
-		 
-		GamePanel gamePanel = new GamePanel(); //creating game panel object
-		window.add(gamePanel); //adding the panel so its displayed in the window 
-		window.pack();//to apply size setting
-		//window.setLocationRelativeTo(null); //to center the window + this needs to be below
-
-	}
-
+  public static void main(String[] args) {
+    
+    // Create the main window
+    JFrame window = new JFrame();
+      
+    // Basic settings
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit on close
+    window.setResizable(false); // Prevent resizing
+    window.setTitle("GAME"); // Set window title
+    
+    GamePanel gamePanel = new GamePanel(); // Create game panel object
+    window.add(gamePanel); // Add panel to the window 
+    window.pack(); // Apply size settings
+    window.setLocationRelativeTo(null); // Center the window
+    window.setVisible(true); // Make the window visible
+  }
 }

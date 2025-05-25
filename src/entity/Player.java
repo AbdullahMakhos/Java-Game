@@ -14,62 +14,70 @@ import javax.imageio.ImageIO;
 public class Player extends Entity{
 	GamePanel gp;//the gamePanel to be displayed on
 	KeyHandler kh; //the KeyHandler to accept input
-	BufferedImage characterImage;  //to hold player's image
-	
+	BufferedImage currentImage,upCharacterImage,downCharacterImage,leftCharacterImage,rightCharacterImage;  //to hold player's images
+	 
 	public Player(GamePanel gp,KeyHandler kh) {
 		super();//call the Entity constructor to get default values 
 		this.gp = gp;
 		this.kh = kh;
+		
+		getPlayerImages();
+		currentImage = downCharacterImage;
 	}
-
-	//update player method to keep GamePanel organized 
+ 
+	//update player method here to keep GamePanel organized 
 	public void update() {
-		//update information about player's position and image
 		
-		try {
-			characterImage = ImageIO.read(getClass()
-					.getResourceAsStream("/entity/resources/right and front.png")); 
-		
-			if(kh.upPressed) {
-				y -= speed;
-				characterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/right and front.png")); 
-			}
-			if(kh.downPressed) {
-				y += speed;
-				characterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/left and front.png")); 
-			}
-			if(kh.rightPressed) {
-				x += speed;
-				characterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/right and front.png")); 
-			}
-			if(kh.leftPressed) {
-				x -= speed;
-				characterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/left and front.png")); 
-			}
-		} catch (IOException e) {
-				e.printStackTrace();
+		//update information about player's position 
+		if(kh.upPressed) {
+			y -= speed;
+			currentImage = upCharacterImage;
+		}
+		if(kh.downPressed) {
+			y += speed;
+			currentImage = downCharacterImage;
+		}
+		if(kh.rightPressed) {
+			x += speed;
+			currentImage = rightCharacterImage;
+		}
+		if(kh.leftPressed) {
+			x -= speed;
+			currentImage = leftCharacterImage;
 		}
 		
 	} 
-	//draw player method to keep GamePanel organized
+	
+	private void getPlayerImages() {
+		//get images once and storing them to be more efficient
+		try {
+			upCharacterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/right and front.png")); 
+			downCharacterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/left and front.png")); 
+			rightCharacterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/right and front.png")); 
+			leftCharacterImage = ImageIO.read(getClass()
+						.getResourceAsStream("/entity/resources/left and front.png")); 
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+	}
+	
 	public void draw(Graphics2D g2) {
-				
-		g2.drawImage(characterImage, x, y,
-		gp.getTileSize(), gp.getTileSize(), null); //draw character image
-		 
-		if(x > gp.screenWidth || y > gp.screenHeigth || x < 0 || y < 0) {
-			g2.setColor(Color.red);
-			g2.setFont(new Font(null, 0, 60));
+		
+		int tileSize = gp.getTileSize();
+		g2.drawImage(currentImage ,x ,y ,tileSize ,tileSize ,null);
+		
+		//if the player is out of the map print "Player Lost"
+		if(x > gp.screenWidth || y > gp.screenHeight || x < 0 || y < 0) {
+			g2.setColor(Color.red); 
+			g2.setFont(new Font("Arial", Font.PLAIN, 60));
 			g2.drawString("Player Lost", 230
 					, 100);
 			
 		}
 	}
-	
 
 	
 }
