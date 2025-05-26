@@ -12,31 +12,29 @@ public class TileManager {
 	GamePanel gp; // to draw
 	Tile[] tileTypes; // tiles types 
 	int[][] mapMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
-	{ {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1} 
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} 
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}  
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} 
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} 
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1} 
-	, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}
-	, {1,1,1,1,1,1,1,1,1,1,1,1,5,1,1,1}};
+	{ {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}  
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+	, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	 
 	public TileManager(GamePanel gp) {
 		 this.gp = gp; 
-		 this.tileTypes = new Tile[2]; //two types of tiles
+		 this.tileTypes = new Tile[1]; //two types of tiles
 
 		 //store tiles images in variables
 		 try {
 			tileTypes[0] = 
-			new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/tile0.png")));
+			new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/snow.png")));
 			 
-			tileTypes[1] =  
-			new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/tile1.png")));
-	     
+			
 		 }catch (IOException e) {
 	            System.err.println("Error loading tile resources:");
 	            e.printStackTrace();

@@ -19,7 +19,7 @@ public class Player extends Entity{
 	public Player(GamePanel gp,KeyHandler kh) {
 		super();//call the Entity constructor to get default values 
 		this.gp = gp;
-		this.kh = kh;
+		this.kh = kh; 
 		
 		getPlayerImages();
 		currentImage = downCharacterImage;
@@ -27,21 +27,18 @@ public class Player extends Entity{
  
 	//update player method here to keep GamePanel organized 
 	public void update() {
-		
+		currentImage = downCharacterImage;
 		//update information about player's position 
 		if(kh.upPressed) {
 			y -= speed;
 			currentImage = upCharacterImage;
-		}
-		if(kh.downPressed) {
+		}else if(kh.downPressed) {
 			y += speed;
 			currentImage = downCharacterImage;
-		}
-		if(kh.rightPressed) {
+		}else if(kh.rightPressed) {
 			x += speed;
 			currentImage = rightCharacterImage;
-		}
-		if(kh.leftPressed) {
+		}else if(kh.leftPressed) {
 			x -= speed;
 			currentImage = leftCharacterImage;
 		}
@@ -52,13 +49,13 @@ public class Player extends Entity{
 		//get images once and storing them to be more efficient
 		try {
 			upCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/right and front.png")); 
+						.getResourceAsStream("/entity/resources/penguinAss.png")); 
 			downCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/left and front.png")); 
+						.getResourceAsStream("/entity/resources/penguinFront.png")); 
 			rightCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/right and front.png")); 
+						.getResourceAsStream("/entity/resources/penguinRight.png")); 
 			leftCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/left and front.png")); 
+						.getResourceAsStream("/entity/resources/penguinLeft.png")); 
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
