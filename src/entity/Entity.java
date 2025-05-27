@@ -1,13 +1,12 @@
 package entity;
+
+
 //a super class to all game entities (player,monster...etc)
 public class Entity {
-	public int x,y;
-	public int speed;
-	
-	public Entity() {
-		//default values
-		this.x = 100;
-		this.y = 100;
-		this.speed = 4;
-	}
+	public int worldX,worldY; //player's position on the map
+	protected int speed; 
+	protected int spriteID = 0;//to check which sprite to display
+	protected int spriteCounter = 0;//helps us to change spriteID
+	   
 }
+ 

@@ -12,35 +12,78 @@ import javax.imageio.ImageIO;
 
 
 public class Player extends Entity{
-	GamePanel gp;//the gamePanel to be displayed on
-	KeyHandler kh; //the KeyHandler to accept input
-	BufferedImage currentImage,upCharacterImage,downCharacterImage,leftCharacterImage,rightCharacterImage;  //to hold player's images
-	 
+	private GamePanel gp;//the gamePanel to be displayed on
+	private KeyHandler kh; //the KeyHandler to accept input
+	
+	//player's position on the screen
+	public int screenX;
+	public int screenY; 
+	
+	private BufferedImage currentImage,idleCharacterImage
+	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
+	,leftCharacterImage2,rightCharacterImage1,rightCharacterImage2
+	,downCharacterImage1,downCharacterImage2;  //to hold player's images
+	  
+	int tileSize; 
+
 	public Player(GamePanel gp,KeyHandler kh) {
-		super();//call the Entity constructor to get default values 
 		this.gp = gp;
-		this.kh = kh; 
+		this.kh = kh;
+		this.screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
+		this.screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
+		this.tileSize = gp.getTileSize();
 		
+		setDefaultValues();
 		getPlayerImages();
-		currentImage = downCharacterImage;
+	} 
+	
+	private void setDefaultValues() {
+		//player's starting position 
+		this.worldX = (gp.getMapWidth() * tileSize)/2 - tileSize;
+		this.worldY = (gp.getMapHeight() * tileSize)/2 - tileSize;
+		this.speed = 4; 
 	}
- 
+
 	//update player method here to keep GamePanel organized 
 	public void update() {
-		currentImage = downCharacterImage;
+		currentImage = idleCharacterImage;
 		//update information about player's position 
+		spriteCounter++; // to make the walking looks like animations
+		if(spriteCounter > 10 ) {
+			spriteCounter = 0;
+			if(spriteID == 0)
+			spriteID = 1; 
+			else spriteID = 0;
+		}
+
 		if(kh.upPressed) {
-			y -= speed;
-			currentImage = upCharacterImage;
+			worldY -= speed;
+			if(spriteID == 1) {
+				currentImage = upCharacterImage1;
+			}else {
+				currentImage = upCharacterImage2;
+			}
 		}else if(kh.downPressed) {
-			y += speed;
-			currentImage = downCharacterImage;
+			worldY += speed;
+			if(spriteID == 1) {
+				currentImage = downCharacterImage1;
+			}else {
+				currentImage = downCharacterImage2;
+			}
 		}else if(kh.rightPressed) {
-			x += speed;
-			currentImage = rightCharacterImage;
+			worldX += speed;
+			if(spriteID == 1) {
+				currentImage = rightCharacterImage1;
+			}else {
+				currentImage = rightCharacterImage2;
+			}
 		}else if(kh.leftPressed) {
-			x -= speed;
-			currentImage = leftCharacterImage;
+			worldX -= speed; 
+			if(spriteID == 1) {
+				currentImage = leftCharacterImage1;
+			}else {
+				currentImage = leftCharacterImage2;
+			}
 		}
 		
 	} 
@@ -48,32 +91,41 @@ public class Player extends Entity{
 	private void getPlayerImages() {
 		//get images once and storing them to be more efficient
 		try {
-			upCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/penguinAss.png")); 
-			downCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/penguinFront.png")); 
-			rightCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/penguinRight.png")); 
-			leftCharacterImage = ImageIO.read(getClass()
-						.getResourceAsStream("/entity/resources/penguinLeft.png")); 
+			idleCharacterImage = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguin.png"));
+			
+			rightCharacterImage1 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinRight1.png")); 
+			rightCharacterImage2 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinRight2.png")); 
+			
+			leftCharacterImage1 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinLeft1.png")); 
+			leftCharacterImage2 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinLeft2.png")); 
+			
+			
+			downCharacterImage1 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinFront1.png")); 
+			downCharacterImage2 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinFront2.png")); 
+			 
+			upCharacterImage1 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinAss1.png"));
+			upCharacterImage2 = ImageIO.read(getClass()
+					.getResourceAsStream("/entity/resources/penguinAss2.png")); 
+						
 		} catch (IOException e) {
 				e.printStackTrace();
 		}
+		
 	}
 	
 	public void draw(Graphics2D g2) {
 		
-		int tileSize = gp.getTileSize();
-		g2.drawImage(currentImage ,x ,y ,tileSize ,tileSize ,null);
+		g2.drawImage(currentImage ,screenX ,screenY ,tileSize ,tileSize ,null);
 		
-		//if the player is out of the map print "Player Lost"
-		if(x > gp.screenWidth || y > gp.screenHeight || x < 0 || y < 0) {
-			g2.setColor(Color.red); 
-			g2.setFont(new Font("Arial", Font.PLAIN, 60));
-			g2.drawString("Player Lost", 230
-					, 100);
-			
-		}
+		
 	}
 
 	

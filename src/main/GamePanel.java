@@ -16,35 +16,65 @@ import tiles.TileManager;
 //it implements runnable because it contains game loop so we need to create a game thread
 
 public class GamePanel extends JPanel implements Runnable{
- 
+  
 	//size configurations
-	final int originalTileSize = 16; //16x16 pixels
-	final int scale = 3; //we will need this to adjust size (16 x 3 = 48)
+	private final int originalTileSize = 16; //16x16 pixels
+	private final int scale = 3; //we will need this to adjust size (16 x 3 = 48)
     
-	final int tileSize = scale * originalTileSize;//the actual size 48x48  
+	private final int tileSize = scale * originalTileSize;//the actual size 48x48  
 	
-	final int maxScreenCol = 16; //16 pixels vertically 
-	final int maxScreenRow = 12; //16 pixels horizontally 
+	private final int maxScreenCol = 16; //16 pixels vertically 
+	private final int maxScreenRow = 12; //16 pixels horizontally 
 	
 	public final int screenWidth = tileSize * maxScreenCol; //total width 768 pixels
 	public final int screenHeight = tileSize * maxScreenRow; //total Height 576 pixels
-	final int FPS = 60;
- 
+	
+	private final int maxWorldCol; //16 pixels vertically 
+	private final int maxWorldRow; //16 pixels horizontally 
+	
+	public final int worldWidth; //total width 768 pixels
+	public final int worldHeight; //total Height 576 pixels
+	 
+	private final int FPS = 60; 
+	
+	private int[][] mapMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
+	{ {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} 
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2}  
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2} 
+	, {2,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,2} 
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
+	, {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}}; 
+	
+	 
 	//game object initiating area
 	KeyHandler kh = new KeyHandler(); // to create a key handler object
 	Thread gameThread; // to create a thread object 
-	Player player =  new Player(this, kh);// to create a player object
-	TileManager tileManager = new TileManager(this); //to create a tile manager
-	 
+	public Player player =  new Player(this, kh);// to create a player object
+	TileManager tileManager = new TileManager(this,mapMatrix); //to create a tile manager
 	  
+	    
 	public GamePanel() {
+		this.maxWorldCol = getMapWidth();
+		this.maxWorldRow = getMapHeight();
+		this.worldHeight = tileSize * maxWorldRow;
+		this.worldWidth = tileSize * maxWorldCol;
+		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
 		this.setBackground(Color.white);//setting background color
 		this.setDoubleBuffered(true);//advanced 
 		this.addKeyListener(kh);//key listener added
 		this.setFocusable(true);//to keep looking for event
-	 
+		
 		startGameThread();
 	} 
 	 
@@ -108,5 +138,22 @@ public class GamePanel extends JPanel implements Runnable{
 		//because we are going to use it inside Entity subclasses
 		return this.tileSize;
 	}
+
+	public int getMapWidth() {
+		return mapMatrix[0].length;
+	}
+	 
+	public int getMapHeight() {
+		return mapMatrix.length;
+	}
+	
+	public int getMaxWorldCol() {
+		return this.maxWorldCol;
+	}
+	
+	public int getMaxWorldRow() {
+		return this.maxWorldRow;
+	}
+	
 	 
 }
