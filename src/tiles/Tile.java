@@ -10,7 +10,7 @@ public class Tile {
 		this.tileImage = tileImage;
 	}
 	
-	public boolean isSolid() {
-		return this.collidable; 
+	public boolean isCrossable() {
+		return !this.collidable; 
 	}  
 }

@@ -42,7 +42,7 @@ public class Player extends Entity{
 	private void setDefaultValues() {
 		//player's starting position 
 		this.speed = 4; 
-		this.solidArea = new Rectangle(8 ,16 ,32 ,32);
+		this.solidArea = new Rectangle(8 , 16 , 32 , 32);
 		this.worldX = (gp.getMapWidth() * tileSize)/2 - tileSize;
 		this.worldY = (gp.getMapHeight() * tileSize)/2 - tileSize;
 	}
