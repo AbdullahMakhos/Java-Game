@@ -12,15 +12,10 @@ public class KeyHandler implements KeyListener{
 	public boolean leftPressed = false;
 	
 	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-
-	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode(); //to get the pressed key code
 		// w is pressed
-		if (code == KeyEvent.VK_W) {
+		if (code == KeyEvent.VK_W) { 
 			upPressed = true;
 		}
 		// s is pressed 
@@ -37,7 +32,7 @@ public class KeyHandler implements KeyListener{
 		}
 		
 	}
-
+ 
 	@Override 
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode(); //to get the released key code
@@ -57,6 +52,12 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_A) {
 			leftPressed = false;
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

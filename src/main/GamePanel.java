@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import tiles.CollisionDetecter;
 import tiles.TileManager;
 
 //this class represent the game panel so actions will be done here
@@ -19,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
   
 	//size configurations
 	private final int originalTileSize = 16; //16x16 pixels
-	private final int scale = 3; //we will need this to adjust size (16 x 3 = 48)
+	private final int scale = 4; //we will need this to adjust size (16 x 3 = 48)
     
 	private final int tileSize = scale * originalTileSize;//the actual size 48x48  
 	
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2} 
-	, {2,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,2} 
+	, {2,0,0,0,0,1,0,1,0,2,0,0,0,0,0,0,0,0,0,0,2} 
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
@@ -56,17 +57,22 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	 
 	//game object initiating area
-	KeyHandler kh = new KeyHandler(); // to create a key handler object
-	Thread gameThread; // to create a thread object 
-	public Player player =  new Player(this, kh);// to create a player object
-	TileManager tileManager = new TileManager(this,mapMatrix); //to create a tile manager
-	  
+	private KeyHandler kh;// to create a key handler object 
+	private Player player; 
+	private TileManager tm;
+	private CollisionDetecter cd;
+	private Thread gameThread; // to create a thread object 
+	 
 	    
 	public GamePanel() {
 		this.maxWorldCol = getMapWidth();
 		this.maxWorldRow = getMapHeight();
 		this.worldHeight = tileSize * maxWorldRow;
 		this.worldWidth = tileSize * maxWorldCol;
+		this.kh= new KeyHandler(); // to create key handler
+		this.player =  new Player(this);// to create a player object
+		this.tm = new TileManager(this); //to create a tile manager
+		this.cd = new CollisionDetecter(this); //to create colDetecer 
 		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
@@ -120,7 +126,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		player.update(); //update player 
 		
-	} 
+	}  
 	   
 	//this is the draw method but we can't rename it because this is a java method
 	public void paintComponent(Graphics g) {
@@ -128,7 +134,7 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
-		tileManager.draw(g2); //place it before player's draw
+		tm.draw(g2); //place it before player's draw
 		player.draw(g2);  
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 
@@ -137,6 +143,10 @@ public class GamePanel extends JPanel implements Runnable{
 	public int getTileSize() {
 		//because we are going to use it inside Entity subclasses
 		return this.tileSize;
+	}
+
+	public int[][] getMapMatrix(){
+		return this.mapMatrix;
 	}
 
 	public int getMapWidth() {
@@ -150,10 +160,25 @@ public class GamePanel extends JPanel implements Runnable{
 	public int getMaxWorldCol() {
 		return this.maxWorldCol;
 	}
-	
+	 
 	public int getMaxWorldRow() {
 		return this.maxWorldRow;
 	}
+
+	public TileManager getTileManager() {
+		return this.tm;
+	}
+
+	public Player getPlayer() {
+		return this.player;
+	}
 	
+	public KeyHandler getKeyHandler() {
+		return this.kh; 
+	}
+	
+	public CollisionDetecter getCollisionDetecter() {
+		return this.cd;
+	}
 	 
 }

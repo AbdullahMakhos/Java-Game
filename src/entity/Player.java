@@ -2,10 +2,10 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import tiles.CollisionDetecter;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -14,39 +14,44 @@ import javax.imageio.ImageIO;
 public class Player extends Entity{
 	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
-	
 	//player's position on the screen
-	public int screenX;
-	public int screenY; 
+	private int screenX;
+	private int screenY; 
 	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
 	,leftCharacterImage2,rightCharacterImage1,rightCharacterImage2
 	,downCharacterImage1,downCharacterImage2;  //to hold player's images
 	  
-	int tileSize; 
+	private int tileSize; 
 
-	public Player(GamePanel gp,KeyHandler kh) {
+	public Player(GamePanel gp) {
+		super();
+		
 		this.gp = gp;
-		this.kh = kh;
+		this.kh = gp.getKeyHandler();
+		
 		this.screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		this.screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		this.tileSize = gp.getTileSize();
-		
+
 		setDefaultValues();
 		getPlayerImages();
 	} 
 	
 	private void setDefaultValues() {
 		//player's starting position 
+		this.speed = 4; 
+		this.solidArea = new Rectangle(8 ,16 ,32 ,32);
 		this.worldX = (gp.getMapWidth() * tileSize)/2 - tileSize;
 		this.worldY = (gp.getMapHeight() * tileSize)/2 - tileSize;
-		this.speed = 4; 
 	}
 
 	//update player method here to keep GamePanel organized 
 	public void update() {
+		CollisionDetecter cd = gp.getCollisionDetecter();
 		currentImage = idleCharacterImage;
+		
 		//update information about player's position 
 		spriteCounter++; // to make the walking looks like animations
 		if(spriteCounter > 10 ) {
@@ -57,34 +62,47 @@ public class Player extends Entity{
 		}
 
 		if(kh.upPressed) {
-			worldY -= speed;
+			if(cd.canMove("up")) {
+				worldY -= speed;												
+			}
+			
 			if(spriteID == 1) {
 				currentImage = upCharacterImage1;
 			}else {
 				currentImage = upCharacterImage2;
 			}
 		}else if(kh.downPressed) {
-			worldY += speed;
+			if(cd.canMove("down")) {
+				worldY += speed;
+			}			
+			
 			if(spriteID == 1) {
 				currentImage = downCharacterImage1;
 			}else {
 				currentImage = downCharacterImage2;
 			}
 		}else if(kh.rightPressed) {
-			worldX += speed;
+			if(cd.canMove("right")) {
+				worldX += speed;				
+			}
+			
 			if(spriteID == 1) {
 				currentImage = rightCharacterImage1;
 			}else {
 				currentImage = rightCharacterImage2;
 			}
 		}else if(kh.leftPressed) {
-			worldX -= speed; 
+			if(cd.canMove("left")) {
+				worldX -= speed; 				
+			}
+
 			if(spriteID == 1) {
 				currentImage = leftCharacterImage1;
 			}else {
 				currentImage = leftCharacterImage2;
 			}
 		}
+		
 		
 	} 
 	
@@ -127,6 +145,28 @@ public class Player extends Entity{
 		
 		
 	}
-
 	
+	public int getScreenX() {
+		return this.screenX;
+	}
+	
+	public int getScreenY() {
+		return this.screenY;
+	}
+	
+	public int getSolidAreaX() {
+		return this.solidArea.x;
+	}
+	
+	public int getSolidAreaY() {
+		return this.solidArea.y;
+	}
+	
+	public int getSolidAreaWidth() {
+		return this.solidArea.width;
+	}
+	
+	public int getSolidAreaHeight() {
+		return this.solidArea.height;
+	} 
 }
