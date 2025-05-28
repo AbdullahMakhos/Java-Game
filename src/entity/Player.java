@@ -41,10 +41,10 @@ public class Player extends Entity{
 	
 	private void setDefaultValues() {
 		//player's starting position 
-		this.speed = 4; 
+		this.speed = 5; 
 		this.solidArea = new Rectangle(8 , 16 , 40 , 32);
-		this.worldX = (gp.getMapWidth() * tileSize)/2 - tileSize;
-		this.worldY = (gp.getMapHeight() * tileSize)/2 - tileSize;
+		this.worldX = (gp.getMapWidth() * tileSize)/2 - (gp.getTileSize()/2);
+		this.worldY = tileSize*2;
 	}
 
 	//update player method here to keep GamePanel organized 
