@@ -29,13 +29,13 @@ public class TileManager {
     private void loadTileImages() {
         try {
             tileTypes[0] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/snow.png")));
-            tileTypes[0].collidable = false; // Snow tile is not collidable
+            tileTypes[0].setCrossable(true); // Snow tile is crossable
             
             tileTypes[1] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/noSnow.png")));
-            tileTypes[1].collidable = false; // No snow tile is not collidable
+            tileTypes[1].setCrossable(true); // No snow tile is crossable
             
             tileTypes[2] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/wall.png")));
-            tileTypes[2].collidable = true; // Wall tile is collidable
+            tileTypes[2].setCrossable(false); // Wall tile is not crossable
         } catch (IOException e) {
             System.err.println("Error loading tile resources:");
             e.printStackTrace();
@@ -70,7 +70,7 @@ public class TileManager {
                     g2.drawRect(currentTileWorldX, currentTileWorldY, tileSize, tileSize); // Draw a rectangle
                 } else {
                     // If valid, draw the corresponding tile image
-                    g2.drawImage(tileTypes[currentTileID].tileImage,
+                    g2.drawImage(tileTypes[currentTileID].getImage(),
                                  currentTileScreenX, currentTileScreenY, 
                                  tileSize, tileSize, null); // Draw the tile image at calculated screen position
                 }

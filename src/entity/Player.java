@@ -2,7 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import tiles.CollisionDetecter;
+import tiles.CollisionDetector;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -42,14 +42,14 @@ public class Player extends Entity{
 	private void setDefaultValues() {
 		//player's starting position 
 		this.speed = 4; 
-		this.solidArea = new Rectangle(8 , 16 , 32 , 32);
+		this.solidArea = new Rectangle(8 , 16 , 40 , 32);
 		this.worldX = (gp.getMapWidth() * tileSize)/2 - tileSize;
 		this.worldY = (gp.getMapHeight() * tileSize)/2 - tileSize;
 	}
 
 	//update player method here to keep GamePanel organized 
 	public void update() {
-		CollisionDetecter cd = gp.getCollisionDetecter();
+		CollisionDetector cd = gp.getCollisionDetecter();
 		currentImage = idleCharacterImage;
 		
 		//update information about player's position 
@@ -62,45 +62,33 @@ public class Player extends Entity{
 		}
 
 		if(kh.upPressed) {
-			if(cd.canMove("up")) {
+			if(cd.canMove(Direction.UP)) {
 				worldY -= speed;												
 			}
 			
-			if(spriteID == 1) {
-				currentImage = upCharacterImage1;
-			}else {
-				currentImage = upCharacterImage2;
-			}
+			currentImage = (spriteID == 1) ? upCharacterImage1 :upCharacterImage2;
+			
 		}else if(kh.downPressed) {
-			if(cd.canMove("down")) {
+			if(cd.canMove(Direction.DOWN)) {
 				worldY += speed;
 			}			
 			
-			if(spriteID == 1) {
-				currentImage = downCharacterImage1;
-			}else {
-				currentImage = downCharacterImage2;
-			}
+			currentImage = (spriteID == 1) ? downCharacterImage1 : downCharacterImage2;
+
 		}else if(kh.rightPressed) {
-			if(cd.canMove("right")) {
+			if(cd.canMove(Direction.RIGHT)) {
 				worldX += speed;				
 			}
 			
-			if(spriteID == 1) {
-				currentImage = rightCharacterImage1;
-			}else {
-				currentImage = rightCharacterImage2;
-			}
+			currentImage = (spriteID == 1) ? rightCharacterImage1 : rightCharacterImage2;
+			
 		}else if(kh.leftPressed) {
-			if(cd.canMove("left")) {
+			if(cd.canMove(Direction.LEFT)) {
 				worldX -= speed; 				
 			}
 
-			if(spriteID == 1) {
-				currentImage = leftCharacterImage1;
-			}else {
-				currentImage = leftCharacterImage2;
-			}
+			currentImage = (spriteID == 1) ? leftCharacterImage1 : leftCharacterImage2;
+			
 		}
 		
 		

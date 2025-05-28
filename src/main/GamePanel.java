@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
-import tiles.CollisionDetecter;
+import tiles.CollisionDetector;
 import tiles.TileManager;
 
 //this class represent the game panel so actions will be done here
@@ -60,7 +60,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private KeyHandler kh;// to create a key handler object 
 	private Player player; 
 	private TileManager tm;
-	private CollisionDetecter cd;
+	private CollisionDetector cd;
 	private Thread gameThread; // to create a thread object 
 	 
 	    
@@ -72,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.kh= new KeyHandler(); // to create key handler
 		this.player =  new Player(this);// to create a player object
 		this.tm = new TileManager(this); //to create a tile manager
-		this.cd = new CollisionDetecter(this); //to create colDetecer 
+		this.cd = new CollisionDetector(this); //to create colDetecer 
 		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
@@ -177,7 +177,7 @@ public class GamePanel extends JPanel implements Runnable{
 		return this.kh; 
 	}
 	
-	public CollisionDetecter getCollisionDetecter() {
+	public CollisionDetector getCollisionDetecter() {
 		return this.cd;
 	}
 	 

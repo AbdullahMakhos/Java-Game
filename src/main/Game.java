@@ -11,8 +11,7 @@ class Game {
     
     // Create the main window
     JFrame window = new JFrame(); 
-    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/myGame/src/main/resources/icon.png");
-    System.out.println(imageIcon.getIconWidth());
+    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/main/resources/icon.png");
     Image icon = imageIcon.getImage(); 
     
     // Basic settings 

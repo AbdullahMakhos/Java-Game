@@ -3,14 +3,22 @@ package tiles;
 import java.awt.image.BufferedImage;
 
 public class Tile {
-	public BufferedImage tileImage; //image holder
-	boolean collidable; //is there a collision
+	private BufferedImage image; //image holder
+	private boolean crossable; //is there a collision
 	 
 	public Tile(BufferedImage tileImage) {
-		this.tileImage = tileImage;
+		this.image = tileImage;
 	}
 	
+	public BufferedImage getImage() {
+		return image;
+	}
+
 	public boolean isCrossable() {
-		return !this.collidable; 
+		return this.crossable; 
 	}  
+	
+	public void setCrossable(boolean crossable) {
+		this.crossable = crossable;
+	}
 }

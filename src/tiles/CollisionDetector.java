@@ -1,12 +1,13 @@
 package tiles;
 
+import entity.Direction;
 import entity.Player;
 import main.GamePanel;
 
-public class CollisionDetecter {
+public class CollisionDetector {
     private GamePanel gp;
 
-    public CollisionDetecter(GamePanel gp) {
+    public CollisionDetector(GamePanel gp) {
         this.gp = gp; 
     }
   
@@ -19,7 +20,7 @@ public class CollisionDetecter {
         return worldX / gp.getTileSize();
     }
   
-    public boolean canMove(String direction) { 
+    public boolean canMove(Direction direction) { 
         Player player = gp.getPlayer();
         TileManager tm = gp.getTileManager();
       
@@ -37,25 +38,25 @@ public class CollisionDetecter {
         Tile tile1, tile2; // Potential tiles for collision detection
       
         switch (direction) {
-            case "up":
+            case UP:
                 playerTopRow = getTileRow(playerTopWorldY - speed);
                 tile1 = tm.getTile(playerTopRow, playerRightCol); 
                 tile2 = tm.getTile(playerTopRow, playerLeftCol);
                 break;
               
-            case "down": 
+            case DOWN: 
                 playerBottomRow = getTileRow(playerBottomWorldY + speed);
                 tile1 = tm.getTile(playerBottomRow, playerRightCol);
                 tile2 = tm.getTile(playerBottomRow, playerLeftCol);
                 break;
               
-            case "left":
+            case LEFT:
                 playerLeftCol = getTileCol(playerLeftWorldX - speed);
                 tile1 = tm.getTile(playerTopRow, playerLeftCol);
                 tile2 = tm.getTile(playerBottomRow, playerLeftCol); 
                 break;
               
-            case "right":
+            case RIGHT:
                 playerRightCol = getTileCol(playerRightWorldX + speed);
                 tile1 = tm.getTile(playerTopRow, playerRightCol);
                 tile2 = tm.getTile(playerBottomRow, playerRightCol);
