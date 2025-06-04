@@ -7,8 +7,8 @@ public class Tile {
 	private boolean crossable; //is there a collision
 	private int tileSize;
 	 
-	public Tile(BufferedImage tileImage) {
-		this.image = tileImage;
+	public Tile() {
+		setCrossable(true);
 	}
 	
 	public int getTileSize() {
@@ -18,6 +18,11 @@ public class Tile {
 	public void setTileSize(int tileSize) {
 		this.tileSize = tileSize;
 	}
+	
+	public void setImage(BufferedImage image) {
+		this.image = image;
+	}
+	
 	public BufferedImage getImage() {
 		return image;
 	}
@@ -29,4 +34,5 @@ public class Tile {
 	public void setCrossable(boolean crossable) {
 		this.crossable = crossable;
 	}
+
 }

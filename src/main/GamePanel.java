@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
   
 	//size configurations
 	private final int originalTileSize = 16; //16x16 pixels
-	private final int scale = 5; //we will need this to adjust size (16 x 3 = 48)
+	private final int scale = 4; //we will need this to adjust size (16 x 3 = 48)
     
 	private final int tileSize = scale * originalTileSize;//the actual size 48x48  
 	
@@ -33,16 +33,14 @@ public class GamePanel extends JPanel implements Runnable{
 	private final int maxWorldCol; //16 pixels vertically 
 	private final int maxWorldRow; //16 pixels horizontally 
 	
-	public final int worldWidth; //total width 768 pixels
-	public final int worldHeight; //total Height 576 pixels
-	 
+	
 	private final int FPS = 60; 
 	
 	private int[][] mapMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
 	{ {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} 
 	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2} 
 	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2}  
-	, {2,0,0,0,0,0,0,0,2,2,0,2,2,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,2,2,4,2,2,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,3,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
@@ -71,8 +69,6 @@ public class GamePanel extends JPanel implements Runnable{
 	public GamePanel() {
 		this.maxWorldCol = getMapWidth();
 		this.maxWorldRow = getMapHeight();
-		this.worldHeight = tileSize * maxWorldRow;
-		this.worldWidth = tileSize * maxWorldCol;
 		this.kh= new KeyHandler(); // to create key handler
 		this.player =  new Player(this);// to create a player object
 		this.tm = new TileManager(this); //to create a tile manager

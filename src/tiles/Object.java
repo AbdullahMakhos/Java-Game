@@ -4,14 +4,17 @@ import java.awt.image.BufferedImage;
 
 //objects like box fire...etc not monsters , monsters will be entities 
 
-public class Object extends Tile {
+public abstract class Object extends Tile {
+	public abstract void behavior(); // each object will override this method 
+    BufferedImage image;
     
-    public Object(BufferedImage image) {
-        super(image); 
+    public Object() { 
         this.setCrossable(false);
     }
-
-    public void behavior() {
-        // Implement specific behavior here
+    
+    @Override
+    public void setImage(BufferedImage image) {
+    	this.image = image;
     }
+
 }

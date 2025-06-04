@@ -10,7 +10,7 @@ import entity.Player;
 import main.GamePanel;
 
 public class TileManager {
-    private static final int TILE_TYPE_COUNT = 4; // Number of tile types
+    private static final int TILE_TYPE_COUNT = 5; // Number of tile types
     private int[][] mapMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     private GamePanel gp; // To draw the mapMatrix
@@ -31,22 +31,33 @@ public class TileManager {
     	int originalTileSize = gp.getTileSize();
     	
         try {
-            tileTypes[0] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/snow.png")));
+            tileTypes[0] = new Tile();
+            tileTypes[0].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/snow.png")));
             tileTypes[0].setCrossable(true); // Snow tile is crossable
             tileTypes[0].setTileSize(originalTileSize);
             
-            tileTypes[1] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/tree.png")));
+            tileTypes[1] = new Tile();
+            tileTypes[1].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/tree.png")));
             tileTypes[1].setCrossable(false); // tree tile is crossable
             tileTypes[1].setTileSize(originalTileSize);
             
-            tileTypes[2] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/wall.png")));
+            tileTypes[2] = new Tile();
+            tileTypes[2].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/wall.png")));
             tileTypes[2].setCrossable(false); // Wall tile is not crossable
             tileTypes[2].setTileSize(originalTileSize);
             
             
-            tileTypes[3] = new Tile(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/thing.png")));
+            tileTypes[3] = new Tile();
+            tileTypes[3].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/thing.png")));
             tileTypes[3].setCrossable(false); // thing tile is not crossable
             tileTypes[3].setTileSize(originalTileSize);
+            
+            tileTypes[4] = new Door(gp);
+            tileTypes[4].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/closedDoor.png")));
+            ((Door) tileTypes[4]).setImage2(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/openDoor.png")));
+            tileTypes[4].setCrossable(false); // thing tile is not crossable
+            tileTypes[4].setTileSize(originalTileSize);
+            
             
             
         } catch (IOException e) {
@@ -92,6 +103,9 @@ public class TileManager {
 	                    g2.drawImage(tileTypes[currentTileID].getImage(),
 	                    currentTileScreenX, currentTileScreenY,tileTypes[currentTileID].getTileSize(),
 	                    tileTypes[currentTileID].getTileSize(), null); // Draw the tile image at calculated screen position
+	                    if(tileTypes[currentTileID] instanceof Object) {
+	                    	((Door) tileTypes[currentTileID]).behavior();
+	                    }
 	                }
                 }
             }
