@@ -93,8 +93,7 @@ public class TileManager {
                 && currentTileWorldY + tileSize > playerWorldY - player.getScreenY()
                 && currentTileWorldY - tileSize < playerWorldY + player.getScreenY()
                 ) {
-                
-	                // If the tile ID is invalid, draw a red square instead
+                	// If the tile ID is invalid, draw a red square instead
 	                if (currentTileID < 0 || currentTileID >= tileTypes.length) {
 	                    g2.setColor(Color.MAGENTA); // Set color to MAGENTA for invalid tiles
 	                    g2.drawRect(currentTileWorldX, currentTileWorldY, tileSize, tileSize); // Draw a rectangle
@@ -104,7 +103,12 @@ public class TileManager {
 	                    currentTileScreenX, currentTileScreenY,tileTypes[currentTileID].getTileSize(),
 	                    tileTypes[currentTileID].getTileSize(), null); // Draw the tile image at calculated screen position
 	                    if(tileTypes[currentTileID] instanceof Object) {
-	                    	((Door) tileTypes[currentTileID]).behavior();
+	                    	//check to see if the player is near the door
+	                    	//the same column and row +1 or row -1 or the same row
+	                    	if (col == playerWorldX/tileSize && ( row == playerWorldY/tileSize 
+	                    		|| row == ((playerWorldY/tileSize)-1) || row == ((playerWorldY/tileSize)+1)) ) {
+	                    		((Door) tileTypes[currentTileID]).behavior();	                    		
+	                    	}
 	                    }
 	                }
                 }
