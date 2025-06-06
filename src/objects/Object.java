@@ -9,6 +9,7 @@ import tiles.Tile;
 public class Object {
 	protected BufferedImage image; //image holder
 	private boolean crossable; //is there a collision
+	private boolean pickable; 
 	private int objectSize;
 	 
 	public Object() {
@@ -43,5 +44,12 @@ public class Object {
 		this.crossable = crossable;
 	}
 
+	public boolean isPickable() {
+		return pickable;
+	}
+	
+	public void setPickable(boolean pickable) {
+		this.pickable = pickable;
+	}
 
 }

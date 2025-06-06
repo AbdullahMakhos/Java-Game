@@ -2,6 +2,7 @@ package objects;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
+import java.rmi.server.UID;
 
 import javax.imageio.ImageIO;
 
@@ -33,11 +34,13 @@ public class ObjectManager {
 
 	            objectTypes[0] = new Object();
 	            objectTypes[0].setCrossable(true); //the door is not crossable
+	            objectTypes[0].setPickable(false);
 	            
 	            objectTypes[1] = new Door(gp);
 	            objectTypes[1].setImage(ImageIO.read(getClass().getResourceAsStream("/objects/resources/closedDoor.png")));
 	            ((Door) objectTypes[1]).setImage2(ImageIO.read(getClass().getResourceAsStream("/objects/resources/openDoor.png")));
 	            objectTypes[1].setCrossable(false); //the door is not crossable
+	            objectTypes[1].setPickable(true);
 	            objectTypes[1].setObjectSize(objectSize);
 	            
 	        } catch (IOException e) {
@@ -108,5 +111,11 @@ public class ObjectManager {
 	        int objectID = objectMatrix[row][col];
 	        return (objectID >= 0 && objectID < objectTypes.length) ? objectTypes[objectID] : null;
 	    }
+	    
+	    public void deleteObject(int row, int col) {
+	    	objectMatrix[row][col] = 0;
+	    }
+
+	
 	} 
 

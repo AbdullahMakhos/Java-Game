@@ -161,8 +161,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		tm.draw(g2); //place it before player's draw
-		om.draw(g2);
 		player.draw(g2);
+		om.draw(g2);
 		ui.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 

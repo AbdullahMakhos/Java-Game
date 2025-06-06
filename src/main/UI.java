@@ -3,17 +3,21 @@ package main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 public class UI {
 	private GamePanel gp;
-	private boolean[] playerHealth;
+	private KeyHandler kh;
 	private BufferedImage heartImage;
-	
+	private boolean[] playerHealth;
+	ArrayList<Object> inventory;
 	public UI(GamePanel gp) {
 		this.gp = gp;
-		this.playerHealth = gp.getPlayer().getHealth();
+		kh = gp.getKeyHandler();
+		playerHealth = gp.getPlayer().getHealth();
+		inventory = gp.getPlayer().getInventory();
 		
 		loadImages();
 	}
@@ -28,10 +32,28 @@ public class UI {
 	}
 
 	public void draw(Graphics2D g2) {
-		int x = 10; int y = 0;
+		drawHealth(g2);
+		if(kh.ePressed) drawInventory(g2);
+		
+	}
+	
+	public void updateHealth() {
+		playerHealth = gp.getPlayer().getHealth();
+	}
+	
+	private void drawInventory(Graphics2D g2) {
+		ArrayList<Object> inventory = gp.getPlayer().getInventory();
+		for(Object item : inventory) {
+			g2.drawString("item", 100, 50);				
+		}
+	
+	}
+
+	private void drawHealth(Graphics2D g2) {
+		int healthX = 10; int healthY = 0;
 		for(boolean h : playerHealth) {
-			if(h) g2.drawImage(heartImage, x, y, null);
-			x+=48;
+			if(h) g2.drawImage(heartImage,healthX,healthY,null);
+			healthX+=48;
 		}
 	}
 	

@@ -3,12 +3,14 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import objects.ObjectCollisionDetector;
+import objects.ObjectManager;
 import tiles.TileCollisionDetector;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
@@ -19,11 +21,10 @@ import org.w3c.dom.CDATASection;
 public class Player extends Entity{
 	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
-	//player's position on the screen
-	private int screenX;
+	private int screenX;//player's position on the screen
 	private int screenY; 
 	private boolean[] health;
-	
+	private ArrayList<Object> inventory;
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
 	,leftCharacterImage2,rightCharacterImage1,rightCharacterImage2
@@ -35,12 +36,12 @@ public class Player extends Entity{
 		super();
 		
 		this.gp = gp;
-		this.kh = gp.getKeyHandler();
-		
-		this.screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
-		this.screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
-		this.tileSize = gp.getTileSize();
-		this.health = new boolean[3];
+		kh = gp.getKeyHandler();
+		screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
+		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
+		tileSize = gp.getTileSize();
+		health = new boolean[3];
+		inventory = new ArrayList<>();
 		
 		setDefaultValues();
 		getPlayerImages();
@@ -68,7 +69,7 @@ public class Player extends Entity{
 			spriteID = 1; 
 			else spriteID = 0;
 		}
-
+		//player movement 
 		if(kh.upPressed) {
 			if(canMove(Direction.UP)) {
 				worldY -= speed;												
@@ -97,6 +98,18 @@ public class Player extends Entity{
 
 			currentImage = (spriteID == 1) ? leftCharacterImage1 : leftCharacterImage2;
 			
+		}
+		
+		//player action
+		if(kh.pPressed) {
+			ObjectManager ob = gp.getObjectManager();
+			int playerRow = getPlayerRow();
+			int playerCol = getPlayerCol();
+			
+			if(ob.getObject(playerRow, playerCol).isPickable()) {
+				addInventoryItem(ob.getObject(playerRow, playerCol).isPickable());
+				ob.deleteObject(playerRow, playerCol);
+			}
 		}
 		
 		
@@ -150,6 +163,31 @@ public class Player extends Entity{
 		return cd.canMove(direction) && od.canMove(direction);
 	}
 	
+	public void addInventoryItem(Object item) {
+		inventory.add(item);			
+	}
+	
+	public void removeInventoryItem(Object item) {
+		inventory.remove(item);
+	}
+	
+	public ArrayList<Object> getInventory() {
+		return inventory;
+	}	
+	
+	
+	public boolean[] getHealth() {
+		return health;
+	}
+	
+	public int getPlayerCol() {
+		return worldX/tileSize;
+	}
+	
+	public int getPlayerRow() {
+		return worldY/tileSize;
+	}
+	
 	public int getScreenX() {
 		return screenX;
 	}
@@ -174,7 +212,4 @@ public class Player extends Entity{
 		return solidArea.height;
 	} 
 	
-	public boolean[] getHealth() {
-		return health;
-	}
 }
