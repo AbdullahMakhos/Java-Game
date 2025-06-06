@@ -2,7 +2,8 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import tiles.CollisionDetector;
+import objects.ObjectCollisionDetector;
+import tiles.TileCollisionDetector;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
+
+import org.w3c.dom.CDATASection;
 
 
 public class Player extends Entity{
@@ -55,7 +58,6 @@ public class Player extends Entity{
 
 	//update player method here to keep GamePanel organized 
 	public void update() {
-		CollisionDetector cd = gp.getCollisionDetecter();
 		currentImage = idleCharacterImage;
 		
 		//update information about player's position 
@@ -68,28 +70,28 @@ public class Player extends Entity{
 		}
 
 		if(kh.upPressed) {
-			if(cd.canMove(Direction.UP)) {
+			if(canMove(Direction.UP)) {
 				worldY -= speed;												
 			}
 			
 			currentImage = (spriteID == 1) ? upCharacterImage1 :upCharacterImage2;
 			
 		}else if(kh.downPressed) {
-			if(cd.canMove(Direction.DOWN)) {
+			if(canMove(Direction.DOWN)) {
 				worldY += speed;
 			}			
 			
 			currentImage = (spriteID == 1) ? downCharacterImage1 : downCharacterImage2;
 
 		}else if(kh.rightPressed) {
-			if(cd.canMove(Direction.RIGHT)) {
+			if(canMove(Direction.RIGHT)) {
 				worldX += speed;				
 			}
 			
 			currentImage = (spriteID == 1) ? rightCharacterImage1 : rightCharacterImage2;
 			
 		}else if(kh.leftPressed) {
-			if(cd.canMove(Direction.LEFT)) {
+			if(canMove(Direction.LEFT)) {
 				worldX -= speed; 				
 			}
 
@@ -138,6 +140,14 @@ public class Player extends Entity{
 		g2.drawImage(currentImage ,screenX ,screenY ,tileSize ,tileSize ,null);
 		
 		
+	}
+	
+	private boolean canMove(Direction direction) {
+
+		TileCollisionDetector cd = gp.getTileCollisionDetecter();
+		ObjectCollisionDetector od = gp.getObjectCollisionDetecter();
+		
+		return cd.canMove(direction) && od.canMove(direction);
 	}
 	
 	public int getScreenX() {

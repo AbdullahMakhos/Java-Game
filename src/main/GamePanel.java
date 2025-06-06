@@ -8,7 +8,9 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
-import tiles.CollisionDetector;
+import objects.ObjectCollisionDetector;
+import objects.ObjectManager;
+import tiles.TileCollisionDetector;
 import tiles.TileManager;
 
 //this class represent the game panel so actions will be done here
@@ -36,11 +38,11 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	private final int FPS = 60; 
 	
-	private int[][] mapMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
+	private int[][] tileMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
 	{ {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} 
 	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2} 
 	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2}  
-	, {2,0,0,0,0,0,0,0,2,2,4,2,2,0,0,0,0,0,0,0,2}
+	, {2,0,0,0,0,0,0,0,2,2,0,2,2,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,3,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
 	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
@@ -57,12 +59,34 @@ public class GamePanel extends JPanel implements Runnable{
 	, {2,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,2}
 	, {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}}; 
 	
+	private int[][] objectMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
+		{ {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}; 
 	 
 	//game object initiating area
 	private KeyHandler kh;// to create a key handler object 
 	private Player player; 
 	private TileManager tm;
-	private CollisionDetector cd;
+	private ObjectManager om;
+	private TileCollisionDetector td;
+	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
 	private UI ui;
 	    
@@ -72,9 +96,10 @@ public class GamePanel extends JPanel implements Runnable{
 		this.kh= new KeyHandler(); // to create key handler
 		this.player =  new Player(this);// to create a player object
 		this.tm = new TileManager(this); //to create a tile manager
-		this.cd = new CollisionDetector(this); //to create colDetecer 
+		this.om = new ObjectManager(this);
+		this.td = new TileCollisionDetector(this); //to create colDetecer 
+		this.od = new ObjectCollisionDetector(this);
 		this.ui = new UI(this);
-		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
 		this.setBackground(Color.white);//setting background color
@@ -136,7 +161,8 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		tm.draw(g2); //place it before player's draw
-		player.draw(g2);  
+		om.draw(g2);
+		player.draw(g2);
 		ui.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 
@@ -148,39 +174,51 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 
 	public int[][] getMapMatrix(){
-		return this.mapMatrix;
+		return this.tileMatrix;
 	}
 
 	public int getMapWidth() {
-		return mapMatrix[0].length;
+		return tileMatrix[0].length;
 	}
 	 
 	public int getMapHeight() {
-		return mapMatrix.length;
+		return tileMatrix.length;
 	}
 	
 	public int getMaxWorldCol() {
-		return this.maxWorldCol;
+		return maxWorldCol;
 	}
 	 
 	public int getMaxWorldRow() {
-		return this.maxWorldRow;
+		return maxWorldRow;
 	}
 
 	public TileManager getTileManager() {
-		return this.tm;
+		return tm;
 	}
 
 	public Player getPlayer() {
-		return this.player;
+		return player;
 	}
 	
 	public KeyHandler getKeyHandler() {
-		return this.kh; 
+		return kh; 
 	}
 	
-	public CollisionDetector getCollisionDetecter() {
-		return this.cd;
+	public TileCollisionDetector getTileCollisionDetecter() {
+		return td;
+	}
+	
+	public ObjectCollisionDetector getObjectCollisionDetecter() {
+		return od;
+	}
+
+	public ObjectManager getObjectManager() {
+		return om;
+	}
+
+	public int[][] getObjectMatrix() {
+		return objectMatrix;
 	}
 	 
 }

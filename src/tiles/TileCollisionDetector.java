@@ -4,10 +4,10 @@ import entity.Direction;
 import entity.Player;
 import main.GamePanel;
 
-public class CollisionDetector {
+public class TileCollisionDetector {
     private GamePanel gp;
 
-    public CollisionDetector(GamePanel gp) {
+    public TileCollisionDetector(GamePanel gp) {
         this.gp = gp; 
     }
   
