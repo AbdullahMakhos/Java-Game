@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Arrays;
+
 import javax.imageio.ImageIO;
 
 
@@ -17,6 +19,7 @@ public class Player extends Entity{
 	//player's position on the screen
 	private int screenX;
 	private int screenY; 
+	private boolean[] health;
 	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
@@ -34,7 +37,8 @@ public class Player extends Entity{
 		this.screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		this.screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		this.tileSize = gp.getTileSize();
-
+		this.health = new boolean[3];
+		
 		setDefaultValues();
 		getPlayerImages();
 	} 
@@ -45,6 +49,8 @@ public class Player extends Entity{
 		this.solidArea = new Rectangle(8 , 16 , 40 , 32);
 		this.worldX = (gp.getMapWidth() * tileSize)/2 - (gp.getTileSize()/2);
 		this.worldY = tileSize*2;
+		Arrays.fill(health, true);
+		
 	}
 
 	//update player method here to keep GamePanel organized 
@@ -135,26 +141,30 @@ public class Player extends Entity{
 	}
 	
 	public int getScreenX() {
-		return this.screenX;
+		return screenX;
 	}
 	
 	public int getScreenY() {
-		return this.screenY;
+		return screenY;
 	}
 	
 	public int getSolidAreaX() {
-		return this.solidArea.x;
+		return solidArea.x;
 	}
 	
 	public int getSolidAreaY() {
-		return this.solidArea.y;
+		return solidArea.y;
 	}
 	
 	public int getSolidAreaWidth() {
-		return this.solidArea.width;
+		return solidArea.width;
 	}
 	
 	public int getSolidAreaHeight() {
-		return this.solidArea.height;
+		return solidArea.height;
 	} 
+	
+	public boolean[] getHealth() {
+		return health;
+	}
 }

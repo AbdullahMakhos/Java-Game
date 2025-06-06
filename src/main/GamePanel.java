@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private TileManager tm;
 	private CollisionDetector cd;
 	private Thread gameThread; // to create a thread object 
-	 
+	private UI ui;
 	    
 	public GamePanel() {
 		this.maxWorldCol = getMapWidth();
@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.player =  new Player(this);// to create a player object
 		this.tm = new TileManager(this); //to create a tile manager
 		this.cd = new CollisionDetector(this); //to create colDetecer 
+		this.ui = new UI(this);
 		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
@@ -136,6 +137,7 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		tm.draw(g2); //place it before player's draw
 		player.draw(g2);  
+		ui.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 
 	}
