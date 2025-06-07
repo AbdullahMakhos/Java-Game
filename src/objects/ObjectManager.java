@@ -15,13 +15,16 @@ public class ObjectManager {
 	    private GameObject[] objectTypes; // Tiles types to read the mapMatrix
 	    private GamePanel gp; // To draw the mapMatrix
 	    private Player player; 
-
+	    private int screenHeight;
+	    private int screenWidth;
+	    
 	    public ObjectManager(GamePanel gp) {
 	        this.gp = gp;
-	        this.player = gp.getPlayer();
-	        this.objectMatrix = gp.getObjectMatrix();
-	        
-	        this.objectTypes = new GameObject[OBJECT_TYPE_COUNT]; // Initialize tile types
+	        player = gp.getPlayer();
+	        objectMatrix = gp.getObjectMatrix();
+	        objectTypes = new GameObject[OBJECT_TYPE_COUNT]; // Initialize tile types
+	        screenHeight = gp.getScreenHeight();
+	        screenWidth = gp.getScreenWidth();
 	        
 	        // Store tiles images in variables
 	        loadObjectImages();
@@ -65,13 +68,18 @@ public class ObjectManager {
 	        int playerWorldX = player.getWorldX(); // Get the player's current world X position
 	        int playerWorldY = player.getWorldY(); // Get the player's current world Y position
 
+	        int startRow = Math.max(0, (playerWorldY - player.getScreenY()) / objectSize);
+	        int endRow = Math.min(objectMatrix.length - 1, startRow + (screenHeight / objectSize) + 1); // Adjust based on screen height
+	        int startCol = Math.max(0, (playerWorldX - player.getScreenX()) / objectSize);
+	        int endCol = Math.min(objectMatrix[0].length - 1, startCol + (screenWidth / objectSize) + 1); // Adjust based on screen width
+	        
 	        // Loop through each row of the objectMatrix
-	        for (int row = 0; row < objectMatrix.length; row++) {
+	        for (int row = startRow; row <= endRow; row++) {
 	            int currentObjectWorldY = row * objectSize; // Calculate the world Y position of the current tile
 	            int currentObjectScreenY = currentObjectWorldY - (playerWorldY - player.getScreenY());
 
 	            // Loop through each column of the objectMatrix
-	            for (int col = 0; col < objectMatrix[row].length; col++) {
+	            for (int col = startCol; col <= endCol; col++) {
 	                int currentObjectID = objectMatrix[row][col]; // Get the ID of the current tile from the mapMatrix
 	                int currentObjectWorldX = col * objectSize; // Calculate the world X position of the current tile
 	                int currentObjectScreenX = currentObjectWorldX - (playerWorldX - player.getScreenX());

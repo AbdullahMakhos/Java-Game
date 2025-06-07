@@ -171,6 +171,14 @@ public class GamePanel extends JPanel implements Runnable{
 		 
 	}
 	
+	public int getScreenWidth() {
+		return screenWidth;
+	}
+	
+	public int getScreenHeight() {
+		return screenHeight;
+	}
+	
 	public int getTileSize() {
 		//because we are going to use it inside Entity subclasses
 		return this.tileSize;
