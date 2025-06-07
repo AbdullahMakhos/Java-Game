@@ -11,9 +11,9 @@ public class KeyHandler implements KeyListener{
 	public boolean rightPressed = false;
 	public boolean leftPressed = false;
 	public boolean oPressed = false;
-	public boolean cPressed = false;
 	public boolean ePressed = false;
 	public boolean pPressed = false;
+	public boolean escPressed = false;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -36,19 +36,19 @@ public class KeyHandler implements KeyListener{
 		}
 		// to open doors
 		if(code == KeyEvent.VK_O) {
-			oPressed = true;
-		}
-		// to close doors
-		if(code == KeyEvent.VK_C) {
-			cPressed = true;
+			oPressed = !oPressed;
 		}
 		//to open inventory
 		if(code == KeyEvent.VK_E) {
-			ePressed = true;
+			ePressed = !ePressed;
 		}
 		//to pick some object 
 		if(code == KeyEvent.VK_P) {
 			pPressed = true;
+		}
+		
+		if(code == KeyEvent.VK_ESCAPE) {
+			escPressed = !escPressed;
 		}
 	}
  
@@ -70,18 +70,6 @@ public class KeyHandler implements KeyListener{
 		// a is released
 		if(code == KeyEvent.VK_A) {
 			leftPressed = false;
-		}
-		//o is released
-		if(code == KeyEvent.VK_O) {
-			oPressed = false;
-		}
-		//c is released 
-		if(code == KeyEvent.VK_C) {
-			cPressed = false;
-		}
-		//to close inventory
-		if(code == KeyEvent.VK_E) {
-			ePressed = false;
 		}
 		
 		if(code == KeyEvent.VK_P) {

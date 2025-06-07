@@ -10,10 +10,12 @@ import javax.imageio.ImageIO;
 public class UIManager {
 	private GamePanel gp;
 	private KeyHandler kh;
-	private BufferedImage heartImage;
 	private boolean[] playerHealth;
-	ArrayList<GameObject> inventory;
-	BufferedImage inventoryImage;
+	private ArrayList<GameObject> inventory;
+	
+	private BufferedImage heartImage;
+	private BufferedImage inventoryImage;
+	private BufferedImage menuImage;
 	
 	public UIManager(GamePanel gp) {
 		this.gp = gp;
@@ -28,15 +30,20 @@ public class UIManager {
 		try {
 			heartImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/heart.png"));
 			inventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/inventory.png"));
+			menuImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/menu.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void draw(Graphics2D g2) {
 		drawHealth(g2);
-		if(kh.ePressed) drawInventory(g2);
-		
+		if(kh.ePressed) {
+			drawInventory(g2);
+		}
+		if(kh.escPressed) {
+			drawMenu(g2);
+		}
 	}
 	
 	private void drawInventory(Graphics2D g2) {
@@ -65,6 +72,13 @@ public class UIManager {
 			healthX+=48;
 		}
 	}
+
+
+	private void drawMenu(Graphics2D g2) {
+		g2.drawImage(menuImage, 200, 200, 600, 400, null);
+	}
+
+	
 	
 	
 }

@@ -35,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private final int maxWorldCol; //16 pixels vertically 
 	private final int maxWorldRow; //16 pixels horizontally 
 	
+	private int gameState; // 0 for running 1 for paused 
 	
 	private final int FPS = 60; 
 	
@@ -89,7 +90,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
 	private UIManager ui;
-	    
+	   
 	public GamePanel() {
 		this.maxWorldCol = getMapWidth();
 		this.maxWorldRow = getMapHeight();
@@ -114,9 +115,10 @@ public class GamePanel extends JPanel implements Runnable{
 	to get in touch with the fourth dimension(time)*/
 	
 	public void startGameThread() {
-		
+		gameState = 0;
 		gameThread = new Thread(this); //we pass the panel because run method is now one of its sub methods
 		gameThread.start(); //بسم الله الرحمن الرحيم
+		
 	}
 	
 	//game loop is inside the run method
@@ -147,12 +149,11 @@ public class GamePanel extends JPanel implements Runnable{
 			}
 		}
 	} 
-	 
-	public void update() {
-		
-		player.update(); //update player 
-		
-	}  
+	
+	public void update() { 
+		updateGameState();
+		if(gameState == 0) player.update(); //update player 	
+	}
 	   
 	//this is the draw method but we can't rename it because this is a java method
 	public void paintComponent(Graphics g) {
@@ -166,9 +167,12 @@ public class GamePanel extends JPanel implements Runnable{
 		player.draw(g2);
 		om.draw(g2);
 		ui.draw(g2);
-		
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 
+	}
+	
+	private void updateGameState(){
+		gameState = (kh.escPressed) ? 1 : 0;
 	}
 	
 	public int getScreenWidth() {
@@ -234,6 +238,10 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public int[][] getObjectMatrix() {
 		return objectMatrix;
+	}
+
+	public int getGameState() {
+		return gameState;
 	}
 	 
 }

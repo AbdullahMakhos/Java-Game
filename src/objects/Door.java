@@ -23,7 +23,7 @@ public class Door extends GameObject{
 			//open
 			setCrossable(true);
 			currentImageID = -1;
-		}else if(kh.cPressed) {
+		}else {
 			//closed
 			setCrossable(false);
 			currentImageID = 1;
