@@ -2,6 +2,7 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
+import objects.GameObject;
 import objects.ObjectCollisionDetector;
 import objects.ObjectManager;
 import tiles.TileCollisionDetector;
@@ -15,8 +16,6 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import org.w3c.dom.CDATASection;
-
 
 public class Player extends Entity{
 	private GamePanel gp;//the gamePanel to be displayed on
@@ -24,7 +23,7 @@ public class Player extends Entity{
 	private int screenX;//player's position on the screen
 	private int screenY; 
 	private boolean[] health;
-	private ArrayList<Object> inventory;
+	private ArrayList<GameObject> inventory;
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
 	,leftCharacterImage2,rightCharacterImage1,rightCharacterImage2
@@ -107,7 +106,8 @@ public class Player extends Entity{
 			int playerCol = getPlayerCol();
 			
 			if(ob.getObject(playerRow, playerCol).isPickable()) {
-				addInventoryItem(ob.getObject(playerRow, playerCol).isPickable());
+				
+				addInventoryItem(ob.getObject(playerRow, playerCol));
 				ob.deleteObject(playerRow, playerCol);
 			}
 		}
@@ -163,15 +163,16 @@ public class Player extends Entity{
 		return cd.canMove(direction) && od.canMove(direction);
 	}
 	
-	public void addInventoryItem(Object item) {
-		inventory.add(item);			
+	public void addInventoryItem(GameObject item) {
+		inventory.add(item);
+	
 	}
 	
-	public void removeInventoryItem(Object item) {
+	public void removeInventoryItem(GameObject item) {
 		inventory.remove(item);
 	}
 	
-	public ArrayList<Object> getInventory() {
+	public ArrayList<GameObject> getInventory() {
 		return inventory;
 	}	
 	

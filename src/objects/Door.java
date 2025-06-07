@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import main.GamePanel;
 import main.KeyHandler;
 
-public class Door extends Object{
+public class Door extends GameObject{
 	GamePanel gp;
 	KeyHandler kh;
 	int currentImageID = 1;

@@ -4,16 +4,18 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import objects.GameObject;
 import javax.imageio.ImageIO;
 
-public class UI {
+public class UIManager {
 	private GamePanel gp;
 	private KeyHandler kh;
 	private BufferedImage heartImage;
 	private boolean[] playerHealth;
-	ArrayList<Object> inventory;
-	public UI(GamePanel gp) {
+	ArrayList<GameObject> inventory;
+	BufferedImage inventoryImage;
+	
+	public UIManager(GamePanel gp) {
 		this.gp = gp;
 		kh = gp.getKeyHandler();
 		playerHealth = gp.getPlayer().getHealth();
@@ -25,8 +27,8 @@ public class UI {
 	private void loadImages() {
 		try {
 			heartImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/heart.png"));
+			inventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/inventory.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -37,14 +39,21 @@ public class UI {
 		
 	}
 	
-	public void updateHealth() {
-		playerHealth = gp.getPlayer().getHealth();
-	}
-	
 	private void drawInventory(Graphics2D g2) {
-		ArrayList<Object> inventory = gp.getPlayer().getInventory();
-		for(Object item : inventory) {
-			g2.drawString("item", 100, 50);				
+		
+		g2.drawImage(inventoryImage, 200, 200, 600, 400, null);
+		
+		int x = 240; int y=248;
+		int colCount = 0;
+		for(GameObject item : inventory) {
+			g2.drawImage(item.getImage(), x, y ,48, 48,null);
+			colCount++;
+			x+=48;
+			if(colCount > 10) {
+				colCount = 0;
+				x = 240;
+				y += 48;
+			}
 		}
 	
 	}

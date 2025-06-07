@@ -2,9 +2,9 @@ package main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
 import javax.swing.JPanel;
 
 import entity.Player;
@@ -74,9 +74,9 @@ public class GamePanel extends JPanel implements Runnable{
 		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
+		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
 		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}; 
 	 
@@ -88,7 +88,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private TileCollisionDetector td;
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
-	private UI ui;
+	private UIManager ui;
 	    
 	public GamePanel() {
 		this.maxWorldCol = getMapWidth();
@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable{
 		this.om = new ObjectManager(this);
 		this.td = new TileCollisionDetector(this); //to create colDetecer 
 		this.od = new ObjectCollisionDetector(this);
-		this.ui = new UI(this);
+		this.ui = new UIManager(this);
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
 		this.setBackground(Color.white);//setting background color
@@ -160,10 +160,13 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
+		g2.setFont(new Font("Arial", Font.BOLD, 24));
+		g2.setColor(Color.blue);
 		tm.draw(g2); //place it before player's draw
 		player.draw(g2);
 		om.draw(g2);
 		ui.draw(g2);
+		
 		g2.dispose(); //cleaning component to stay memory efficient 
 		 
 	}
@@ -217,6 +220,10 @@ public class GamePanel extends JPanel implements Runnable{
 		return om;
 	}
 
+	public UIManager getUIManager() {
+		return ui;
+	}
+	
 	public int[][] getObjectMatrix() {
 		return objectMatrix;
 	}

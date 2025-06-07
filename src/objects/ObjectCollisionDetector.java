@@ -35,7 +35,7 @@ public class ObjectCollisionDetector {
         int playerTopRow = getObjectRow(playerTopWorldY); 
         int playerBottomRow = getObjectRow(playerBottomWorldY); 
       
-        Object object1, object2; // Potential tiles for collision detection
+        GameObject object1, object2; // Potential tiles for collision detection
       
         switch (direction) {
             case UP:

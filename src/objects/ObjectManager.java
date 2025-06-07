@@ -10,9 +10,9 @@ import entity.Player;
 import main.GamePanel;
 
 public class ObjectManager {
-	   private static final int OBJECT_TYPE_COUNT = 2; // Number of tile types
+	   private static final int OBJECT_TYPE_COUNT = 3; // Number of tile types
 	    private int[][] objectMatrix; // The map to manage
-	    private Object[] objectTypes; // Tiles types to read the mapMatrix
+	    private GameObject[] objectTypes; // Tiles types to read the mapMatrix
 	    private GamePanel gp; // To draw the mapMatrix
 	    private Player player; 
 
@@ -21,7 +21,7 @@ public class ObjectManager {
 	        this.player = gp.getPlayer();
 	        this.objectMatrix = gp.getObjectMatrix();
 	        
-	        this.objectTypes = new Object[OBJECT_TYPE_COUNT]; // Initialize tile types
+	        this.objectTypes = new GameObject[OBJECT_TYPE_COUNT]; // Initialize tile types
 	        
 	        // Store tiles images in variables
 	        loadObjectImages();
@@ -32,16 +32,25 @@ public class ObjectManager {
 	    	
 	    	try {
 
-	            objectTypes[0] = new Object();
-	            objectTypes[0].setCrossable(true); //the door is not crossable
+	            objectTypes[0] = new GameObject();
+	            objectTypes[0].setCrossable(true); 
 	            objectTypes[0].setPickable(false);
 	            
 	            objectTypes[1] = new Door(gp);
-	            objectTypes[1].setImage(ImageIO.read(getClass().getResourceAsStream("/objects/resources/closedDoor.png")));
-	            ((Door) objectTypes[1]).setImage2(ImageIO.read(getClass().getResourceAsStream("/objects/resources/openDoor.png")));
-	            objectTypes[1].setCrossable(false); //the door is not crossable
-	            objectTypes[1].setPickable(true);
+	            objectTypes[1].setImage(ImageIO.read(getClass().
+	            getResourceAsStream("/objects/resources/closedDoor.png")));
+	            ((Door) objectTypes[1]).setImage2(ImageIO.read(getClass().
+	            getResourceAsStream("/objects/resources/openDoor.png")));
+	            objectTypes[1].setCrossable(false); 
+	            objectTypes[1].setPickable(false);
 	            objectTypes[1].setObjectSize(objectSize);
+	            
+	            objectTypes[2] = new GameObject();
+	            objectTypes[2].setImage(ImageIO.read(getClass().
+	    	    getResourceAsStream("/objects/resources/fish.png")));
+	            objectTypes[2].setCrossable(true); 
+	            objectTypes[2].setPickable(true);
+	            objectTypes[2].setObjectSize(objectSize);
 	            
 	        } catch (IOException e) {
 	            System.err.println("Error loading object resources:");
@@ -103,7 +112,7 @@ public class ObjectManager {
 	    }
 
  
-	    public Object getObject(int row, int col) {
+	    public GameObject getObject(int row, int col) {
 	        // Check for valid indices before accessing the mapMatrix
 	        if (row < 0 || row >= objectMatrix.length || col < 0 || col >= objectMatrix[row].length) {
 	            throw new IndexOutOfBoundsException("Invalid object coordinates: (" + row + ", " + col + ")");

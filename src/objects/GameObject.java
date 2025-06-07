@@ -6,13 +6,13 @@ import tiles.Tile;
 
 //objects like box fire...etc not monsters , monsters will be entities 
 
-public class Object {
+public class GameObject {
 	protected BufferedImage image; //image holder
 	private boolean crossable; //is there a collision
 	private boolean pickable; 
 	private int objectSize;
 	 
-	public Object() {
+	public GameObject() {
 		setCrossable(true);
 	}
 	

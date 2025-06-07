@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import entity.Player;
 import main.GamePanel;
 import objects.Door;
-import objects.Object;
+import objects.GameObject;
 
 public class TileManager {
     private static final int TILE_TYPE_COUNT = 4; // Number of tile types
