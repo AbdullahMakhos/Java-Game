@@ -23,7 +23,7 @@ public class TileManager {
     public TileManager(GamePanel gp) {
         this.gp = gp;
         player = gp.getPlayer();
-        tileMatrix = gp.getMapMatrix();
+        tileMatrix = gp.getTileMatrix();
         tileTypes = new Tile[TILE_TYPE_COUNT]; // Initialize tile types
         screenHeight = gp.getScreenHeight();
         screenWidth = gp.getScreenWidth();

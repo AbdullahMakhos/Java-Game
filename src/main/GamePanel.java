@@ -38,51 +38,11 @@ public class GamePanel extends JPanel implements Runnable{
 	private int gameState; // 0 for running 1 for paused 
 	
 	private final int FPS = 60; 
-	
-	private int[][] tileMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
-	{ {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2} 
-	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2} 
-	, {2,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,2}  
-	, {2,0,0,0,0,0,0,0,2,2,0,2,2,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,3,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
-	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
-	, {2,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2} 
-	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,2}
-	, {2,0,0,0,0,1,1,1,1,1,0,1,1,1,1,1,0,0,0,0,2}
-	, {2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2}
-	, {2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2}
-	, {2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2}
-	, {2,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,2}
-	, {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}}; 
-	
-	private int[][] objectMatrix = //map informations is here (if i added more levels(maps) i would add this to the constructor)
-		{ {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-		, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}; 
+	private Level currentLevel;
 	 
 	//game object initiating area
 	private KeyHandler kh;// to create a key handler object 
+	private LevelManager lm;
 	private Player player; 
 	private TileManager tm;
 	private ObjectManager om;
@@ -90,17 +50,28 @@ public class GamePanel extends JPanel implements Runnable{
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
 	private UIManager ui;
+	private int currentLevelID;
 	   
 	public GamePanel() {
-		this.maxWorldCol = getMapWidth();
-		this.maxWorldRow = getMapHeight();
-		this.kh= new KeyHandler(); // to create key handler
-		this.player =  new Player(this);// to create a player object
-		this.tm = new TileManager(this); //to create a tile manager
-		this.om = new ObjectManager(this);
-		this.td = new TileCollisionDetector(this); //to create colDetecer 
-		this.od = new ObjectCollisionDetector(this);
-		this.ui = new UIManager(this);
+		currentLevelID = 0;
+		gameState = 0;
+		
+		kh= new KeyHandler(); // to create key handler
+		lm = new LevelManager(this);
+		
+		currentLevel = lm.getCurrentLevel();
+		maxWorldCol = getMapWidth();
+		maxWorldRow = getMapHeight();
+		
+
+		player =  new Player(this);// to create a player object
+		tm = new TileManager(this); //to create a tile manager
+		om = new ObjectManager(this);
+		td = new TileCollisionDetector(this); //to create colDetecer 
+		od = new ObjectCollisionDetector(this);
+		ui = new UIManager(this);
+		
+		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
 		this.setBackground(Color.white);//setting background color
@@ -115,7 +86,6 @@ public class GamePanel extends JPanel implements Runnable{
 	to get in touch with the fourth dimension(time)*/
 	
 	public void startGameThread() {
-		gameState = 0;
 		gameThread = new Thread(this); //we pass the panel because run method is now one of its sub methods
 		gameThread.start(); //بسم الله الرحمن الرحيم
 		
@@ -188,16 +158,12 @@ public class GamePanel extends JPanel implements Runnable{
 		return this.tileSize;
 	}
 
-	public int[][] getMapMatrix(){
-		return this.tileMatrix;
-	}
-
 	public int getMapWidth() {
-		return tileMatrix[0].length;
+		return currentLevel.getTileMatrix()[0].length;
 	}
 	 
 	public int getMapHeight() {
-		return tileMatrix.length;
+		return currentLevel.getTileMatrix().length;
 	}
 	
 	public int getMaxWorldCol() {
@@ -236,12 +202,23 @@ public class GamePanel extends JPanel implements Runnable{
 		return ui;
 	}
 	
+	public int[][] getTileMatrix(){
+		return currentLevel.getTileMatrix();
+	}
+
 	public int[][] getObjectMatrix() {
-		return objectMatrix;
+		return currentLevel.getObjectMatrix();
 	}
 
 	public int getGameState() {
 		return gameState;
+	}
+
+	public void setCurrentLevelID(int currentLevelID){
+		this.currentLevelID = currentLevelID;
+	}
+	public int getCurrentLevelID() {
+		return currentLevelID;
 	}
 	 
 }
