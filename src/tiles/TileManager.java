@@ -125,4 +125,8 @@ public class TileManager {
         int tileId = tileMatrix[row][col];
         return (tileId >= 0 && tileId < tileTypes.length) ? tileTypes[tileId] : null;
     }
+    
+    public void updateTileMatrix() {
+    	tileMatrix = gp.getTileMatrix();
+    }
 }

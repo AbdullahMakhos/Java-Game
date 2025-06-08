@@ -9,3 +9,9 @@ the main classes:
 Tile class 
     Object class extends Tile put with a behavior 
         Door class extends Door
+ 
+UIManager
+
+Level and levelManager 
+
+

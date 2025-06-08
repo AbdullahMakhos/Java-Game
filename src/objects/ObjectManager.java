@@ -48,7 +48,7 @@ public class ObjectManager {
 	            objectTypes[1].setPickable(false);
 	            objectTypes[1].setObjectSize(objectSize);
 	            
-	            objectTypes[2] = new GameObject();
+	            objectTypes[2] = new Fish();
 	            objectTypes[2].setImage(ImageIO.read(getClass().
 	    	    getResourceAsStream("/objects/resources/fish.png")));
 	            objectTypes[2].setCrossable(true); 
@@ -132,6 +132,10 @@ public class ObjectManager {
 	    public void deleteObject(int row, int col) {
 	    	objectMatrix[row][col] = 0;
 	    }
+
+		public void updateObjectMatrix() {
+			objectMatrix = gp.getObjectMatrix();
+		}
 
 	
 	} 

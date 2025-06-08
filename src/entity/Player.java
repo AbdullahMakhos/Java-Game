@@ -13,17 +13,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import javax.imageio.ImageIO;
 
-
 public class Player extends Entity{
+	private static final int TOTAL_HEALTH = 3;
 	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
 	private int screenX;//player's position on the screen
 	private int screenY; 
 	private boolean[] health;
 	private ArrayList<GameObject> inventory;
+	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
 	,leftCharacterImage2,rightCharacterImage1,rightCharacterImage2
@@ -39,7 +39,7 @@ public class Player extends Entity{
 		screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		tileSize = gp.getTileSize();
-		health = new boolean[3];
+		health = new boolean[TOTAL_HEALTH];
 		inventory = new ArrayList<>();
 		
 		setDefaultValues();
@@ -50,8 +50,8 @@ public class Player extends Entity{
 		//player's starting position 
 		this.speed = 5; 
 		this.solidArea = new Rectangle(8 , 16 , 40 , 32);
-		this.worldX = (gp.getMapWidth() * tileSize)/2 - (gp.getTileSize()/2);
-		this.worldY = tileSize*2;
+		this.worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
+		this.worldY = gp.getTileSize()*2;
 		Arrays.fill(health, true);
 		
 	}
@@ -110,6 +110,13 @@ public class Player extends Entity{
 				addInventoryItem(ob.getObject(playerRow, playerCol));
 				ob.deleteObject(playerRow, playerCol);
 			}
+		}
+		
+		if(kh.nPressed) {
+			if (gp.getCurrentLevel().canPass()) {
+				gp.getLevelManager().goToNextLevel();
+			}
+			
 		}
 		
 	} 
@@ -171,6 +178,20 @@ public class Player extends Entity{
 		inventory.remove(item);
 	}
 	
+	
+	public void takeDamage() {
+		
+		int lastHeartIndex = -1;
+		for(int i=TOTAL_HEALTH - 1 ; i >= 0 ; i--) {
+			if(health[i]) {
+				lastHeartIndex = i;
+				break;
+			}
+		}
+		if(lastHeartIndex != -1) {
+			health[lastHeartIndex] = false;
+		}
+	}
 	public ArrayList<GameObject> getInventory() {
 		return inventory;
 	}	
@@ -178,6 +199,11 @@ public class Player extends Entity{
 	
 	public boolean[] getHealth() {
 		return health;
+	}
+	
+	public void updateXY() {
+		worldX = gp.getLevelManager().getCurrentLevel().getInitialX();
+		worldY = gp.getLevelManager().getCurrentLevel().getInitialY();
 	}
 	
 	public int getPlayerCol() {

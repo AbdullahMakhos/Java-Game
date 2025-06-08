@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import objects.Fish;
 import objects.GameObject;
 import javax.imageio.ImageIO;
 
@@ -78,7 +80,15 @@ public class UIManager {
 		g2.drawImage(menuImage, 200, 200, 600, 400, null);
 	}
 
-	
+	public <T extends GameObject> int itemCount(T item) {
+	    int count = 0;
+	    for (GameObject o : inventory) {
+	        if (item.getClass().isInstance(o)) {
+	            count++;
+	        }
+	    }
+	    return count;
+	}
 	
 	
 }

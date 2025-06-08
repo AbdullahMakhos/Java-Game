@@ -14,6 +14,7 @@ public class KeyHandler implements KeyListener{
 	public boolean ePressed = false;
 	public boolean pPressed = false;
 	public boolean escPressed = false;
+	public boolean nPressed = false;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -50,6 +51,10 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_ESCAPE) {
 			escPressed = !escPressed;
 		}
+		
+		if(code == KeyEvent.VK_N) {
+			nPressed = true;
+		}
 	}
  
 	@Override 
@@ -74,6 +79,10 @@ public class KeyHandler implements KeyListener{
 		
 		if(code == KeyEvent.VK_P) {
 			pPressed  = false;
+		}
+		
+		if(code == KeyEvent.VK_N) {
+			nPressed = false;
 		}
 	}
 

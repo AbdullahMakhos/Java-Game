@@ -53,16 +53,13 @@ public class GamePanel extends JPanel implements Runnable{
 	private int currentLevelID;
 	   
 	public GamePanel() {
-		currentLevelID = 0;
 		gameState = 0;
+		currentLevelID=0;
 		
 		kh= new KeyHandler(); // to create key handler
 		lm = new LevelManager(this);
 		
 		currentLevel = lm.getCurrentLevel();
-		maxWorldCol = getMapWidth();
-		maxWorldRow = getMapHeight();
-		
 
 		player =  new Player(this);// to create a player object
 		tm = new TileManager(this); //to create a tile manager
@@ -71,6 +68,9 @@ public class GamePanel extends JPanel implements Runnable{
 		od = new ObjectCollisionDetector(this);
 		ui = new UIManager(this);
 		
+		
+		maxWorldCol = getMapWidth();
+		maxWorldRow = getMapHeight();
 		
 		this.setVisible(true);
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));//size setting
@@ -138,11 +138,17 @@ public class GamePanel extends JPanel implements Runnable{
 		om.draw(g2);
 		ui.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient 
-		 
+	
 	}
 	
 	private void updateGameState(){
 		gameState = (kh.escPressed) ? 1 : 0;
+	}
+	
+	public void updateCurrentLevel(){
+		currentLevel = lm.getCurrentLevel();
+		tm.updateTileMatrix();
+		om.updateObjectMatrix();
 	}
 	
 	public int getScreenWidth() {
@@ -217,8 +223,16 @@ public class GamePanel extends JPanel implements Runnable{
 	public void setCurrentLevelID(int currentLevelID){
 		this.currentLevelID = currentLevelID;
 	}
+	
 	public int getCurrentLevelID() {
 		return currentLevelID;
 	}
-	 
+	
+	public Level getCurrentLevel() {
+		return currentLevel;
+	}
+	
+	public LevelManager getLevelManager() {
+		return lm;
+	}
 }
