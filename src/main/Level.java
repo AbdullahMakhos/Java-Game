@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.event.ItemEvent;
+
 import objects.Fish;
 
 public class Level {
@@ -19,13 +21,16 @@ public class Level {
 	//can i pass to the next level
 	public boolean canPass() {
 		Fish fish = new Fish();
-		if(gp.getUIManager().itemCount(fish) >= 5) {
-			gp.getLevelManager().goToNextLevel();
-			gp.updateCurrentLevel();
-			return true;
+		int ItemCount = 0;
+		
+		if(gp.getPlayer().getInventory().getItem(fish) != null) {
+			ItemCount = gp.getPlayer().getInventory()
+			.getItemCount(gp.getPlayer().getInventory().getItem(fish));
 		}
-		return false;
+		
+		return ItemCount >= 5;
 	}
+	
 	public int getInitialX() {
 		return initialX;
 	}

@@ -131,8 +131,8 @@ public class GamePanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
-		g2.setFont(new Font("Arial", Font.BOLD, 24));
-		g2.setColor(Color.blue);
+		g2.setFont(new Font("Arial", Font.BOLD, 20));
+		g2.setColor(Color.white);
 		tm.draw(g2); //place it before player's draw
 		player.draw(g2);
 		om.draw(g2);

@@ -112,6 +112,7 @@ public class LevelManager {
 	public void goToNextLevel() {
 		 currentLevelID = 1;
 		 gp.getPlayer().updateXY();
+		 gp.updateCurrentLevel();
 	}
 
 	public int getCurrentLevelID() {

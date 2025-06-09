@@ -1,8 +1,8 @@
 package entity;
 
 import main.GamePanel;
+import main.Inventory;
 import main.KeyHandler;
-import objects.GameObject;
 import objects.ObjectCollisionDetector;
 import objects.ObjectManager;
 import tiles.TileCollisionDetector;
@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 
@@ -22,7 +21,7 @@ public class Player extends Entity{
 	private int screenX;//player's position on the screen
 	private int screenY; 
 	private boolean[] health;
-	private ArrayList<GameObject> inventory;
+	private Inventory inventory;
 	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
@@ -40,11 +39,11 @@ public class Player extends Entity{
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		tileSize = gp.getTileSize();
 		health = new boolean[TOTAL_HEALTH];
-		inventory = new ArrayList<>();
+		inventory = new Inventory();
 		
 		setDefaultValues();
 		getPlayerImages();
-	} 
+	}
 	
 	private void setDefaultValues() {
 		//player's starting position 
@@ -107,7 +106,7 @@ public class Player extends Entity{
 			
 			if(ob.getObject(playerRow, playerCol).isPickable()) {
 				
-				addInventoryItem(ob.getObject(playerRow, playerCol));
+				inventory.addItem(ob.getObject(playerRow, playerCol));
 				ob.deleteObject(playerRow, playerCol);
 			}
 		}
@@ -169,16 +168,6 @@ public class Player extends Entity{
 		return cd.canMove(direction) && od.canMove(direction);
 	}
 	
-	public void addInventoryItem(GameObject item) {
-		inventory.add(item);
-	
-	}
-	
-	public void removeInventoryItem(GameObject item) {
-		inventory.remove(item);
-	}
-	
-	
 	public void takeDamage() {
 		
 		int lastHeartIndex = -1;
@@ -192,7 +181,8 @@ public class Player extends Entity{
 			health[lastHeartIndex] = false;
 		}
 	}
-	public ArrayList<GameObject> getInventory() {
+	
+	public Inventory getInventory() {
 		return inventory;
 	}	
 	

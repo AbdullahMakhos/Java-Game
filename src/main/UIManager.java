@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import objects.Fish;
 import objects.GameObject;
@@ -13,7 +14,7 @@ public class UIManager {
 	private GamePanel gp;
 	private KeyHandler kh;
 	private boolean[] playerHealth;
-	private ArrayList<GameObject> inventory;
+	private Inventory inventory;
 	
 	private BufferedImage heartImage;
 	private BufferedImage inventoryImage;
@@ -54,8 +55,11 @@ public class UIManager {
 		
 		int x = 240; int y=248;
 		int colCount = 0;
-		for(GameObject item : inventory) {
-			g2.drawImage(item.getImage(), x, y ,48, 48,null);
+		for(GameObject item : inventory.getBag().keySet()) {
+			
+			g2.drawImage(item.getImage(), x, y ,50, 50,null);
+			g2.drawString("x"+String.valueOf(inventory.getItemCount(item)), x+45, y+45);
+			
 			colCount++;
 			x+=48;
 			if(colCount > 10) {
@@ -78,16 +82,6 @@ public class UIManager {
 
 	private void drawMenu(Graphics2D g2) {
 		g2.drawImage(menuImage, 200, 200, 600, 400, null);
-	}
-
-	public <T extends GameObject> int itemCount(T item) {
-	    int count = 0;
-	    for (GameObject o : inventory) {
-	        if (item.getClass().isInstance(o)) {
-	            count++;
-	        }
-	    }
-	    return count;
 	}
 	
 	
