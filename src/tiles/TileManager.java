@@ -12,7 +12,7 @@ import objects.Door;
 import objects.GameObject;
 
 public class TileManager {
-    private static final int TILE_TYPE_COUNT = 4; // Number of tile types
+    private static final int TILE_TYPE_COUNT = 5; // Number of tile types
     private int[][] tileMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     private GamePanel gp; // To draw the mapMatrix
@@ -56,6 +56,11 @@ public class TileManager {
             tileTypes[3].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/thing.png")));
             tileTypes[3].setCrossable(false); // thing tile is not crossable
             tileTypes[3].setTileSize(originalTileSize);
+            
+            tileTypes[4] = new Tile();
+            tileTypes[4].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/water.png")));
+            tileTypes[4].setCrossable(false); // water tile is not crossable
+            tileTypes[4].setTileSize(originalTileSize);
             
             
             
