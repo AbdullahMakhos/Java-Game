@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import entity.Player;
+import levels.Level;
+import levels.LevelManager;
 import objects.ObjectCollisionDetector;
 import objects.ObjectManager;
 import tiles.TileCollisionDetector;
@@ -35,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private final int maxWorldCol; //16 pixels vertically 
 	private final int maxWorldRow; //16 pixels horizontally 
 	
-	private int gameState; // 0 for running 1 for paused 
+	private int gameState; // 0 for running 1 for paused 2 for gameOver
 	
 	private final int FPS = 60; 
 	private Level currentLevel;
@@ -52,6 +54,10 @@ public class GamePanel extends JPanel implements Runnable{
 	private UIManager ui;
 	private int currentLevelID;
 	   
+	
+	private int hungerCounter = 0;
+	
+	
 	public GamePanel() {
 		gameState = 0;
 		currentLevelID=0;
@@ -111,6 +117,12 @@ public class GamePanel extends JPanel implements Runnable{
 			lastTime = currentTime;
 			
 			if(delta >= 1) {
+				hungerCounter++;
+				if(hungerCounter > 1000) {
+					hungerCounter = 0;
+					player.reduceHunger();
+					ui.updateHungerStatus();
+				}
 				//1.Update : update the game status such as players attributes (health, position...etc)
 				update();
 				//2.Draw : draw the screen with the updated frame information
@@ -121,8 +133,16 @@ public class GamePanel extends JPanel implements Runnable{
 	} 
 	
 	public void update() { 
-		updateGameState();
-		if(gameState == 0) player.update(); //update player 	
+		
+		if(kh.escPressed) {
+			
+			setGameState(1); //1 for paused
+		
+		}
+		
+		if(gameState == 0) player.update(); //update player 
+		if(gameState == 2) ui.updateGameState(); //update player 
+		
 	}
 	   
 	//this is the draw method but we can't rename it because this is a java method
@@ -141,9 +161,6 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	}
 	
-	private void updateGameState(){
-		gameState = (kh.escPressed) ? 1 : 0;
-	}
 	
 	public void updateCurrentLevel(){
 		currentLevel = lm.getCurrentLevel();
@@ -151,6 +168,15 @@ public class GamePanel extends JPanel implements Runnable{
 		om.updateObjectMatrix();
 	}
 	
+	public int getGameState() {
+		return gameState;
+	}
+	
+	public void setGameState(int gameState) {
+		this.gameState = gameState;
+		ui.updateGameState();
+	}
+
 	public int getScreenWidth() {
 		return screenWidth;
 	}
@@ -216,10 +242,7 @@ public class GamePanel extends JPanel implements Runnable{
 		return currentLevel.getObjectMatrix();
 	}
 
-	public int getGameState() {
-		return gameState;
-	}
-
+	
 	public void setCurrentLevelID(int currentLevelID){
 		this.currentLevelID = currentLevelID;
 	}
@@ -235,4 +258,5 @@ public class GamePanel extends JPanel implements Runnable{
 	public LevelManager getLevelManager() {
 		return lm;
 	}
+
 }

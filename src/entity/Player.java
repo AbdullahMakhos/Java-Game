@@ -16,11 +16,13 @@ import javax.imageio.ImageIO;
 
 public class Player extends Entity{
 	private static final int TOTAL_HEALTH = 3;
+	private static final int TOTAL_HUNGER = 3;
 	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
 	private int screenX;//player's position on the screen
 	private int screenY; 
 	private boolean[] health;
+	private boolean[] hunger;
 	private Inventory inventory;
 	
 	private BufferedImage currentImage,idleCharacterImage
@@ -39,6 +41,7 @@ public class Player extends Entity{
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		tileSize = gp.getTileSize();
 		health = new boolean[TOTAL_HEALTH];
+		hunger = new boolean[TOTAL_HUNGER];
 		inventory = new Inventory();
 		
 		setDefaultValues();
@@ -52,6 +55,7 @@ public class Player extends Entity{
 		this.worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
 		this.worldY = gp.getTileSize()*2;
 		Arrays.fill(health, true);
+		Arrays.fill(hunger, true);
 		
 	}
 
@@ -118,6 +122,8 @@ public class Player extends Entity{
 			
 		}
 		
+		
+		
 	} 
 	
 	private void getPlayerImages() {
@@ -171,17 +177,32 @@ public class Player extends Entity{
 	public void takeDamage() {
 		
 		int lastHeartIndex = -1;
+		
 		for(int i=TOTAL_HEALTH - 1 ; i >= 0 ; i--) {
 			if(health[i]) {
 				lastHeartIndex = i;
 				break;
 			}
 		}
+		
 		if(lastHeartIndex != -1) {
 			health[lastHeartIndex] = false;
 		}
+		
 	}
 	
+	public void reduceHunger() {
+		for(int i=hunger.length-1 ; i>=0 ; i--) {
+			if(hunger[i]) {
+				
+				hunger[i] = false;
+				if(i == 0) gp.setGameState(2); //game over
+				break;
+			
+			}
+		}
+	}
+ 
 	public Inventory getInventory() {
 		return inventory;
 	}	
@@ -189,6 +210,10 @@ public class Player extends Entity{
 	
 	public boolean[] getHealth() {
 		return health;
+	}
+	
+	public boolean[] getHunger() {
+		return hunger;
 	}
 	
 	public void updateXY() {

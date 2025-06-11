@@ -1,7 +1,8 @@
-package main;
+package levels;
 
 import java.awt.event.ItemEvent;
 
+import main.GamePanel;
 import objects.Fish;
 
 public class Level {

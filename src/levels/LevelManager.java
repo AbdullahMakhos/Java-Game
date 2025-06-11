@@ -1,5 +1,6 @@
-package main;
+package levels;
 
+import main.GamePanel;
 
 public class LevelManager {
 	private static final int LEVELS_NUMBER = 2;
