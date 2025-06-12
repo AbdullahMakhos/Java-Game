@@ -7,6 +7,8 @@ import objects.GameObject;
 public class Inventory {
 	
 	private HashMap<GameObject,Integer> bag;
+	private int sideInventoryMaxSize = 7;
+	private int fullInventoryMaxSize = 30;
 	
 	public Inventory() {
 		bag = new HashMap<>();
@@ -51,5 +53,21 @@ public class Inventory {
 	    }
 	    
 	    return 0;
+	}
+
+	public int getFullInventoryMaxSize() {
+		return fullInventoryMaxSize;
+	}
+
+	public void setFullInventoryMaxSize(int fullInventoryMaxSize) {
+		this.fullInventoryMaxSize = fullInventoryMaxSize;
+	}
+
+	public int getSideInventoryMaxSize() {
+		return sideInventoryMaxSize;
+	}
+
+	public void setSideInventoryMaxSize(int sideInventoryMaxSize) {
+		this.sideInventoryMaxSize = sideInventoryMaxSize;
 	}
 }

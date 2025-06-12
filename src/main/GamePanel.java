@@ -211,6 +211,14 @@ public class GamePanel extends JPanel implements Runnable{
 		return maxWorldRow;
 	}
 
+	public int getMaxScreenCol() {
+		return maxScreenCol;
+	}
+
+	public int getMaxScreenRow() {
+		return maxScreenRow;
+	}
+
 	public TileManager getTileManager() {
 		return tm;
 	}

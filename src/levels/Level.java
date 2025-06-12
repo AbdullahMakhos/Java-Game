@@ -1,6 +1,5 @@
 package levels;
 
-import java.awt.event.ItemEvent;
 
 import main.GamePanel;
 import objects.Fish;
@@ -29,7 +28,7 @@ public class Level {
 			.getItemCount(gp.getPlayer().getInventory().getItem(fish));
 		}
 		
-		return ItemCount >= 5;
+		return ItemCount >= 26;
 	}
 	
 	public int getInitialX() {

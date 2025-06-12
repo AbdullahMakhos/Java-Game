@@ -26,5 +26,6 @@ class Game {
     window.pack(); // Apply size settings
     window.setLocationRelativeTo(null); // Center the window
     window.setVisible(true); // Make the window visible
+    
   }
 }
