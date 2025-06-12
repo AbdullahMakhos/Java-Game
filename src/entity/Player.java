@@ -24,6 +24,7 @@ public class Player extends Entity{
 	private boolean[] health;
 	private boolean[] hunger;
 	private Inventory inventory;
+	private boolean starving;
 	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
@@ -50,10 +51,12 @@ public class Player extends Entity{
 	
 	private void setDefaultValues() {
 		//player's starting position 
-		this.speed = 5; 
-		this.solidArea = new Rectangle(8 , 16 , 40 , 32);
-		this.worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
-		this.worldY = gp.getTileSize()*2;
+		speed = 5; 
+		solidArea = new Rectangle(8 , 16 , 40 , 32);
+		worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
+		worldY = gp.getTileSize()*2;
+		starving = false;
+		
 		Arrays.fill(health, true);
 		Arrays.fill(hunger, true);
 		
@@ -192,15 +195,40 @@ public class Player extends Entity{
 	}
 	
 	public void reduceHunger() {
-		for(int i=hunger.length-1 ; i>=0 ; i--) {
-			if(hunger[i]) {
-				
-				hunger[i] = false;
-				if(i == 0) gp.setGameState(2); //game over
-				break;
+		
+		if(starving) {
+			for(int i=TOTAL_HEALTH - 1 ; i>=0 ; i--) {
+				if(health[i]) {
+					health[i] = false;
+					if(i == 0) {
+						gp.setGameState(2); //game over
+					}
+					break;
+				}
+			}
 			
+		}else {
+			
+			for(int i=TOTAL_HUNGER - 1 ; i>=0 ; i--) {
+				if(hunger[i]) {
+					hunger[i] = false;
+					
+					if(i == 0) {
+					
+						starving = true;
+					
+					}else {
+					
+						starving = false;
+					
+					}
+					
+					break;
+				}
 			}
 		}
+		
+		
 	}
  
 	public Inventory getInventory() {

@@ -55,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private int currentLevelID;
 	   
 	
-	private int hungerCounter = 0;
+	private long hungerCounter = 0;
 	
 	
 	public GamePanel() {
@@ -117,17 +117,21 @@ public class GamePanel extends JPanel implements Runnable{
 			lastTime = currentTime;
 			
 			if(delta >= 1) {
-				hungerCounter++;
-				if(hungerCounter > 1000) {
-					hungerCounter = 0;
-					player.reduceHunger();
-					ui.updateHungerStatus();
-				}
 				//1.Update : update the game status such as players attributes (health, position...etc)
 				update();
 				//2.Draw : draw the screen with the updated frame information
 				repaint();
 				delta--;
+
+				hungerCounter++;
+				if(hungerCounter > 1500) {
+					
+					hungerCounter = 0;
+					player.reduceHunger();
+					ui.updateHungerStatus();
+					ui.updateHealthStatus();
+					
+				}
 			}
 		}
 	} 

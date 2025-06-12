@@ -15,7 +15,7 @@ public class UIManager {
 	private int gameState;
 	private Inventory inventory;
 	private boolean[] playerHealth;
-	private boolean[] playerhunger;
+	private boolean[] playerHunger;
 	
 	private BufferedImage heartImage;
 	private BufferedImage inventoryImage;
@@ -27,7 +27,7 @@ public class UIManager {
 		kh = gp.getKeyHandler();
 		inventory = gp.getPlayer().getInventory();
 		playerHealth = gp.getPlayer().getHealth();
-		playerhunger = gp.getPlayer().getHunger();
+		playerHunger = gp.getPlayer().getHunger();
 		gameState = gp.getGameState();
 		
 		loadImages();
@@ -95,13 +95,13 @@ public class UIManager {
 		int healthX = 10; int healthY = 0;
 		for(boolean h : playerHealth) {
 			if(h) g2.drawImage(heartImage,healthX,healthY,48,48,null);
-			healthX+=48;
+			healthX+=55;
 		}
 	}
 
 	private void drawHunger(Graphics2D g2) {
 		int hungerX = 10; int hungerY = 50;
-		for(boolean h : playerhunger) {
+		for(boolean h : playerHunger) {
 			if(h) g2.drawImage(hungerImage,hungerX,hungerY,70,70,null);
 			hungerX+=70;
 		}
@@ -122,7 +122,11 @@ public class UIManager {
 	}
 	
 	public void updateHungerStatus() {
-		playerhunger = gp.getPlayer().getHunger();
+		playerHunger = gp.getPlayer().getHunger();
+	}
+
+	public void updateHealthStatus() {
+		playerHealth = gp.getPlayer().getHealth();
 	}
 	
 	
