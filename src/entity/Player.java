@@ -3,6 +3,8 @@ package entity;
 import main.GamePanel;
 import main.Inventory;
 import main.KeyHandler;
+import objects.Fish;
+import objects.GameObject;
 import objects.ObjectCollisionDetector;
 import objects.ObjectManager;
 import tiles.TileCollisionDetector;
@@ -125,10 +127,22 @@ public class Player extends Entity{
 			
 		}
 		
+		if(kh.qPressed) {
+			if(canEat()) {
+				System.out.println("Yummy");
+				GameObject selectedItem = inventory.getItem(new Fish());
+				if(inventory.getItemCount(selectedItem) > 0) {
+					inventory.removeItem(selectedItem);
+					eat();
+					gp.getUIManager().updateHungerStatus();
+				}
+			}
+		}
 		
 		
 	} 
 	
+
 	private void getPlayerImages() {
 		//get images once and storing them to be more efficient
 		try {
@@ -231,6 +245,20 @@ public class Player extends Entity{
 		
 	}
  
+	
+	public boolean canEat() {
+		return !Arrays.equals(hunger,new boolean[] {true,true,true});
+	}
+
+	private void eat() {
+		for(int i=0 ; i<hunger.length ; i++) {
+			if(!hunger[i]) {
+				hunger[i] = true;
+				break;
+			}
+		}
+	}
+	
 	public Inventory getInventory() {
 		return inventory;
 	}	

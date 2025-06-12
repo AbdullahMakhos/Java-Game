@@ -17,11 +17,13 @@ public class Inventory {
 	}
 	
 	public void removeItem(GameObject item) {
-		int count = bag.get(item);
-		if(count == 1) {
-			bag.remove(item);
-		}else {
-			bag.replace(item , count - 1 );
+		if(item != null) {
+			int count = bag.get(item);
+			if(count == 1) {
+				bag.remove(item);
+			}else {
+				bag.replace(item, count, count - 1);
+			}	
 		}
 	}
 	

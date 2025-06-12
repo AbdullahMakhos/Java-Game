@@ -20,6 +20,7 @@ import tiles.TileManager;
 //its a subclass of jPanel so we can override its methods
 //it implements runnable because it contains game loop so we need to create a game thread
 
+@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable{
   
 	//size configurations
@@ -124,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable{
 				delta--;
 
 				hungerCounter++;
-				if(hungerCounter > 1500) {
+				if(hungerCounter > 1500 ) {
 					
 					hungerCounter = 0;
 					player.reduceHunger();

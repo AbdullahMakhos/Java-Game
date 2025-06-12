@@ -15,6 +15,7 @@ public class KeyHandler implements KeyListener{
 	public boolean pPressed = false;
 	public boolean escPressed = false;
 	public boolean nPressed = false;
+	public boolean qPressed = false;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -47,13 +48,17 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_P) {
 			pPressed = true;
 		}
-		
+		//to pause the game
 		if(code == KeyEvent.VK_ESCAPE) {
 			escPressed = !escPressed;
 		}
-		
+		//to go to the next map
 		if(code == KeyEvent.VK_N) {
 			nPressed = true;
+		}
+		//to eat
+		if(code == KeyEvent.VK_Q) {
+			qPressed = true;
 		}
 	}
  
@@ -83,6 +88,10 @@ public class KeyHandler implements KeyListener{
 		
 		if(code == KeyEvent.VK_N) {
 			nPressed = false;
+		}
+		
+		if(code == KeyEvent.VK_Q) {
+			qPressed = false;
 		}
 	}
 
