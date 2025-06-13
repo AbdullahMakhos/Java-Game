@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private int currentLevelID;
 	   
 	
-	private long hungerCounter = 0;
+	private long metabolismCounter = 0;
 	
 	
 	public GamePanel() {
@@ -124,11 +124,16 @@ public class GamePanel extends JPanel implements Runnable{
 				repaint();
 				delta--;
 
-				hungerCounter++;
-				if(hungerCounter > 1500 ) {
+				metabolismCounter++;
+				if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
 					
-					hungerCounter = 0;
-					player.reduceHunger();
+					if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
+						resetMetabolismCounter();
+						player.reduceHunger();
+					}
+					
+					if(!player.canEat() && player.canHeal()) player.heal();					
+					
 					ui.updateHungerStatus();
 					ui.updateHealthStatus();
 					
@@ -171,6 +176,10 @@ public class GamePanel extends JPanel implements Runnable{
 		currentLevel = lm.getCurrentLevel();
 		tm.updateTileMatrix();
 		om.updateObjectMatrix();
+	}
+	
+	public void resetMetabolismCounter() {
+		metabolismCounter = 0;
 	}
 	
 	public int getGameState() {

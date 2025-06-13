@@ -123,9 +123,11 @@ public class UIManager {
 		
 		startingX += invWidth/4 + 5;			
 		startingY += tileSize/2;
-				
+		
+		int slotSize = (tileSize - (tileSize/4));
 		for(GameObject item : inventory.getBag().keySet()) {
-			g2.drawImage(item.getImage() , startingX , startingY, tileSize, tileSize, null);
+			g2.drawImage(item.getImage() , startingX + slotSize/6 , startingY + slotSize/6,
+			slotSize, slotSize, null);
  
 			g2.drawString("x"+String.valueOf(inventory.getItemCount(item))
 			, startingX+tileSize/2 , startingY+tileSize);

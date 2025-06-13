@@ -129,7 +129,6 @@ public class Player extends Entity{
 		
 		if(kh.qPressed) {
 			if(canEat()) {
-				System.out.println("Yummy");
 				GameObject selectedItem = inventory.getItem(new Fish());
 				if(inventory.getItemCount(selectedItem) > 0) {
 					inventory.removeItem(selectedItem);
@@ -251,14 +250,33 @@ public class Player extends Entity{
 	}
 
 	private void eat() {
+		starving = false;
+
 		for(int i=0 ; i<hunger.length ; i++) {
 			if(!hunger[i]) {
 				hunger[i] = true;
 				break;
 			}
 		}
+		
 	}
 	
+	public void heal() {
+		for(int i=0 ; i < TOTAL_HEALTH ; i++) {
+			if(!health[i]) {
+				health[i] = true;
+				break;
+			}
+		}
+	}
+
+	public boolean isStarving() {
+		return starving;
+	}
+
+	public boolean canHeal() {
+		return !Arrays.equals(health,new boolean[] {true,true,true});
+	} 
 	public Inventory getInventory() {
 		return inventory;
 	}	
@@ -307,6 +325,6 @@ public class Player extends Entity{
 	
 	public int getSolidAreaHeight() {
 		return solidArea.height;
-	} 
+	}
 	
 }
