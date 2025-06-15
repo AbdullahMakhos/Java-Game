@@ -100,10 +100,10 @@ public class UIManager {
 			g2.drawImage(item.getImage(),startingX , startingY ,tileSize, tileSize,null);
 			
 			g2.drawString("x"+String.valueOf(inventory.getItemCount(item))
-			, startingX + tileSize/3 , startingY+tileSize);
+			, startingX + tileSize/2 , startingY+tileSize);
 			
 			colCount++;
-			startingX+=48;
+			startingX += ( (tileSize) + (tileSize/2));
 			if(colCount > 10) {
 				colCount = 0;
 				startingX = (gp.getScreenWidth()/2) - (invWidth/2) ;

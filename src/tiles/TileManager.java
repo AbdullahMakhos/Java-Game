@@ -53,8 +53,8 @@ public class TileManager {
             
             
             tileTypes[3] = new Tile();
-            tileTypes[3].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/thing.png")));
-            tileTypes[3].setCrossable(false); // thing tile is not crossable
+            tileTypes[3].setImage(ImageIO.read(getClass().getResourceAsStream("/tiles/resources/snowKitty.png")));
+            tileTypes[3].setCrossable(false); // snowKitty tile is not crossable
             tileTypes[3].setTileSize(originalTileSize);
             
             tileTypes[4] = new Tile();

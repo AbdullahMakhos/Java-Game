@@ -10,7 +10,7 @@ import entity.Player;
 import main.GamePanel;
 
 public class ObjectManager {
-	   private static final int OBJECT_TYPE_COUNT = 3; // Number of tile types
+	   private static final int OBJECT_TYPE_COUNT = 4; // Number of tile types
 	    private int[][] objectMatrix; // The map to manage
 	    private GameObject[] objectTypes; // Tiles types to read the mapMatrix
 	    private GamePanel gp; // To draw the mapMatrix
@@ -54,6 +54,15 @@ public class ObjectManager {
 	            objectTypes[2].setCrossable(true); 
 	            objectTypes[2].setPickable(true);
 	            objectTypes[2].setObjectSize(objectSize);
+	            
+	            objectTypes[3] = new GameObject();
+	            objectTypes[3].setImage(ImageIO.read(getClass().
+	            getResourceAsStream("/objects/resources/snowPearl.png")));
+	    	    objectTypes[3].setCrossable(true); 
+	            objectTypes[3].setPickable(true);
+	            objectTypes[3].setObjectSize(objectSize);
+	            
+	            
 	            
 	        } catch (IOException e) {
 	            System.err.println("Error loading object resources:");
