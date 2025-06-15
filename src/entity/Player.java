@@ -132,11 +132,6 @@ public class Player extends Entity{
 		
 		
 	} 
-	
-
-	public Status getStatus() {
-		return status;
-	}
 
 	private void getPlayerImages() {
 		//get images once and storing them to be more efficient
@@ -192,17 +187,22 @@ public class Player extends Entity{
 	
 	}	
 	
+	public Status getStatus() {
+		return status;
+	}
+
 	public void updateXY() {
 		worldX = gp.getLevelManager().getCurrentLevel().getInitialX();
 		worldY = gp.getLevelManager().getCurrentLevel().getInitialY();
 	}
 	
-	public int getPlayerCol() {
-		return worldX/tileSize;
+
+	private int getPlayerCol() {
+		return (worldX + getSolidAreaWidth()/2 )/tileSize;
 	}
 	
 	public int getPlayerRow() {
-		return worldY/tileSize;
+		return (worldY + getSolidAreaHeight()/2)/tileSize;
 	}
 	
 	public int getScreenX() {
