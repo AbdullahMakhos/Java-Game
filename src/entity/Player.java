@@ -1,7 +1,6 @@
 package entity;
 
 import main.GamePanel;
-import main.Inventory;
 import main.KeyHandler;
 import objects.Fish;
 import objects.GameObject;
@@ -16,17 +15,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
 
+import entity.playerThings.Inventory;
+import entity.playerThings.Status;
+
 public class Player extends Entity{
-	private static final int TOTAL_HEALTH = 3;
-	private static final int TOTAL_HUNGER = 3;
 	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
 	private int screenX;//player's position on the screen
 	private int screenY; 
-	private boolean[] health;
-	private boolean[] hunger;
 	private Inventory inventory;
-	private boolean starving;
+	private Status status;
 	
 	private BufferedImage currentImage,idleCharacterImage
 	,upCharacterImage1,upCharacterImage2,leftCharacterImage1
@@ -43,9 +41,8 @@ public class Player extends Entity{
 		screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		tileSize = gp.getTileSize();
-		health = new boolean[TOTAL_HEALTH];
-		hunger = new boolean[TOTAL_HUNGER];
 		inventory = new Inventory();
+		status = new Status(gp);
 		
 		setDefaultValues();
 		getPlayerImages();
@@ -57,11 +54,6 @@ public class Player extends Entity{
 		solidArea = new Rectangle(8 , 16 , 40 , 32);
 		worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
 		worldY = gp.getTileSize()*2;
-		starving = false;
-		
-		Arrays.fill(health, true);
-		Arrays.fill(hunger, true);
-		
 	}
 
 	//update player method here to keep GamePanel organized 
@@ -128,12 +120,12 @@ public class Player extends Entity{
 		}
 		
 		if(kh.qPressed) {
-			if(canEat()) {
+			if(status.canEat()) {
 				GameObject selectedItem = inventory.getItem(new Fish());
 				if(inventory.getItemCount(selectedItem) > 0) {
 					inventory.removeItem(selectedItem);
-					eat();
-					gp.getUIManager().updateHungerStatus();
+					status.eat();
+					gp.getUIManager().updateStatus();
 				}
 			}
 		}
@@ -141,6 +133,10 @@ public class Player extends Entity{
 		
 	} 
 	
+
+	public Status getStatus() {
+		return status;
+	}
 
 	private void getPlayerImages() {
 		//get images once and storing them to be more efficient
@@ -190,105 +186,11 @@ public class Player extends Entity{
 		return cd.canMove(direction) && od.canMove(direction);
 	}
 	
-	public void takeDamage() {
-		
-		int lastHeartIndex = -1;
-		
-		for(int i=TOTAL_HEALTH - 1 ; i >= 0 ; i--) {
-			if(health[i]) {
-				lastHeartIndex = i;
-				break;
-			}
-		}
-		
-		if(lastHeartIndex != -1) {
-			health[lastHeartIndex] = false;
-		}
-		
-	}
-	
-	public void reduceHunger() {
-		
-		if(starving) {
-			for(int i=TOTAL_HEALTH - 1 ; i>=0 ; i--) {
-				if(health[i]) {
-					health[i] = false;
-					if(i == 0) {
-						gp.setGameState(2); //game over
-					}
-					break;
-				}
-			}
-			
-		}else {
-			
-			for(int i=TOTAL_HUNGER - 1 ; i>=0 ; i--) {
-				if(hunger[i]) {
-					hunger[i] = false;
-					
-					if(i == 0) {
-					
-						starving = true;
-					
-					}else {
-					
-						starving = false;
-					
-					}
-					
-					break;
-				}
-			}
-		}
-		
-		
-	}
- 
-	
-	public boolean canEat() {
-		return !Arrays.equals(hunger,new boolean[] {true,true,true});
-	}
-
-	private void eat() {
-		starving = false;
-
-		for(int i=0 ; i<hunger.length ; i++) {
-			if(!hunger[i]) {
-				hunger[i] = true;
-				break;
-			}
-		}
-		
-	}
-	
-	public void heal() {
-		for(int i=0 ; i < TOTAL_HEALTH ; i++) {
-			if(!health[i]) {
-				health[i] = true;
-				break;
-			}
-		}
-	}
-
-	public boolean isStarving() {
-		return starving;
-	}
-
-	public boolean canHeal() {
-		return !Arrays.equals(health,new boolean[] {true,true,true});
-	} 
 	public Inventory getInventory() {
+	
 		return inventory;
+	
 	}	
-	
-	
-	public boolean[] getHealth() {
-		return health;
-	}
-	
-	public boolean[] getHunger() {
-		return hunger;
-	}
 	
 	public void updateXY() {
 		worldX = gp.getLevelManager().getCurrentLevel().getInitialX();

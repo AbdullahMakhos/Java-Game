@@ -10,14 +10,16 @@ import java.io.IOException;
 import objects.GameObject;
 import javax.imageio.ImageIO;
 
+import entity.playerThings.Inventory;
+import entity.playerThings.Status;
+
 public class UIManager {
 	private GamePanel gp;
 	private KeyHandler kh;
 	private int gameState;
 	private Inventory inventory;
-	private boolean[] playerHealth;
-	private boolean[] playerHunger;
-	private int tileSize;
+	private Status playerStatus;
+	int tileSize;
 	
 	private BufferedImage heartImage;
 	private BufferedImage menuImage;
@@ -29,8 +31,7 @@ public class UIManager {
 		this.gp = gp;
 		kh = gp.getKeyHandler();
 		inventory = gp.getPlayer().getInventory();
-		playerHealth = gp.getPlayer().getHealth();
-		playerHunger = gp.getPlayer().getHunger();
+		playerStatus = gp.getPlayer().getStatus(); 
 		gameState = gp.getGameState();
 		tileSize = gp.getTileSize(); //used for general object size too
 		loadImages();
@@ -139,7 +140,7 @@ public class UIManager {
 	
 	private void drawHealth(Graphics2D g2) {
 		int healthX = 10; int healthY = 0;
-		for(boolean h : playerHealth) {
+		for(boolean h : playerStatus.getHealth()) {
 			if(h) g2.drawImage(heartImage,healthX,healthY,48,48,null);
 			healthX+=55;
 		}
@@ -147,7 +148,7 @@ public class UIManager {
 
 	private void drawHunger(Graphics2D g2) {
 		int hungerX = 10; int hungerY = 50;
-		for(boolean h : playerHunger) {
+		for(boolean h : playerStatus.getHunger()) {
 			if(h) g2.drawImage(hungerImage,hungerX,hungerY,70,70,null);
 			hungerX+=70;
 		}
@@ -166,15 +167,10 @@ public class UIManager {
 	public void updateGameState() {
 		gameState = gp.getGameState();
 	}
-	
-	public void updateHungerStatus() {
-		playerHunger = gp.getPlayer().getHunger();
-	}
 
-	public void updateHealthStatus() {
-		playerHealth = gp.getPlayer().getHealth();
+	public void updateStatus() {
+		playerStatus = gp.getPlayer().getStatus();
 	}
-	
 	
 	
 }

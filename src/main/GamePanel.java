@@ -129,14 +129,15 @@ public class GamePanel extends JPanel implements Runnable{
 					
 					if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
 						resetMetabolismCounter();
-						player.reduceHunger();
+						player.getStatus().reduceHunger();
 					}
 					
-					if(!player.canEat() && player.canHeal()) player.heal();					
+					if(!player.getStatus().canEat() 
+					&& player.getStatus().canHeal()) {
+						player.getStatus().heal();					
+					}
 					
-					ui.updateHungerStatus();
-					ui.updateHealthStatus();
-					
+					ui.updateStatus();
 				}
 			}
 		}
