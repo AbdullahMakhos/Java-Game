@@ -2,22 +2,25 @@ package objects;
 
 import java.awt.image.BufferedImage;
 
-import tiles.Tile;
+import main.GamePanel;
 
 //objects like box fire...etc not monsters , monsters will be entities 
 
 public class GameObject {
+	protected GamePanel gp;
 	protected BufferedImage image; //image holder
 	private boolean crossable; //is there a collision
 	private boolean pickable; 
 	private int objectSize;
 	 
-	public GameObject() {
+	public GameObject(GamePanel gp) {
+		this.gp = gp;
 		setCrossable(true);
 	}
 	
 	public void behavior() {	
 		// each object will override this method 
+		System.out.println("NO BEHAVOIR");
 	}
 	
 	public int getObjectSize() {
@@ -52,4 +55,10 @@ public class GameObject {
 		this.pickable = pickable;
 	}
 
+	
+	public boolean equals(GameObject o) {
+		
+		return this.getClass().equals(o.getClass());
+		
+	}
 }

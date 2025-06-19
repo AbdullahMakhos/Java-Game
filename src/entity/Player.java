@@ -2,7 +2,6 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import objects.Fish;
 import objects.GameObject;
 import objects.ObjectCollisionDetector;
 import objects.ObjectManager;
@@ -12,10 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import entity.playerThings.Inventory;
+import entity.playerThings.Item;
 import entity.playerThings.Status;
 
 public class Player extends Entity{
@@ -119,14 +118,17 @@ public class Player extends Entity{
 			
 		}
 		
-		if(kh.qPressed) {
-			if(status.canEat()) {
-				GameObject selectedItem = inventory.getItem(new Fish());
-				if(inventory.getItemCount(selectedItem) > 0) {
-					inventory.removeItem(selectedItem);
-					status.eat();
-					gp.getUIManager().updateStatus();
-				}
+		if(kh.spacePressed) {
+			Item selectedItem = inventory.getSelectedItem();
+			GameObject selectedItemGameObject = null;
+			
+			if(selectedItem != null) {
+			
+				selectedItemGameObject = selectedItem.getItem();
+			
+			}
+			if (selectedItemGameObject != null) {
+				selectedItemGameObject.behavior();
 			}
 		}
 		

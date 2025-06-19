@@ -2,7 +2,6 @@ package objects;
 
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.rmi.server.UID;
 
 import javax.imageio.ImageIO;
 
@@ -35,7 +34,7 @@ public class ObjectManager {
 	    	
 	    	try {
 
-	            objectTypes[0] = new GameObject();
+	            objectTypes[0] = new GameObject(gp);
 	            objectTypes[0].setCrossable(true); 
 	            objectTypes[0].setPickable(false);
 	            
@@ -48,14 +47,14 @@ public class ObjectManager {
 	            objectTypes[1].setPickable(false);
 	            objectTypes[1].setObjectSize(objectSize);
 	            
-	            objectTypes[2] = new Fish();
+	            objectTypes[2] = new Fish(gp);
 	            objectTypes[2].setImage(ImageIO.read(getClass().
 	    	    getResourceAsStream("/objects/resources/fish.png")));
 	            objectTypes[2].setCrossable(true); 
 	            objectTypes[2].setPickable(true);
 	            objectTypes[2].setObjectSize(objectSize);
 	            
-	            objectTypes[3] = new GameObject();
+	            objectTypes[3] = new GameObject(gp);
 	            objectTypes[3].setImage(ImageIO.read(getClass().
 	            getResourceAsStream("/objects/resources/snowPearl.png")));
 	    	    objectTypes[3].setCrossable(true); 

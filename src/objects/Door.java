@@ -6,14 +6,13 @@ import main.GamePanel;
 import main.KeyHandler;
 
 public class Door extends GameObject{
-	GamePanel gp;
-	KeyHandler kh;
-	int currentImageID = 1;
-	BufferedImage image2;
+	private GamePanel gp;
+	private KeyHandler kh;
+	private int currentImageID = 1;
+	private BufferedImage image2;
 
 	public Door(GamePanel gp) {
-		super();
-		this.gp = gp;
+		super(gp);
 		this.kh = gp.getKeyHandler();
 	}
 

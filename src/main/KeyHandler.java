@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 //to get user input
 public class KeyHandler implements KeyListener{
-	
+	private GamePanel gp;
 	public boolean upPressed = false;
 	public boolean downPressed = false;
 	public boolean rightPressed = false;
@@ -15,7 +15,11 @@ public class KeyHandler implements KeyListener{
 	public boolean pPressed = false;
 	public boolean escPressed = false;
 	public boolean nPressed = false;
-	public boolean qPressed = false;
+	public boolean spacePressed = false;
+	
+	public KeyHandler(GamePanel gp){
+		this.gp = gp;
+	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -57,9 +61,50 @@ public class KeyHandler implements KeyListener{
 			nPressed = true;
 		}
 		//to eat
-		if(code == KeyEvent.VK_Q) {
-			qPressed = true;
+		if(code == KeyEvent.VK_SPACE) {
+			spacePressed = true;
 		}
+		
+		if(code == KeyEvent.VK_0) {
+			gp.getPlayer().getInventory().setSelectedItemId(-1);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_1) {
+			gp.getPlayer().getInventory().setSelectedItemId(0);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_2) {
+			gp.getPlayer().getInventory().setSelectedItemId(1);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_3) {
+			gp.getPlayer().getInventory().setSelectedItemId(2);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_4) {
+			gp.getPlayer().getInventory().setSelectedItemId(3);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_5) {
+			gp.getPlayer().getInventory().setSelectedItemId(4);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_6) {
+			gp.getPlayer().getInventory().setSelectedItemId(5);
+			gp.getUIManager().updateSelectedItemId();
+		}
+		
+		if(code == KeyEvent.VK_7) {
+			gp.getPlayer().getInventory().setSelectedItemId(6);
+			gp.getUIManager().updateSelectedItemId();
+		}
+
 	}
  
 	@Override 
@@ -90,8 +135,8 @@ public class KeyHandler implements KeyListener{
 			nPressed = false;
 		}
 		
-		if(code == KeyEvent.VK_Q) {
-			qPressed = false;
+		if(code == KeyEvent.VK_SPACE) {
+			spacePressed = false;
 		}
 	}
 

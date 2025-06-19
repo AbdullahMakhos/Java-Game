@@ -63,7 +63,7 @@ public class GamePanel extends JPanel implements Runnable{
 		gameState = 0;
 		currentLevelID=0;
 		
-		kh= new KeyHandler(); // to create key handler
+		kh= new KeyHandler(this); // to create key handler
 		lm = new LevelManager(this);
 		
 		currentLevel = lm.getCurrentLevel();

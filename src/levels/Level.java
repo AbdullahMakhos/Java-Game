@@ -20,7 +20,7 @@ public class Level {
 	
 	//can i pass to the next level
 	public boolean canPass() {
-		Fish fish = new Fish();
+		Fish fish = new Fish(gp);
 		int ItemCount = 0;
 		
 		if(gp.getPlayer().getInventory().getItem(fish) != null) {

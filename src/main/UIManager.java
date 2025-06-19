@@ -3,14 +3,14 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
-import objects.GameObject;
 import javax.imageio.ImageIO;
 
 import entity.playerThings.Inventory;
+import entity.playerThings.Item;
 import entity.playerThings.Status;
 
 public class UIManager {
@@ -19,13 +19,16 @@ public class UIManager {
 	private int gameState;
 	private Inventory inventory;
 	private Status playerStatus;
-	int tileSize;
-	
+
 	private BufferedImage heartImage;
 	private BufferedImage menuImage;
 	private BufferedImage hungerImage;
 	private BufferedImage fullInventoryImage;
 	private BufferedImage sideInventoryImage;
+	private BufferedImage selectedItemImage;
+	
+	private int tileSize;
+	private int selectedItemId;
 	
 	public UIManager(GamePanel gp) {
 		this.gp = gp;
@@ -34,6 +37,8 @@ public class UIManager {
 		playerStatus = gp.getPlayer().getStatus(); 
 		gameState = gp.getGameState();
 		tileSize = gp.getTileSize(); //used for general object size too
+		selectedItemId = inventory.getSelectedItemId();
+		
 		loadImages();
 	}
 	
@@ -45,6 +50,7 @@ public class UIManager {
 			menuImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/menu.png"));
 			fullInventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/fullInventory.png"));
 			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/sideInventory.png"));
+			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/selected.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,24 +88,24 @@ public class UIManager {
 	
 	private void drawFullInventory(Graphics2D g2) {
 		int invWidth = gp.getScreenWidth()/2;
-		int invHeigth = gp.getScreenHeight()/2;
+		int invHeight = gp.getScreenHeight()/2;
 		
 		int startingX = (gp.getScreenWidth()/2) - (invWidth/2) ;
-		int startingY = (gp.getScreenHeight()/2) - (invHeigth/2);
+		int startingY = (gp.getScreenHeight()/2) - (invHeight/2);
 		
 		g2.drawImage(fullInventoryImage, startingX , 
-		startingY , invWidth , invHeigth , null);
+		startingY , invWidth , invHeight , null);
 		
 		int colCount = 0;
 		
 		startingX+=tileSize/2;
 		startingY+=tileSize/2;
 		
-		for(GameObject item : inventory.getBag().keySet()) {
+		for(Item item : inventory.getBag()) {
 			
-			g2.drawImage(item.getImage(),startingX , startingY ,tileSize, tileSize,null);
+			g2.drawImage(item.getItem().getImage(),startingX , startingY ,tileSize, tileSize,null);
 			
-			g2.drawString("x"+String.valueOf(inventory.getItemCount(item))
+			g2.drawString("x"+String.valueOf(item.getCount())
 			, startingX + tileSize/2 , startingY+tileSize);
 			
 			colCount++;
@@ -110,30 +116,41 @@ public class UIManager {
 				startingY += tileSize;
 			}
 		}
+		
+		
 	
 	}
 
 	private void drawSideInventory(Graphics2D g2) {
-		int invWidth = tileSize*2 + tileSize/3;
-		int invHeigth = inventory.getSideInventoryMaxSize()*(tileSize + tileSize/3);
 		
-		int startingX = 0;
-		int startingY = gp.getScreenHeight() - (invHeigth);
+		int invWidth = tileSize + tileSize/3;
+		int invHeight = invWidth*inventory.getSideInventoryMaxSize();
 		
-		g2.drawImage(sideInventoryImage, startingX,startingY,invWidth,invHeigth,null);
+		int startingX = tileSize/2;
+		int startingY = gp.getScreenHeight() - invHeight - tileSize/2;
 		
-		startingX += invWidth/4 + 5;			
-		startingY += tileSize/2;
+		g2.drawImage(sideInventoryImage, startingX,startingY,invWidth,invHeight,null);
 		
-		int slotSize = (tileSize - (tileSize/4));
-		for(GameObject item : inventory.getBag().keySet()) {
-			g2.drawImage(item.getImage() , startingX + slotSize/6 , startingY + slotSize/6,
-			slotSize, slotSize, null);
- 
-			g2.drawString("x"+String.valueOf(inventory.getItemCount(item))
-			, startingX+tileSize/2 , startingY+tileSize);
-			
-			startingY += invHeigth/inventory.getSideInventoryMaxSize();
+		
+		if(selectedItemId != -1 ) {
+			g2.drawImage(selectedItemImage,startingX
+			,startingY + invWidth*selectedItemId , invWidth , invWidth , null);
+					
+		}
+		
+		
+		ArrayList<Item> bag = inventory.getBag();
+		
+		for(int i=0 ; i<bag.size() ; i++) {
+		   
+		    g2.drawImage(bag.get(i).getItem().getImage(), startingX + invWidth / 7, startingY + invWidth / 7,
+		            (invWidth * 3) / 4, (invWidth * 3) / 4, null);
+		    
+		    g2.drawString("x" + String.valueOf(bag.get(i).getCount()),
+		            startingX + (invWidth * 3) / 4, startingY + (invWidth * 3) / 4);
+		    
+		    startingY += invHeight / inventory.getSideInventoryMaxSize();
+		
 		}
 	
 	}
@@ -170,6 +187,10 @@ public class UIManager {
 
 	public void updateStatus() {
 		playerStatus = gp.getPlayer().getStatus();
+	}
+	
+	public void updateSelectedItemId() {
+		selectedItemId = inventory.getSelectedItemId();
 	}
 	
 	
