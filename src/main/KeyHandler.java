@@ -137,6 +137,7 @@ public class KeyHandler implements KeyListener{
 		
 		if(code == KeyEvent.VK_SPACE) {
 			spacePressed = false;
+			gp.getPlayer().resetCounter();
 		}
 	}
 

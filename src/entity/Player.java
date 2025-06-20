@@ -32,6 +32,9 @@ public class Player extends Entity{
 	  
 	private int tileSize; 
 
+	
+	private int counter = 0;
+	
 	public Player(GamePanel gp) {
 		super();
 		
@@ -101,14 +104,14 @@ public class Player extends Entity{
 		//player action
 		if(kh.pPressed) {
 			ObjectManager ob = gp.getObjectManager();
-			int playerRow = getPlayerRow();
-			int playerCol = getPlayerCol();
-			
-			if(ob.getObject(playerRow, playerCol).isPickable()) {
+				int playerRow = getPlayerRow();
+				int playerCol = getPlayerCol();
 				
-				inventory.addItem(ob.getObject(playerRow, playerCol));
-				ob.deleteObject(playerRow, playerCol);
-			}
+				if(ob.getObject(playerRow, playerCol).isPickable()) {
+					
+					inventory.addItem(ob.getObject(playerRow, playerCol));
+					ob.deleteObject(playerRow, playerCol);
+				}
 		}
 		
 		if(kh.nPressed) {
@@ -118,22 +121,30 @@ public class Player extends Entity{
 			
 		}
 		
+		
+		
 		if(kh.spacePressed) {
-			Item selectedItem = inventory.getSelectedItem();
-			GameObject selectedItemGameObject = null;
+			counter++;
 			
-			if(selectedItem != null) {
-			
-				selectedItemGameObject = selectedItem.getItem();
-			
+			if(counter > 5) {
+				resetCounter();
+				Item selectedItem = inventory.getSelectedItem();
+				GameObject selectedItemGameObject = null;
+				
+				if(selectedItem != null) {
+				
+					selectedItemGameObject = selectedItem.getItem();
+				
+				}
+				if (selectedItemGameObject != null) {
+					selectedItemGameObject.behavior();
+				}
 			}
-			if (selectedItemGameObject != null) {
-				selectedItemGameObject.behavior();
-			}
+		
 		}
 		
 		
-	} 
+	}
 
 	private void getPlayerImages() {
 		//get images once and storing them to be more efficient
@@ -198,7 +209,10 @@ public class Player extends Entity{
 		worldY = gp.getLevelManager().getCurrentLevel().getInitialY();
 	}
 	
-
+	public void resetCounter() {
+		counter = 0;
+	}
+	
 	private int getPlayerCol() {
 		return (worldX + getSolidAreaWidth()/2 )/tileSize;
 	}
