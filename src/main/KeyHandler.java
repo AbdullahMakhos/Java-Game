@@ -10,11 +10,8 @@ public class KeyHandler implements KeyListener{
 	public boolean downPressed = false;
 	public boolean rightPressed = false;
 	public boolean leftPressed = false;
-	public boolean oPressed = false;
-	public boolean ePressed = false;
 	public boolean pPressed = false;
 	public boolean escPressed = false;
-	public boolean nPressed = false;
 	public boolean spacePressed = false;
 	
 	public KeyHandler(GamePanel gp){
@@ -40,14 +37,6 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_A) {
 			leftPressed = true;
 		}
-		// to open doors
-		if(code == KeyEvent.VK_O) {
-			oPressed = !oPressed;
-		}
-		//to open inventory
-		if(code == KeyEvent.VK_E) {
-			ePressed = !ePressed;
-		}
 		//to pick some object 
 		if(code == KeyEvent.VK_P) {
 			pPressed = true;
@@ -55,10 +44,6 @@ public class KeyHandler implements KeyListener{
 		//to pause the game
 		if(code == KeyEvent.VK_ESCAPE) {
 			escPressed = !escPressed;
-		}
-		//to go to the next map
-		if(code == KeyEvent.VK_N) {
-			nPressed = true;
 		}
 		//to eat
 		if(code == KeyEvent.VK_SPACE) {
@@ -129,10 +114,6 @@ public class KeyHandler implements KeyListener{
 		
 		if(code == KeyEvent.VK_P) {
 			pPressed  = false;
-		}
-		
-		if(code == KeyEvent.VK_N) {
-			nPressed = false;
 		}
 		
 		if(code == KeyEvent.VK_SPACE) {

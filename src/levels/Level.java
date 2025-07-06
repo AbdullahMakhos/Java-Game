@@ -8,7 +8,7 @@ public class Level {
 	private GamePanel gp;
 	private int[][] tileMatrix;
 	private int[][] objectMatrix;
-	int initialX,initialY;
+	private int initialX,initialY;
 	
 	public Level(GamePanel gp,int[][] tileMatrix,int[][] objectMatrix) {
 		this.gp = gp;
@@ -37,6 +37,10 @@ public class Level {
 
 	public int getInitialY() {
 		return initialY;
+	}
+	
+	public void increaseInitialY() {
+		initialY += gp.getTileSize()*2;
 	}
 	
 	public int[][] getTileMatrix() {

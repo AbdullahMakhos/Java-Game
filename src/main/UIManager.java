@@ -23,7 +23,6 @@ public class UIManager {
 	private BufferedImage heartImage;
 	private BufferedImage menuImage;
 	private BufferedImage hungerImage;
-	private BufferedImage fullInventoryImage;
 	private BufferedImage sideInventoryImage;
 	private BufferedImage selectedItemImage;
 	
@@ -48,7 +47,6 @@ public class UIManager {
 			heartImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/heart.png"));
 			hungerImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/hunger.png"));
 			menuImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/menu.png"));
-			fullInventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/fullInventory2.png"));
 			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/sideInventory.png"));
 			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/main/resources/selected.png"));
 			
@@ -62,15 +60,7 @@ public class UIManager {
 		drawHealth(g2);
 		drawHunger(g2);
 		
-		if(kh.ePressed) {
-			
-			drawFullInventory(g2);
-		
-		}else {
-			
-			drawSideInventory(g2);
-		
-		}
+		drawSideInventory(g2);
 		
 		if(gameState == 1) {
 		
@@ -86,52 +76,7 @@ public class UIManager {
 		
 	}
 	
-	private void drawFullInventory(Graphics2D g2) {
-		int slotSize = tileSize + tileSize/3;
-		int invWidth = gp.getScreenWidth()/2;
-		int invHeight = gp.getScreenHeight()/2;
-		
-		int startingX = (gp.getScreenWidth()/2) - (invWidth/2);
-		int startingY = (gp.getScreenHeight()/2) - (invHeight/2);
-		
-		g2.drawImage(fullInventoryImage, startingX , 
-		startingY , invWidth , invHeight , null);
-		
-		int colCount = 0;
-		
-
-		if(selectedItemId != -1 ) {
-			g2.drawImage(selectedItemImage ,startingX 
-			, startingY ,slotSize ,slotSize,null);					
-		}
-		
-		
-		ArrayList<Item> bag = inventory.getBag();
-		
-		for(int i=0 ; i<bag.size() ; i++) {
-			colCount++;
-			
-		    g2.drawImage(bag.get(i).getItem().getImage() 
-		    ,startingX + slotSize / 7, startingY + slotSize / 20
-		    , (slotSize * 3) / 4, (slotSize * 3) / 4 ,null);
-		    
-		    g2.drawString("x" + String.valueOf(bag.get(i).getCount())
-		    ,startingX + (slotSize * 3) / 4, startingY + (slotSize * 3) / 5);
-		    
-		    startingX+=slotSize;
-		    
-		    if(colCount>6) {
-		    	colCount=0;
-		    	startingX = (gp.getScreenWidth()/2) - (invWidth/2);
-		    	startingY += slotSize ;
-		    }
-		    
-		}
-		
-		
 	
-	}
-
 	private void drawSideInventory(Graphics2D g2) {
 		
 		int invWidth = tileSize + tileSize/3;

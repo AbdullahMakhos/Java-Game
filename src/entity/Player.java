@@ -114,14 +114,6 @@ public class Player extends Entity{
 				}
 		}
 		
-		if(kh.nPressed) {
-			if (gp.getCurrentLevel().canPass()) {
-				gp.getLevelManager().goToNextLevel();
-			}
-			
-		}
-		
-		
 		
 		if(kh.spacePressed) {
 			counter++;

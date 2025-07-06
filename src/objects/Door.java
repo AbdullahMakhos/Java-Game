@@ -2,39 +2,38 @@ package objects;
 
 import java.awt.image.BufferedImage;
 
+import levels.LevelManager;
 import main.GamePanel;
 import main.KeyHandler;
 
 public class Door extends GameObject{
 	private GamePanel gp;
 	private KeyHandler kh;
-	private int currentImageID = 1;
-	private BufferedImage image2;
-
+	private LevelManager lm;
+	private int counter = 0; 
+	
 	public Door(GamePanel gp) {
 		super(gp);
-		this.kh = gp.getKeyHandler();
+		kh = gp.getKeyHandler();
+		lm=gp.getLevelManager();
 	}
 
 	@Override
 	public void behavior() {
-		if(kh.oPressed) {
-			//open
-			setCrossable(true);
-			currentImageID = -1;
-		}else {
-			//closed
-			setCrossable(false);
-			currentImageID = 1;
+		if(kh.spacePressed) {
+			counter++;
+			if(counter > 9) {
+				resetCounter();
+				lm.doorMovement();				
+			}
 		}
 	}
-	
-    public void setImage2(BufferedImage image) {
-    	this.image2 = image;
-    }
     
     public BufferedImage getImage() {
-    	return (currentImageID == 1) ? image : image2;
+    	return image;
     }
-
+    
+    private void resetCounter() {
+    	counter = 0;
+    }
 }

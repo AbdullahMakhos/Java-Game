@@ -10,7 +10,6 @@ public class Inventory {
     private ArrayList<Item> bag;
     private int sideInventoryMaxSize = 7;
     private int sideInventoryLastUsedIndex = -1; //by id
-    private int fullInventoryMaxSize = 30;
     private int selectedItemId = -1;
 
     public Inventory() {
@@ -68,15 +67,6 @@ public class Inventory {
         }
         return 0;
     }
-
-
-	public int getFullInventoryMaxSize() {
-		return fullInventoryMaxSize;
-	}
-
-	public void setFullInventoryMaxSize(int fullInventoryMaxSize) {
-		this.fullInventoryMaxSize = fullInventoryMaxSize;
-	}
 
 	public int getSideInventoryMaxSize() {
 		return sideInventoryMaxSize;

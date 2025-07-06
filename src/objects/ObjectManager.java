@@ -41,8 +41,6 @@ public class ObjectManager {
 	            objectTypes[1] = new Door(gp);
 	            objectTypes[1].setImage(ImageIO.read(getClass().
 	            getResourceAsStream("/objects/resources/closedDoor.png")));
-	            ((Door) objectTypes[1]).setImage2(ImageIO.read(getClass().
-	            getResourceAsStream("/objects/resources/openDoor.png")));
 	            objectTypes[1].setCrossable(false); 
 	            objectTypes[1].setPickable(false);
 	            objectTypes[1].setObjectSize(objectSize);
