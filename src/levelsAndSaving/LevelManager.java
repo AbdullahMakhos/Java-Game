@@ -1,5 +1,6 @@
-package levels;
+package levelsAndSaving;
 
+import entity.Player;
 import main.GamePanel;
 
 public class LevelManager {
@@ -7,15 +8,20 @@ public class LevelManager {
 	private GamePanel gp;
 	private int currentLevelID;
 	private Level[] levels;
-	private boolean inHouse = true;
+	private boolean inside;
 	
 	public LevelManager(GamePanel gp) {
 		this.gp = gp;
-		currentLevelID = gp.getCurrentLevelID(); 
+		currentLevelID = 0; 
 		levels = new Level[LEVELS_NUMBER];
+		updateInside();
 		loadLevels();
 	}
 	
+	private void updateInside() {
+		inside = (currentLevelID == 0);
+	}
+
 	private void loadLevels() {
 		
 		int[][]houseTileMatrix = 
@@ -81,45 +87,57 @@ public class LevelManager {
 			, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		
 		levels[1] = new Level(gp,tileMatrix0, objectMatrix0);
-		levels[1].increaseInitialY();
 		 
 		
 	}
 
 	public Level getCurrentLevel() {
-		return levels[currentLevelID];
+	    if(currentLevelID < 0 || currentLevelID >= levels.length) {
+	        throw new IllegalStateException("Invalid level ID: " + currentLevelID);
+	    }
+	    return levels[currentLevelID];
 	}
 	
-	private void getOutOfHouse() {
-		inHouse = false;
-		 currentLevelID = 1;
-		 gp.updateCurrentLevel();
-		 gp.getPlayer().updateXY();
-	}
-	
-	private void getInsideHouse() {
-		inHouse = true;
-		currentLevelID = 0;
-		gp.updateCurrentLevel();
-		gp.getCurrentLevel().increaseInitialY();
+	private void getOut() {
+		setCurrentLevelID(1);
+		getCurrentLevel().increaseInitialY();
 		gp.getPlayer().updateXY();
+		getCurrentLevel().resetXY();
+		updateInside();
+		
+	}
+	
+	private void getInside() {
+	    setCurrentLevelID(0);
+	    
+	    // Clamp player position to house boundaries
+	    Player player = gp.getPlayer();
+	    getCurrentLevel().increaseInitialY();
+	    player.updateXY();
+	    getCurrentLevel().resetXY();
+	    updateInside();
 	}
 	
 	public int getCurrentLevelID() {
 		return currentLevelID;
 	}
 	
-	private boolean isInHouse() {
-		return inHouse;
+	public boolean isInside() {
+		return inside;
 	}
 
 	public void doorMovement() {
-		if(inHouse) {
-			getOutOfHouse();
+		updateInside();
+		if(inside) {
+			getOut();
 		}else {
-			getInsideHouse();
+			getInside();
 		}
 	}
-	
 
+	public void setCurrentLevelID(int currentLevelID) {
+		this.currentLevelID = currentLevelID;
+		updateInside();
+		gp.updateCurrentLevel();
+	}
 }

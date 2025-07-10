@@ -2,9 +2,9 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import objects.GameObject;
-import objects.ObjectCollisionDetector;
-import objects.ObjectManager;
+import tiles.GameObject;
+import tiles.MapManager;
+import tiles.ObjectCollisionDetector;
 import tiles.TileCollisionDetector;
 
 import java.awt.Graphics2D;
@@ -31,10 +31,9 @@ public class Player extends Entity{
 	,downCharacterImage1,downCharacterImage2;  //to hold player's images
 	  
 	private int tileSize; 
-
 	
 	private int counter = 0;
-	
+ 
 	public Player(GamePanel gp) {
 		super();
 		
@@ -103,7 +102,7 @@ public class Player extends Entity{
 		
 		//player action
 		if(kh.pPressed) {
-			ObjectManager ob = gp.getObjectManager();
+			MapManager ob = gp.getMapManager();
 				int playerRow = getPlayerRow();
 				int playerCol = getPlayerCol();
 				
@@ -205,7 +204,7 @@ public class Player extends Entity{
 		counter = 0;
 	}
 	
-	private int getPlayerCol() {
+	public int getPlayerCol() {
 		return (worldX + getSolidAreaWidth()/2 )/tileSize;
 	}
 	
@@ -235,6 +234,19 @@ public class Player extends Entity{
 	
 	public int getSolidAreaHeight() {
 		return solidArea.height;
+	}
+
+	public void setX(int x) {
+		worldX = x;
+	}
+	
+	public void setY(int y) {
+		worldY = y;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+		gp.getUIManager().updateInventory();	
 	}
 	
 }

@@ -1,12 +1,23 @@
-package objects;
+package tiles;
+
+import java.io.IOException;
 
 import entity.Player;
 import main.GamePanel;
 
 public class Fish extends GameObject {
+	@SuppressWarnings("unused")
+	private final int ID = 2;
 	
-	public Fish(GamePanel gp) {
-		super(gp);
+	public Fish() throws IOException {
+		super();
+		super.setCrossable(true); 
+		super.setPickable(true);
+		itemID = ID;
+		imagePath = "/tiles/resources/fish.png";
+		
+		loadImage();
+		
 	}
 
 	@Override
@@ -15,11 +26,9 @@ public class Fish extends GameObject {
 		
 		if(player.getStatus().canEat()) {
 	
-			if(player.getInventory().getItemCount(this) > 0) {
 				player.getInventory().removeItem(this);
 				player.getStatus().eat();
 				gp.getUIManager().updateStatus();
-			}
 	
 		}else {
 			
@@ -29,5 +38,6 @@ public class Fish extends GameObject {
 		
 		
 	}
+	
 	
 }

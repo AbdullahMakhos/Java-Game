@@ -1,13 +1,18 @@
 package main;
 
 import java.awt.Image;
+import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 
 
 class Game {
 
-  public static void main(String[] args)  {
+  public static void main(String[] args) throws StreamReadException, DatabindException, IOException  {
     
     // Create the main window
     JFrame window = new JFrame(); 

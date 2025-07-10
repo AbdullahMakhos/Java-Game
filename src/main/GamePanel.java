@@ -5,15 +5,25 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.JPanel;
 
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import entity.Player;
-import levels.Level;
-import levels.LevelManager;
-import objects.ObjectCollisionDetector;
-import objects.ObjectManager;
+import entity.playerThings.Inventory;
+import levelsAndSaving.Level;
+import levelsAndSaving.LevelManager;
+import levelsAndSaving.SavePoint;
 import tiles.TileCollisionDetector;
-import tiles.TileManager;
+import tiles.MapManager;
+import tiles.ObjectCollisionDetector;
 
 //this class represent the game panel so actions will be done here
 //panel is added to the jFrame 
@@ -22,7 +32,13 @@ import tiles.TileManager;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable{
-  
+	
+	private static GamePanel instance;
+	
+	public static GamePanel getInstance() {
+        return instance;
+    }
+	
 	//size configurations
 	private final int originalTileSize = 16; //16x16 pixels
 	private final int scale = 4; //we will need this to adjust size (16 x 3 = 48)
@@ -47,19 +63,26 @@ public class GamePanel extends JPanel implements Runnable{
 	private KeyHandler kh;// to create a key handler object 
 	private LevelManager lm;
 	private Player player; 
-	private TileManager tm;
-	private ObjectManager om;
+	private MapManager mm;
 	private TileCollisionDetector td;
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
 	private UIManager ui;
 	private int currentLevelID;
-	   
+	private SavePoint lastSavePoint;
 	
 	private long metabolismCounter = 0;
+	private int f4Counter = 0;
+	private int f5Counter = 0;
 	
+	//j s o n handling
+	ObjectMapper objectMapper = new ObjectMapper();
+	final String SAVE_FILE_PATH = "/home/abdullah/Projects/java/Penguime/src/main/data/lastSaveInfo.json";
 	
-	public GamePanel() {
+	public GamePanel() throws StreamReadException, DatabindException, IOException {
+		
+		
+		instance = this;
 		gameState = 0;
 		currentLevelID=0;
 		
@@ -69,12 +92,11 @@ public class GamePanel extends JPanel implements Runnable{
 		currentLevel = lm.getCurrentLevel();
 
 		player =  new Player(this);// to create a player object
-		tm = new TileManager(this); //to create a tile manager
-		om = new ObjectManager(this);
+		mm = new MapManager(this); //to create a tile manager
 		td = new TileCollisionDetector(this); //to create colDetecer 
 		od = new ObjectCollisionDetector(this);
 		ui = new UIManager(this);
-		
+		lastSavePoint = new SavePoint();
 		
 		maxWorldCol = getMapWidth();
 		maxWorldRow = getMapHeight();
@@ -88,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		startGameThread();
 	} 
-	 
+	
 	/*to set the game cycle we need to work with thread
 	to get in touch with the fourth dimension(time)*/
 	
@@ -100,50 +122,46 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//game loop is inside the run method
 	@Override
-	public void run() {	
-		//setting update time to 60 per second
-		double drawInterval = 1000000000/FPS;//update every (0.01666 s)
-		double delta = 0;
-		long lastTime = System.nanoTime();
-		long currentTime;
-		
-		// game loop will keep repeating this as long as the game thread is alive
-		while(gameThread.isAlive()) {
-		//game loop consists of three stages
-			
-			currentTime = System.nanoTime(); // update current time
-			
-			delta += ( currentTime - lastTime ) / drawInterval; 
-			
-			lastTime = currentTime;
-			
-			if(delta >= 1) {
-				//1.Update : update the game status such as players attributes (health, position...etc)
-				update();
-				//2.Draw : draw the screen with the updated frame information
-				repaint();
-				delta--;
-
-				metabolismCounter++;
-				if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
-					
-					if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
-						resetMetabolismCounter();
-						player.getStatus().reduceHunger();
-					}
-					
-					if(!player.getStatus().canEat() 
-					&& player.getStatus().canHeal()) {
-						player.getStatus().heal();					
-					}
-					
-					ui.updateStatus();
-				}
-			}
-		}
-	} 
+	public void run() {
+	    // Timing variables for frame rate calculation
+	    long lastFpsTime = System.nanoTime();
+	    int frames = 0;
+	    
+	    // Existing timing variables
+	    double drawInterval = 1000000000/FPS;
+	    double delta = 0;
+	    long lastTime = System.nanoTime();
+	    long currentTime;
+	    
+	    while(gameThread.isAlive()) {
+	        currentTime = System.nanoTime();
+	        delta += (currentTime - lastTime) / drawInterval;
+	        lastTime = currentTime;
+	        
+	        // FPS counter update
+	        if (currentTime - lastFpsTime >= 1000000000) { // 1 second in nanoseconds
+	            System.out.println("FPS: " + frames);
+	            frames = 0;
+	            lastFpsTime = currentTime;
+	        }
+	        
+	        if(delta >= 1) {
+	        	
+	        	    try {
+		                update();
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+	        	    repaint();
+		            frames++; // Increment frame counter
+		            delta--;
+	        	}
+	       
+	    }
+	}
 	
-	public void update() { 
+	public void update() throws Exception { 
+		
 		
 		if(kh.escPressed) {
 			
@@ -151,11 +169,45 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		}
 		
+		if(kh.f4Pressed) {
+			f4Counter++;
+			if(f4Counter > 5) {
+				resetF4Counter();;
+				SaveCurrentInfo();
+			}
+		}
+		
+		if(kh.f5Pressed) {
+			f5Counter++;
+			if(f5Counter > 5) {
+				resetF5Counter();
+				loadLastSaveInfo();
+			}
+		}
+		
 		if(gameState == 0) player.update(); //update player 
 		if(gameState == 2) ui.updateGameState(); //update player 
 		
+	
+		metabolismCounter++;
+		if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
+			
+			if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
+				resetMetabolismCounter();
+				player.getStatus().reduceHunger();
+			}
+			
+			if(!player.getStatus().canEat() 
+			&& player.getStatus().canHeal()) {
+				player.getStatus().heal();					
+			}
+
+			ui.updateStatus();
+		}
 	}
 	   
+
+
 	//this is the draw method but we can't rename it because this is a java method
 	public void paintComponent(Graphics g) {
 		// call the java method 
@@ -164,19 +216,51 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.white);
-		tm.draw(g2); //place it before player's draw
+		mm.draw(g2); //place it before player's draw
 		player.draw(g2);
-		om.draw(g2);
 		ui.draw(g2);
-		g2.dispose(); //cleaning component to stay memory efficient 
-	
+		g2.dispose(); //cleaning component to stay memory efficients 	
 	}
 	
 	
+	
+	    
+	private void SaveCurrentInfo() throws Exception {
+	    ObjectMapper mapper = new ObjectMapper();
+	   
+	    SavePoint savePoint = new SavePoint(
+	        player.getWorldX(),
+	        player.getWorldY(),
+	        currentLevelID
+	    );
+	    savePoint.setInventory(player.getInventory());
+	    mapper.writerWithDefaultPrettyPrinter()
+        .writeValue(new File(SAVE_FILE_PATH), savePoint);
+	    ui.setSaveDrawCounter(35);
+	}
+
+	private void loadLastSaveInfo() throws IOException {
+	    ObjectMapper mapper = new ObjectMapper();
+	    
+	    File saveFile = new File(SAVE_FILE_PATH);
+	    if (!saveFile.exists()) return;
+	    
+	    SavePoint savePoint = mapper.readValue(saveFile, SavePoint.class);
+	    
+	    if (savePoint != null && savePoint.isModified()) {
+	        lm.setCurrentLevelID(savePoint.getLevelId());
+	        player.setX(savePoint.getX());
+	        player.setY(savePoint.getY());
+	        player.setInventory(savePoint.getInventory());
+	    }
+	    
+	    ui.setloadDrawCounter(25);
+	}
+	
 	public void updateCurrentLevel(){
+		currentLevelID = lm.getCurrentLevelID();
 		currentLevel = lm.getCurrentLevel();
-		tm.updateTileMatrix();
-		om.updateObjectMatrix();
+		mm.updateMap();
 	}
 	
 	public void resetMetabolismCounter() {
@@ -201,7 +285,6 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public int getTileSize() {
-		//because we are going to use it inside Entity subclasses
 		return this.tileSize;
 	}
 
@@ -229,8 +312,8 @@ public class GamePanel extends JPanel implements Runnable{
 		return maxScreenRow;
 	}
 
-	public TileManager getTileManager() {
-		return tm;
+	public MapManager getMapManager() {
+		return mm;
 	}
 
 	public Player getPlayer() {
@@ -249,10 +332,6 @@ public class GamePanel extends JPanel implements Runnable{
 		return od;
 	}
 
-	public ObjectManager getObjectManager() {
-		return om;
-	}
-
 	public UIManager getUIManager() {
 		return ui;
 	}
@@ -263,11 +342,6 @@ public class GamePanel extends JPanel implements Runnable{
 
 	public int[][] getObjectMatrix() {
 		return currentLevel.getObjectMatrix();
-	}
-
-	
-	public void setCurrentLevelID(int currentLevelID){
-		this.currentLevelID = currentLevelID;
 	}
 	
 	public int getCurrentLevelID() {
@@ -281,5 +355,12 @@ public class GamePanel extends JPanel implements Runnable{
 	public LevelManager getLevelManager() {
 		return lm;
 	}
+	
+	public void resetF4Counter() {
+		f4Counter = 0;
+	}
 
+	public void resetF5Counter() {
+		f5Counter = 0;
+	}
 }

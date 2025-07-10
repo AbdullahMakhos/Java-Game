@@ -13,6 +13,8 @@ public class KeyHandler implements KeyListener{
 	public boolean pPressed = false;
 	public boolean escPressed = false;
 	public boolean spacePressed = false;
+	public boolean f4Pressed = false;
+	public boolean f5Pressed = false;
 	
 	public KeyHandler(GamePanel gp){
 		this.gp = gp;
@@ -21,26 +23,27 @@ public class KeyHandler implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode(); //to get the pressed key code
+		    
 		// w is pressed
 		if (code == KeyEvent.VK_W) { 
 			upPressed = true;
-		}
+        }
 		// s is pressed 
 		if(code == KeyEvent.VK_S) {
 			downPressed = true;
-		}
+        }
 		// d is pressed
 		if(code == KeyEvent.VK_D) {
 			rightPressed = true;
-		}
+        }
 		// a is pressed
 		if(code == KeyEvent.VK_A) {
 			leftPressed = true;
-		}
+        }
 		//to pick some object 
 		if(code == KeyEvent.VK_P) {
 			pPressed = true;
-		}
+        }
 		//to pause the game
 		if(code == KeyEvent.VK_ESCAPE) {
 			escPressed = !escPressed;
@@ -50,6 +53,17 @@ public class KeyHandler implements KeyListener{
 			spacePressed = true;
 		}
 		
+		//to save 
+		if(code == KeyEvent.VK_F4) {
+			f4Pressed = true;
+		}
+		
+		//to load 
+		if(code == KeyEvent.VK_F5) {
+			f5Pressed = true;
+		}
+		
+		 //item selection (side inventory) 
 		if(code == KeyEvent.VK_0) {
 			gp.getPlayer().getInventory().setSelectedItemId(-1);
 			gp.getUIManager().updateSelectedItemId();
@@ -58,7 +72,7 @@ public class KeyHandler implements KeyListener{
 		if(code == KeyEvent.VK_1) {
 			gp.getPlayer().getInventory().setSelectedItemId(0);
 			gp.getUIManager().updateSelectedItemId();
-		}
+        }
 		
 		if(code == KeyEvent.VK_2) {
 			gp.getPlayer().getInventory().setSelectedItemId(1);
@@ -89,13 +103,13 @@ public class KeyHandler implements KeyListener{
 			gp.getPlayer().getInventory().setSelectedItemId(6);
 			gp.getUIManager().updateSelectedItemId();
 		}
-
+		
 	}
  
 	@Override 
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode(); //to get the released key code
-		// w is released
+        // w is released
 		if (code == KeyEvent.VK_W) {
 			upPressed = false;
 		}
@@ -120,6 +134,17 @@ public class KeyHandler implements KeyListener{
 			spacePressed = false;
 			gp.getPlayer().resetCounter();
 		}
+		
+		if(code == KeyEvent.VK_F4) {
+			f4Pressed = false;
+			gp.resetF4Counter();
+		}
+		
+		if(code == KeyEvent.VK_F5) {
+			f5Pressed = false;
+			gp.resetF5Counter();
+		}
+		
 	}
 
 	@Override

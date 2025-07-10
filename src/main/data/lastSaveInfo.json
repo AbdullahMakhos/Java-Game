@@ -1,0 +1,16 @@
+{
+  "x" : 640,
+  "y" : 681,
+  "levelId" : 1,
+  "inventory" : {
+    "inventory" : [ {
+      "@class" : "entity.playerThings.Item",
+      "itemID" : 2,
+      "count" : 1
+    }, {
+      "@class" : "entity.playerThings.Item",
+      "itemID" : 3,
+      "count" : 1
+    } ]
+  }
+}

@@ -1,4 +1,4 @@
-package objects;
+package tiles;
 
 import entity.Direction;
 import entity.Player;
@@ -22,7 +22,7 @@ public class ObjectCollisionDetector {
     
     public boolean canMove(Direction direction) { 
         Player player = gp.getPlayer();
-        ObjectManager om = gp.getObjectManager();
+        MapManager om = gp.getMapManager();
       
         int speed = player.getSpeed(); 
         int playerLeftWorldX = player.getWorldX() + player.getSolidAreaX();

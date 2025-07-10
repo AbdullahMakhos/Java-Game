@@ -28,7 +28,9 @@ public class UIManager {
 	
 	private int tileSize;
 	private int selectedItemId;
-	
+	private int saveDrawCounter = 0;
+	private int loadDrawCounter = 0;
+
 	public UIManager(GamePanel gp) {
 		this.gp = gp;
 		kh = gp.getKeyHandler();
@@ -72,11 +74,41 @@ public class UIManager {
 		
 		}
 		
+		if(saveDrawCounter  > 0) {
+			
+			drawSaving(g2);
+			saveDrawCounter--;
+			
+		}
 		
+		if(loadDrawCounter  > 0) {
+			
+			drawLoading(g2);
+			loadDrawCounter--;
+			
+		}
 		
 	}
 	
 	
+	private void drawSaving(Graphics2D g2) {
+		
+		g2.setFont(new Font("Arial", Font.BOLD, 20));
+		g2.setColor(Color.black);
+		g2.drawString("Saving....",
+			(gp.getScreenWidth() - 2*tileSize), 30);
+	
+	}
+	
+	private void drawLoading(Graphics2D g2) {
+	
+		g2.setFont(new Font("Arial", Font.BOLD, 20));
+		g2.setColor(Color.black);
+		g2.drawString("Loading....",
+			(gp.getScreenWidth() - 2*tileSize), 30);
+	
+	}
+
 	private void drawSideInventory(Graphics2D g2) {
 		
 		int invWidth = tileSize + tileSize/3;
@@ -95,7 +127,7 @@ public class UIManager {
 		}
 		
 		
-		ArrayList<Item> bag = inventory.getBag();
+		ArrayList<Item> bag = inventory.getInventory();
 		
 		for(int i=0 ; i<bag.size() ; i++) {
 		   
@@ -147,6 +179,18 @@ public class UIManager {
 	
 	public void updateSelectedItemId() {
 		selectedItemId = inventory.getSelectedItemId();
+	}
+	
+	public void setSaveDrawCounter(int saveDrawCounter) {
+		this.saveDrawCounter = saveDrawCounter;
+	}
+
+	public void setloadDrawCounter(int loadDrawCounter) {
+		this.loadDrawCounter = loadDrawCounter;
+	}
+
+	public void updateInventory() {
+		inventory = gp.getPlayer().getInventory();
 	}
 	
 	

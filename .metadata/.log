@@ -504,3 +504,16 @@ Caused by: org.eclipse.core.internal.resources.ResourceException: Invalid projec
 	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.createOrImportProject(SmartImportJob.java:594)
 	at org.eclipse.ui.internal.wizards.datatransfer.SmartImportJob.toExistingOrNewProject(SmartImportJob.java:542)
 	... 2 more
+!SESSION 2025-07-08 21:14:51.043 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=21.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product /home/abdullah/Projects/java/Penguime
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product /home/abdullah/Projects/java/Penguime -data /home/abdullah/Projects/java/Penguime
+
+!ENTRY ch.qos.logback.classic 1 0 2025-07-08 21:14:54.128
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-07-08 21:14:55.844
+!MESSAGE Logback config file: /home/abdullah/Projects/java/Penguime/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml

@@ -1,21 +1,31 @@
-package objects;
+package tiles;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import levels.LevelManager;
-import main.GamePanel;
+import levelsAndSaving.LevelManager;
 import main.KeyHandler;
 
 public class Door extends GameObject{
-	private GamePanel gp;
 	private KeyHandler kh;
 	private LevelManager lm;
+	@SuppressWarnings("unused")
+	private final int ID = 1;
 	private int counter = 0; 
 	
-	public Door(GamePanel gp) {
-		super(gp);
+	public Door() throws IOException {
+		super();
+		super.setCrossable(false);
+		super.setPickable(false);
+		itemID = ID;
+		
+		imagePath = "/tiles/resources/closedDoor.png";
+		
+
 		kh = gp.getKeyHandler();
 		lm=gp.getLevelManager();
+		
+		loadImage();
 	}
 
 	@Override

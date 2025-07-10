@@ -1,8 +1,10 @@
-package levels;
+package levelsAndSaving;
 
+
+import java.io.IOException;
 
 import main.GamePanel;
-import objects.Fish;
+import tiles.Fish;
 
 public class Level {
 	private GamePanel gp;
@@ -14,13 +16,16 @@ public class Level {
 		this.gp = gp;
 		this.tileMatrix = tileMatrix;
 		this.objectMatrix = objectMatrix;
-		initialX = (getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);
-		initialY = gp.getTileSize()*2;
+		resetXY();
 	}	
 	
+	public void resetXY() {
+		initialX = (getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);
+		initialY = gp.getTileSize()*2;
+	}
 	//can i pass to the next level
-	public boolean canPass() {
-		Fish fish = new Fish(gp);
+	public boolean canPass() throws IOException {
+		Fish fish = new Fish();
 		int ItemCount = 0;
 		
 		if(gp.getPlayer().getInventory().getItem(fish) != null) {

@@ -22,7 +22,7 @@ public class TileCollisionDetector {
   
     public boolean canMove(Direction direction) { 
         Player player = gp.getPlayer();
-        TileManager tm = gp.getTileManager();
+        MapManager tm = gp.getMapManager();
       
         int speed = player.getSpeed(); 
         int playerLeftWorldX = player.getWorldX() + player.getSolidAreaX();
