@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import main.GamePanel;
 import tiles.GameObject;
 
 public class Inventory {
@@ -74,6 +75,8 @@ public class Inventory {
     @JsonSetter("inventory")
     public void setInventory(ArrayList<Item> inventory) throws IOException {
         this.inventory = inventory;
+
+		GamePanel.getInstance().getUIManager().updateInventory();
         reconstructItems();
     }
  

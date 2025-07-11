@@ -139,7 +139,7 @@ public class UIManager {
 		    startingY += invHeight / inventory.getSideInventoryMaxSize();
 		
 		}
-	
+		
 	}
 	
 	private void drawHealth(Graphics2D g2) {

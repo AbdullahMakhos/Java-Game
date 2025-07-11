@@ -6,7 +6,6 @@ import entity.Player;
 import main.GamePanel;
 
 public class Fish extends GameObject {
-	@SuppressWarnings("unused")
 	private final int ID = 2;
 	
 	public Fish() throws IOException {
@@ -20,12 +19,10 @@ public class Fish extends GameObject {
 		
 	}
 
-	@Override
 	public void behavior() {
-		Player player = gp.getPlayer();
+		Player player = GamePanel.getInstance().getPlayer();
 		
 		if(player.getStatus().canEat()) {
-	
 				player.getInventory().removeItem(this);
 				player.getStatus().eat();
 				gp.getUIManager().updateStatus();

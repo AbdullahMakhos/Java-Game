@@ -182,7 +182,7 @@ public class GamePanel extends JPanel implements Runnable{
 		metabolismCounter++;
 		if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
 			
-			if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
+			if(metabolismCounter > FPS*1*3) { //get hungry every three minutes
 				resetMetabolismCounter();
 				player.getStatus().reduceHunger();
 			}
@@ -221,6 +221,7 @@ public class GamePanel extends JPanel implements Runnable{
 	    SavePoint savePoint = new SavePoint(
 	        player.getWorldX(),
 	        player.getWorldY(),
+	        player.getStatus(),					
 	        player.getInventory(),
 	        currentLevelID,
 	        currentLevel.getObjectMatrix()
@@ -243,13 +244,14 @@ public class GamePanel extends JPanel implements Runnable{
 	    if (savePoint != null && savePoint.isModified()) {
 	        player.setX(savePoint.getX());
 	        player.setY(savePoint.getY());
-	        player.setInventory(savePoint.getInventory());
+	        player.setStatus(savePoint.getStatus());
+	        player.getInventory().setInventory(savePoint.getInventory().getInventory());
 	        lm.setCurrentLevelID(savePoint.getLevelId());
 	        lm.getCurrentLevel().setObjectMatrix(savePoint.getObjectMatrix());
 	    }
-	    	
+	    
 	    mm.updateMap();
-	    	
+	    ui.updateStatus();
 	    ui.setloadDrawCounter(25);
 	}
 	

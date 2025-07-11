@@ -2,6 +2,8 @@ package entity.playerThings;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import main.GamePanel;
 
 public class Status {
@@ -25,6 +27,10 @@ public class Status {
 		Arrays.fill(hunger, true);
 	}
 	
+	public Status() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public void takeDamage() {
 		
 		int lastHeartIndex = -1;
@@ -41,7 +47,7 @@ public class Status {
 		}
 		
 	}
-	
+	@JsonIgnore
 	public void reduceHunger() {
 		
 		if(starving) {
@@ -79,11 +85,11 @@ public class Status {
 		
 	}
  
-	
+	@JsonIgnore
 	public boolean canEat() {
 		return !Arrays.equals(hunger,new boolean[] {true,true,true});
 	}
-
+	@JsonIgnore
 	public void eat() {
 		starving = false;
 
@@ -95,7 +101,7 @@ public class Status {
 		}
 		
 	}
-	
+	@JsonIgnore
 	public void heal() {
 		for(int i=0 ; i < TOTAL_HEALTH ; i++) {
 			if(!health[i]) {
@@ -104,21 +110,16 @@ public class Status {
 			}
 		}
 	}
-
+	@JsonIgnore
 	public boolean canHeal() {
 		return !Arrays.equals(health,new boolean[] {true,true,true});
 	} 
 
-	public boolean isStarving() {
-		return starving;
-	}
-
-	public boolean[] getHealth() {
-		return health;
-	}
-	
-	public boolean[] getHunger() {
-		return hunger;
-	}
+	public void setHealth(boolean[] health) { this.health = health; }
+	public void setHunger(boolean[] hunger) { this.hunger = hunger; }
+	public void setStarving(boolean starving) { this.starving = starving; }
+	public boolean isStarving() { return starving; }
+	public boolean[] getHealth() { return health; }
+	public boolean[] getHunger() { return hunger; }
 	
 }

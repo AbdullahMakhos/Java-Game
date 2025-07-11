@@ -15,7 +15,7 @@ public class MapManager {
     private int[][] tileMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     
-    private static final int OBJECT_TYPE_COUNT = 4; // Number of tile types
+    private static final int OBJECT_TYPE_COUNT = 5; // Number of tile types
     private int[][] objectMatrix; // The map to manage
     private GameObject[] objectTypes; // Tiles types to read the mapMatrix
     
@@ -57,7 +57,7 @@ public class MapManager {
             
             tileTypes[4] = Tile.createFromID(4);
             
-            
+         
             objectTypes[0] = GameObject.createFromID(0);
             
             objectTypes[1] = GameObject.createFromID(1);
@@ -65,7 +65,7 @@ public class MapManager {
             objectTypes[2] = GameObject.createFromID(2);
 
             objectTypes[3] = GameObject.createFromID(3);
-            
+           
             
         } catch (IOException e) {
             System.err.println("Error loading resources:");
@@ -101,10 +101,9 @@ public class MapManager {
                 if (row >= 0 && row < maxRows && col >= 0 && col < maxCols) {
                 	
                 	if (isInView(worldX, worldY, playerX, playerY, tileSize)) {
-                    
-                		drawTile(g2, tileMatrix[row][col], screenX, screenY,tileSize);
-                        
-                		drawObject(g2, objectMatrix[row][col], screenX, screenY,tileSize);
+                		
+                		drawTile(g2, tileMatrix[row][col], screenX, screenY);
+                		drawObject(g2, objectMatrix[row][col], screenX, screenY);
                 		
                 	}
                 
@@ -122,18 +121,19 @@ public class MapManager {
         		WorldY - tileSize < playerWorldY + player.getScreenY();
     }
 
-    private void drawObject(Graphics2D g2, int objectID, int screenX, int screenY, int size) {
+    private void drawObject(Graphics2D g2, int objectID, int screenX, int screenY) {
         if (objectID >= 0 && objectID < OBJECT_TYPE_COUNT) {
-            GameObject currentGameObject = objectTypes[objectID];
+            GameObject obj = objectTypes[objectID];
             
           
-            if (currentGameObject.getImage() != null) {
-                g2.drawImage(currentGameObject.getImage(), screenX, screenY, size, size, null);
+            if (obj.getImage() != null) {
+                g2.drawImage(obj.getImage()
+                , screenX, screenY, obj.getObjectSize(), obj.getObjectSize(), null);
             }
             
-            if (currentGameObject instanceof Door) {
-                if (isPlayerNearDoor(screenX, screenY,size)) {
-                    ((Door) currentGameObject).behavior();
+            if (obj instanceof Door) {
+                if (isPlayerNearDoor(screenX, screenY,obj.getObjectSize())) {
+                    ((Door) obj).behavior();
                 }
             }
         
@@ -142,16 +142,17 @@ public class MapManager {
 
     
     // Method to draw a tile based on its ID
-    private void drawTile(Graphics2D g2, int tileID, int screenX, int screenY, int tileSize) {
-      
-        if (tileID >= 0 && tileID < tileTypes.length) {
+    private void drawTile(Graphics2D g2, int tileID, int screenX, int screenY) {
+    	int tileSize = gp.getTileSize();
+		if (tileID >= 0 && tileID < tileTypes.length) {
             Tile tile = tileTypes[tileID];
             if (tile.getImage() != null) {
-                g2.drawImage(tile.getImage(), screenX, screenY, tileSize, tileSize, null);
+                g2.drawImage(tile.getImage(), screenX, screenY
+                , tile.getTileSize(), tile.getTileSize() , null);
             } else {
                 // Draw error tile
                 g2.setColor(Color.ORANGE);
-                g2.fillRect(screenX, screenY, tileSize, tileSize);
+                g2.fillRect(screenX, screenY, tile.getTileSize(), tile.getTileSize());
             }
         } else {
             // Invalid tile ID

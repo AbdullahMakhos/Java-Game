@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import entity.playerThings.Inventory;
 import entity.playerThings.Item;
 import entity.playerThings.Status;
@@ -21,6 +23,7 @@ public class Player extends Entity{
 	private int screenX;//player's position on the screen
 	private int screenY; 
 	private Inventory inventory;
+	@JsonProperty("status")
 	private Status status;
 	
 	private BufferedImage currentImage,idleCharacterImage
@@ -187,9 +190,15 @@ public class Player extends Entity{
 		return inventory;
 	
 	}	
+
 	
 	public Status getStatus() {
 		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+		gp.getUIManager().updateStatus();
 	}
 
 	public void updateXY() {
@@ -240,10 +249,11 @@ public class Player extends Entity{
 	public void setY(int y) {
 		worldY = y;
 	}
-
+	
 	public void setInventory(Inventory inventory) {
-		this.inventory = inventory;
-		gp.getUIManager().updateInventory();	
+		this.inventory = inventory;	
 	}
+
+
 	
 }
