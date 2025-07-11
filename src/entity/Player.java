@@ -1,6 +1,5 @@
 package entity;
 
-import main.GamePanel;
 import main.KeyHandler;
 import tiles.GameObject;
 import tiles.MapManager;
@@ -18,7 +17,6 @@ import entity.playerThings.Item;
 import entity.playerThings.Status;
 
 public class Player extends Entity{
-	private GamePanel gp;//the gamePanel to be displayed on
 	private KeyHandler kh; //the KeyHandler to accept input
 	private int screenX;//player's position on the screen
 	private int screenY; 
@@ -34,10 +32,9 @@ public class Player extends Entity{
 	
 	private int counter = 0;
  
-	public Player(GamePanel gp) {
+	public Player() {
 		super();
 		
-		this.gp = gp;
 		kh = gp.getKeyHandler();
 		screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);

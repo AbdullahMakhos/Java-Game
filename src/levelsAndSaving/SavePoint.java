@@ -14,11 +14,14 @@ public class SavePoint {
     private int y;
     private int levelId;
     private Inventory inventory;
+    private int[][] objectMatrix;
     
-    public SavePoint(int x, int y, int levelId) {
+	public SavePoint(int x, int y,Inventory inventory, int levelId , int[][] objectMatrix) {
         this.x = x;
         this.y = y;
+        this.inventory = inventory;
         this.levelId = levelId;
+        this.objectMatrix = objectMatrix;
     }
     
     public SavePoint() {
@@ -43,4 +46,7 @@ public class SavePoint {
     public Inventory getInventory() { return inventory; }
     public void setInventory(Inventory inventory) { this.inventory = inventory; }
     
+    public int[][] getObjectMatrix() { return objectMatrix; }
+	public void setObjectMatrix(int[][] objectMatrix) { this.objectMatrix = objectMatrix; }
+
 }

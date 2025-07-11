@@ -3,7 +3,6 @@ package tiles;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 import entity.Player;
 import main.GamePanel;
@@ -26,8 +25,8 @@ public class MapManager {
     private int maxRows;
     private int maxCols;
     
-    public MapManager(GamePanel gp) {
-        this.gp = gp;
+    public MapManager() {
+        this.gp = GamePanel.getInstance();
         player = gp.getPlayer();
         
         tileMatrix = gp.getTileMatrix();
@@ -45,7 +44,6 @@ public class MapManager {
     }
     
     private void loadImages() {
-    	int originalTileSize = gp.getTileSize();
     	
         try {
         	
@@ -194,6 +192,7 @@ public class MapManager {
     
     public void deleteObject(int row, int col) {
     	objectMatrix[row][col] = 0;
+    	gp.updateCurrentLevel();
     }
 
     public void updateMap() {

@@ -7,8 +7,8 @@ import main.GamePanel;
 public class ObjectCollisionDetector {
     private GamePanel gp;
 
-    public ObjectCollisionDetector(GamePanel gp) {
-        this.gp = gp; 
+    public ObjectCollisionDetector() {
+        gp = GamePanel.getInstance(); 
     }
   
     // Helper function to convert world coordinates (pixels) to tile rows and columns

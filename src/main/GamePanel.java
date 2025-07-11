@@ -91,11 +91,11 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		currentLevel = lm.getCurrentLevel();
 
-		player =  new Player(this);// to create a player object
-		mm = new MapManager(this); //to create a tile manager
-		td = new TileCollisionDetector(this); //to create colDetecer 
-		od = new ObjectCollisionDetector(this);
-		ui = new UIManager(this);
+		player =  new Player();// to create a player object
+		mm = new MapManager(); //to create a tile manager
+		td = new TileCollisionDetector(); //to create colDetecer 
+		od = new ObjectCollisionDetector();
+		ui = new UIManager();
 		lastSavePoint = new SavePoint();
 		
 		maxWorldCol = getMapWidth();
@@ -123,10 +123,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//game loop is inside the run method
 	@Override
 	public void run() {
-	    // Timing variables for frame rate calculation
-	    long lastFpsTime = System.nanoTime();
-	    int frames = 0;
-	    
+	 
 	    // Existing timing variables
 	    double drawInterval = 1000000000/FPS;
 	    double delta = 0;
@@ -138,12 +135,6 @@ public class GamePanel extends JPanel implements Runnable{
 	        delta += (currentTime - lastTime) / drawInterval;
 	        lastTime = currentTime;
 	        
-	        // FPS counter update
-	        if (currentTime - lastFpsTime >= 1000000000) { // 1 second in nanoseconds
-	            System.out.println("FPS: " + frames);
-	            frames = 0;
-	            lastFpsTime = currentTime;
-	        }
 	        
 	        if(delta >= 1) {
 	        	
@@ -153,7 +144,6 @@ public class GamePanel extends JPanel implements Runnable{
 		                e.printStackTrace();
 		            }
 	        	    repaint();
-		            frames++; // Increment frame counter
 		            delta--;
 	        	}
 	       
@@ -219,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable{
 		mm.draw(g2); //place it before player's draw
 		player.draw(g2);
 		ui.draw(g2);
-		g2.dispose(); //cleaning component to stay memory efficients 	
+		g2.dispose(); //cleaning component to stay memory efficient	
 	}
 	
 	
@@ -231,11 +221,14 @@ public class GamePanel extends JPanel implements Runnable{
 	    SavePoint savePoint = new SavePoint(
 	        player.getWorldX(),
 	        player.getWorldY(),
-	        currentLevelID
+	        player.getInventory(),
+	        currentLevelID,
+	        currentLevel.getObjectMatrix()
 	    );
-	    savePoint.setInventory(player.getInventory());
+	    
 	    mapper.writerWithDefaultPrettyPrinter()
         .writeValue(new File(SAVE_FILE_PATH), savePoint);
+	    
 	    ui.setSaveDrawCounter(35);
 	}
 
@@ -248,12 +241,15 @@ public class GamePanel extends JPanel implements Runnable{
 	    SavePoint savePoint = mapper.readValue(saveFile, SavePoint.class);
 	    
 	    if (savePoint != null && savePoint.isModified()) {
-	        lm.setCurrentLevelID(savePoint.getLevelId());
 	        player.setX(savePoint.getX());
 	        player.setY(savePoint.getY());
 	        player.setInventory(savePoint.getInventory());
+	        lm.setCurrentLevelID(savePoint.getLevelId());
+	        lm.getCurrentLevel().setObjectMatrix(savePoint.getObjectMatrix());
 	    }
-	    
+	    	
+	    mm.updateMap();
+	    	
 	    ui.setloadDrawCounter(25);
 	}
 	

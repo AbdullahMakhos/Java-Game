@@ -15,7 +15,6 @@ import entity.playerThings.Status;
 
 public class UIManager {
 	private GamePanel gp;
-	private KeyHandler kh;
 	private int gameState;
 	private Inventory inventory;
 	private Status playerStatus;
@@ -31,9 +30,9 @@ public class UIManager {
 	private int saveDrawCounter = 0;
 	private int loadDrawCounter = 0;
 
-	public UIManager(GamePanel gp) {
-		this.gp = gp;
-		kh = gp.getKeyHandler();
+	public UIManager() {
+		gp = GamePanel.getInstance();
+		gp.getKeyHandler();
 		inventory = gp.getPlayer().getInventory();
 		playerStatus = gp.getPlayer().getStatus(); 
 		gameState = gp.getGameState();
