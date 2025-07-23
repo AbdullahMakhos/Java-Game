@@ -66,6 +66,8 @@ public class MapManager {
 
             objectTypes[3] = GameObject.createFromID(3);
            
+            objectTypes[4] = GameObject.createFromID(4);
+            
             
         } catch (IOException e) {
             System.err.println("Error loading resources:");

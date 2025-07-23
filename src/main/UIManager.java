@@ -58,10 +58,6 @@ public class UIManager {
 	
 	public void draw(Graphics2D g2) {
 		g2.setFont(new Font( "Arial",Font.BOLD, tileSize/6));
-		drawHealth(g2);
-		drawHunger(g2);
-		
-		drawSideInventory(g2);
 		
 		if(gameState == 1) {
 		
@@ -71,22 +67,26 @@ public class UIManager {
 		
 			drawGameOver(g2);
 		
+		}else if(gameState == 0) {	
+			drawSideInventory(g2);
+			drawHealth(g2);
+			drawHunger(g2);
+			
+			if(saveDrawCounter  > 0) {
+				
+				drawSaving(g2);
+				saveDrawCounter--;
+				
+			}
+			
+			if(loadDrawCounter  > 0) {
+				
+				drawLoading(g2);
+				loadDrawCounter--;
+				
+			}
 		}
-		
-		if(saveDrawCounter  > 0) {
-			
-			drawSaving(g2);
-			saveDrawCounter--;
-			
-		}
-		
-		if(loadDrawCounter  > 0) {
-			
-			drawLoading(g2);
-			loadDrawCounter--;
-			
-		}
-		
+	
 	}
 	
 	
@@ -191,6 +191,7 @@ public class UIManager {
 	public void updateInventory() {
 		inventory = gp.getPlayer().getInventory();
 	}
+
 	
 	
 }

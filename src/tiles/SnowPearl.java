@@ -12,7 +12,6 @@ public class SnowPearl extends GameObject{
 	private LevelManager lm;
 	@SuppressWarnings("unused")
 	private final int ID = 3;
-	private int counter = 0; 
 	
 	public SnowPearl() throws IOException {
 		super();

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import FishingMiniGame.FMiniGame;
 import entity.Player;
 import entity.playerThings.Inventory;
 import levelsAndSaving.Level;
@@ -54,7 +55,7 @@ public class GamePanel extends JPanel implements Runnable{
 	private final int maxWorldCol; //16 pixels vertically 
 	private final int maxWorldRow; //16 pixels horizontally 
 	
-	private int gameState; // 0 for running 1 for paused 2 for gameOver
+	private int gameState; // 0 for running, 1 for paused, 2 for gameOver , 3 for fishing
 	
 	private final int FPS = 60; 
 	private Level currentLevel;
@@ -68,10 +69,11 @@ public class GamePanel extends JPanel implements Runnable{
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
 	private UIManager ui;
+	private FMiniGame fMiniGame;
 	private int currentLevelID;
 	private SavePoint lastSavePoint;
-	
 	private long metabolismCounter = 0;
+	private int escCounter = 0;
 	private int f4Counter = 0;
 	private int f5Counter = 0;
 	
@@ -96,6 +98,7 @@ public class GamePanel extends JPanel implements Runnable{
 		td = new TileCollisionDetector(); //to create colDetecer 
 		od = new ObjectCollisionDetector();
 		ui = new UIManager();
+		fMiniGame = new FMiniGame();
 		lastSavePoint = new SavePoint();
 		
 		maxWorldCol = getMapWidth();
@@ -154,9 +157,16 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		
 		if(kh.escPressed) {
+			escCounter++;
+			if(escCounter > 5) {
+				reseteEscCounter();
+				if(getGameState() == 1 || gameState == 3) {
+					setGameState(0);
+				}else{
+					setGameState(1);
+				}
+			}
 			
-			setGameState(1); //1 for paused
-		
 		}
 		
 		if(kh.f4Pressed) {
@@ -182,7 +192,7 @@ public class GamePanel extends JPanel implements Runnable{
 		metabolismCounter++;
 		if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
 			
-			if(metabolismCounter > FPS*1*3) { //get hungry every three minutes
+			if(metabolismCounter > FPS*60*3) { //get hungry every three minutes
 				resetMetabolismCounter();
 				player.getStatus().reduceHunger();
 			}
@@ -195,8 +205,6 @@ public class GamePanel extends JPanel implements Runnable{
 			ui.updateStatus();
 		}
 	}
-	   
-
 
 	//this is the draw method but we can't rename it because this is a java method
 	public void paintComponent(Graphics g) {
@@ -209,12 +217,12 @@ public class GamePanel extends JPanel implements Runnable{
 		mm.draw(g2); //place it before player's draw
 		player.draw(g2);
 		ui.draw(g2);
+		if(fMiniGame.isRunning()) {
+			fMiniGame.draw(g2);
+		}
 		g2.dispose(); //cleaning component to stay memory efficient	
 	}
 	
-	
-	
-	    
 	private void SaveCurrentInfo() throws Exception {
 	    ObjectMapper mapper = new ObjectMapper();
 	   
@@ -272,6 +280,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 		ui.updateGameState();
+		if(getGameState() == 3) {
+			fMiniGame.start();
+		}else {
+			fMiniGame.close();
+		}
 	}
 
 	public int getScreenWidth() {
@@ -352,6 +365,10 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public LevelManager getLevelManager() {
 		return lm;
+	}
+	
+	public void reseteEscCounter() {
+		escCounter = 0;
 	}
 	
 	public void resetF4Counter() {

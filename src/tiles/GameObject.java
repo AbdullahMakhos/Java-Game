@@ -85,6 +85,7 @@ public class GameObject {
 	        case 1: return new Door(); 
 	        case 2: return new Fish();
 	        case 3: return new SnowPearl();
+	        case 4: return new FishingRod();
 	        default: throw new IllegalArgumentException("Unexpected value: " + itemId);
 	    }
 	}

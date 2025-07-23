@@ -46,7 +46,7 @@ public class KeyHandler implements KeyListener{
         }
 		//to pause the game
 		if(code == KeyEvent.VK_ESCAPE) {
-			escPressed = !escPressed;
+			escPressed = true;
 		}
 		//to eat
 		if(code == KeyEvent.VK_SPACE) {
@@ -135,6 +135,10 @@ public class KeyHandler implements KeyListener{
 			gp.getPlayer().resetCounter();
 		}
 		
+		if(code == KeyEvent.VK_ESCAPE) {
+			escPressed = false;
+			gp.reseteEscCounter();
+		}
 		if(code == KeyEvent.VK_F4) {
 			f4Pressed = false;
 			gp.resetF4Counter();
