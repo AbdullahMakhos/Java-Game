@@ -122,7 +122,6 @@ public class Player extends Entity{
 				Item selectedItem = inventory.getSelectedItem();
 				
 				if(selectedItem != null) {
-					System.out.println(selectedItem.getGameObject().getClass());
 					selectedItem.useItem();
 				}
 			}

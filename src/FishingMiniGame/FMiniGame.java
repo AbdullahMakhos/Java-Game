@@ -29,21 +29,25 @@ public class FMiniGame {
 	
 	private int clickCounter;
 	
-	public FMiniGame() throws IOException{
-		loadImages();
-		running = false;
-		tileSize = GamePanel.getInstance().getTileSize();
-		greenBarHeight = tileSize;
-		resetClickCounter();
-		
-		FX = GamePanel.getInstance().getScreenWidth() - (tileSize*4);
-		FY = tileSize*2;
-		Fwidth = tileSize*2;
-		Fheight = tileSize*7;
-		minY = tileSize*2; //top y
-		maxY = tileSize*2 + backGroundImage.getHeight() - greenBarHeight - (tileSize/5); //bottom y
-		greenBarX = FX + tileSize - (tileSize/10);
-		greenBarY = maxY;
+	public FMiniGame() throws IOException {
+	    loadImages();
+	    running = false;
+	    tileSize = GamePanel.getInstance().getTileSize();
+	    greenBarHeight = tileSize;
+	    resetClickCounter();
+	    
+	    FX = GamePanel.getInstance().getScreenWidth() - (tileSize*4);
+	    FY = tileSize*2;
+	    Fwidth = tileSize*2;
+	    Fheight = tileSize*7;
+	    minY = tileSize*2; //top y
+	    
+	    // Fixed maxY calculation:
+	    maxY = FY + Fheight - greenBarHeight - (tileSize/7) ; //bottom y // -(tileSize/7) for better drawing
+	    
+	    greenBarX = FX + tileSize - (tileSize/10);
+	    greenBarY = maxY;
+	    
 	}
 	
 
