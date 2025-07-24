@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import main.GamePanel;
 
 //objects like box fire...etc not monsters , monsters will be entities 
@@ -89,6 +91,4 @@ public class GameObject {
 	        default: throw new IllegalArgumentException("Unexpected value: " + itemId);
 	    }
 	}
-
-
 }

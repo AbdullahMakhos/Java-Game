@@ -32,8 +32,12 @@ public class Item {
     }
 
     @JsonIgnore
-    public void reconstructItem() throws IOException {
-    	gameObject = GameObject.createFromID(itemID);
+    public void useItem() {
+    	if (getItem() != null) {
+    		getItem().behavior();
+    	} else {
+    		System.err.println("ERROR: Item's GameObject is null for ID: " + itemID);
+        }
     }
     
     
@@ -41,6 +45,8 @@ public class Item {
     public int getCount() { return count; }
     public void setItemID(int id) { this.itemID = id; }
     public void setCount(int count) { this.count = count; }
+    @JsonIgnore
+    public GameObject getGameObject() { return gameObject; }
     
     
 }

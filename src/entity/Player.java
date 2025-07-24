@@ -120,21 +120,14 @@ public class Player extends Entity{
 			if(counter > 5) {
 				resetCounter();
 				Item selectedItem = inventory.getSelectedItem();
-				GameObject selectedItemGameObject = null;
 				
 				if(selectedItem != null) {
-				
-					selectedItemGameObject = selectedItem.getItem();
-				
-				}
-				if (selectedItemGameObject != null) {
-					selectedItemGameObject.behavior();
+					System.out.println(selectedItem.getGameObject().getClass());
+					selectedItem.useItem();
 				}
 			}
 		
 		}
-		
-		
 	}
 
 	private void getPlayerImages() {

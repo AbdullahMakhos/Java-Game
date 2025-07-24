@@ -40,6 +40,11 @@ public class Inventory {
         sideInventoryLastUsedIndex++;
         
     }
+    @JsonIgnore
+    public void addItem(GameObject item,int count) {
+    	inventory.add(new Item(item, count));
+        sideInventoryLastUsedIndex++;
+    }
     
     @JsonIgnore
     public void removeItem(GameObject item) {
@@ -75,18 +80,9 @@ public class Inventory {
     @JsonSetter("inventory")
     public void setInventory(ArrayList<Item> inventory) throws IOException {
         this.inventory = inventory;
-
+        sideInventoryLastUsedIndex = inventory.size()-1;
 		GamePanel.getInstance().getUIManager().updateInventory();
-        reconstructItems();
     }
- 
-  
-
-	private void reconstructItems() throws IOException {
-		for(Item item : inventory) {
-			item.reconstructItem();
-		}
-	}
 
 	@JsonIgnore
     public int getItemCount(GameObject item) {

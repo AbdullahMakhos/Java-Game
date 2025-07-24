@@ -187,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		if(gameState == 0) player.update(); //update player 
 		if(gameState == 2) ui.updateGameState(); //update player 
-		
+		if(gameState == 3) fMiniGame.update();
 	
 		metabolismCounter++;
 		if(metabolismCounter > FPS*20 ) { //heal every 20 seconds
@@ -217,9 +217,7 @@ public class GamePanel extends JPanel implements Runnable{
 		mm.draw(g2); //place it before player's draw
 		player.draw(g2);
 		ui.draw(g2);
-		if(fMiniGame.isRunning()) {
-			fMiniGame.draw(g2);
-		}
+		if(gameState == 3) fMiniGame.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient	
 	}
 	
@@ -241,7 +239,7 @@ public class GamePanel extends JPanel implements Runnable{
 	    ui.setSaveDrawCounter(35);
 	}
 
-	private void loadLastSaveInfo() throws IOException {
+	private void loadLastSaveInfo() throws Exception {
 	    ObjectMapper mapper = new ObjectMapper();
 	    
 	    File saveFile = new File(SAVE_FILE_PATH);
