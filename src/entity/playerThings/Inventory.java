@@ -38,12 +38,13 @@ public class Inventory {
         // Item not found, add a new entry
         inventory.add(new Item(item, 1));
         sideInventoryLastUsedIndex++;
-        
+        GamePanel.getInstance().getUIManager().updateInventory();
     }
     @JsonIgnore
     public void addItem(GameObject item,int count) {
     	inventory.add(new Item(item, count));
         sideInventoryLastUsedIndex++;
+        GamePanel.getInstance().getUIManager().updateInventory();
     }
     
     @JsonIgnore
@@ -62,6 +63,7 @@ public class Inventory {
                 }
             }
         }
+        GamePanel.getInstance().getUIManager().updateInventory();
     }
     @JsonIgnore
     public <T extends GameObject> GameObject getItem(T item) {
@@ -108,6 +110,7 @@ public class Inventory {
     @JsonIgnore
 	public void setSelectedItemId(int selectedItemId) {
 		this.selectedItemId = selectedItemId;
+        GamePanel.getInstance().getUIManager().updateInventory();
 	}
     @JsonIgnore
 	public Item getSelectedItem() {

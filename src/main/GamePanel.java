@@ -284,7 +284,7 @@ public class GamePanel extends JPanel implements Runnable{
 			fMiniGame.close();
 		}
 	}
-
+	
 	public int getScreenWidth() {
 		return screenWidth;
 	}

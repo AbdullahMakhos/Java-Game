@@ -47,26 +47,26 @@ public class MapManager {
     	
         try {
         	
-            tileTypes[0] = Tile.createFromID(0);
+            tileTypes[0] = Tile.createFromID(0);//snow ground
             
-            tileTypes[1] = Tile.createFromID(1);
+            tileTypes[1] = Tile.createFromID(1);//tree
             
-            tileTypes[2] = Tile.createFromID(2);
+            tileTypes[2] = Tile.createFromID(2);//wall
             
-            tileTypes[3] = Tile.createFromID(3);
+            tileTypes[3] = Tile.createFromID(3);//snowKitty
             
-            tileTypes[4] = Tile.createFromID(4);
+            tileTypes[4] = Tile.createFromID(4);//water
             
          
-            objectTypes[0] = GameObject.createFromID(0);
+            objectTypes[0] = GameObject.createFromID(0);//GameObject
             
-            objectTypes[1] = GameObject.createFromID(1);
+            objectTypes[1] = GameObject.createFromID(1);//Door
             
-            objectTypes[2] = GameObject.createFromID(2);
+            objectTypes[2] = GameObject.createFromID(2);//Fish
 
-            objectTypes[3] = GameObject.createFromID(3);
+            objectTypes[3] = GameObject.createFromID(3);//SnowPearl
            
-            objectTypes[4] = GameObject.createFromID(4);
+            objectTypes[4] = GameObject.createFromID(4);//FishingRod
             
             
         } catch (IOException e) {
@@ -184,13 +184,47 @@ public class MapManager {
     }
     
     private boolean isPlayerNearDoor(int screenX, int screenY, int size) {
-       int playerWorldX = player.getWorldX();
+    	int playerWorldX = player.getWorldX();
         int playerWorldY = player.getWorldY();
         int doorWorldX = screenX + (playerWorldX - player.getScreenX());
         int doorWorldY = screenY + (playerWorldY - player.getScreenY());
         
         return Math.abs(playerWorldX - doorWorldX) <= size && 
                Math.abs(playerWorldY - doorWorldY) <= size;
+    }
+    
+    public boolean isPlayerNearWater() {
+        int tileSize = GamePanel.getInstance().getTileSize();
+        
+        // Correct tile index calculation
+        int playerRow = player.getPlayerRow();
+        int playerCol = player.getPlayerCol();
+        
+        // Check bounds
+        if (playerRow < 0 || playerCol < 0 || 
+        	playerRow >= tileMatrix.length || playerCol >= tileMatrix[0].length) {
+            return false;
+        }
+        
+        // Check 4 adjacent tiles (top, bottom, left, right)
+        int[][] directions = {
+            {0, 1},  // Right (X+0, Y+1)
+            {0, -1}, // Left  (X+0, Y-1)
+            {1, 0},   // Down  (X+1, Y+0)
+            {-1, 0}   // Up    (X-1, Y+0)
+        };
+        
+        for (int[] dir : directions) {
+            int x = playerRow + dir[0];
+            int y = playerCol + dir[1];
+            
+            if (x >= 0 && y >= 0 && x < tileMatrix.length && y < tileMatrix[0].length) {
+                if (tileMatrix[x][y] == 4) { // 4 = water tile
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     public void deleteObject(int row, int col) {

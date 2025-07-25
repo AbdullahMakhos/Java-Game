@@ -1,11 +1,10 @@
 package entity.playerThings;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import main.GamePanel;
+import tiles.FishingRod;
 import tiles.GameObject;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
@@ -34,7 +33,13 @@ public class Item {
     @JsonIgnore
     public void useItem() {
     	if (getItem() != null) {
-    		getItem().behavior();
+    		if(gameObject instanceof FishingRod) {
+    			if(GamePanel.getInstance().getMapManager().isPlayerNearWater()) {
+    				getItem().behavior();
+    			}
+    		}else {
+    			getItem().behavior();    			
+    		}
     	} else {
     		System.err.println("ERROR: Item's GameObject is null for ID: " + itemID);
         }
