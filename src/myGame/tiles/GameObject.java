@@ -26,6 +26,7 @@ public class GameObject {
 		itemID = 0;
 		setObjectSize(gp.getTileSize());
 		setCrossable(true);
+		setCrossable(true);
 	}
 
 	public void behavior() {	
@@ -88,6 +89,8 @@ public class GameObject {
 	        case 2: return new Fish();
 	        case 3: return new SnowPearl();
 	        case 4: return new FishingRod();
+	        case 5: return new SnowMan();
+	        case 6: return new Tree();
 	        default: throw new IllegalArgumentException("Unexpected value: " + itemId);
 	    }
 	}

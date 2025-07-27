@@ -19,7 +19,7 @@ public class SnowPearl extends GameObject{
 		super.setCrossable(true); 
         super.setPickable(true);
 		
-		imagePath = "/resources/snowPearl.png";
+		imagePath = "/resources/images/snowPearl.png";
 		
 		loadImage();
 		kh = gp.getKeyHandler();

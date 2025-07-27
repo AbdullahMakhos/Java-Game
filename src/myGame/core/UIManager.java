@@ -45,11 +45,11 @@ public class UIManager {
 	private void loadImages() {
 		try {
 			
-			heartImage = ImageIO.read(getClass().getResourceAsStream("/resources/heart.png"));
-			hungerImage = ImageIO.read(getClass().getResourceAsStream("/resources/hunger.png"));
-			menuImage = ImageIO.read(getClass().getResourceAsStream("/resources/menu.png"));
-			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/resources/sideInventory.png"));
-			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/resources/selected.png"));
+			heartImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/heart.png"));
+			hungerImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/hunger.png"));
+			menuImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/menu.png"));
+			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/sideInventory.png"));
+			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/selected.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

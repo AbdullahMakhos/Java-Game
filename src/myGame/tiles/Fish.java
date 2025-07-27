@@ -14,7 +14,7 @@ public class Fish extends GameObject {
 		super.setCrossable(true); 
 		super.setPickable(true);
 		itemID = ID;
-		imagePath = "/resources/fish.png";
+		imagePath = "/resources/images/fish.png";
 		
 		loadImage();
 		
@@ -28,13 +28,7 @@ public class Fish extends GameObject {
 				player.getStatus().eat();
 				gp.getUIManager().updateStatus();
 	
-		}else {
-			
-			System.out.println("I'M FULL");
-		
 		}
-		
-		
 	}
 	
 	

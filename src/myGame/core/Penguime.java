@@ -9,16 +9,13 @@ import javax.swing.JFrame;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import myGame.core.GamePanel;
-
-
-class Game {
+class Penguime {
 
   public static void main(String[] args) throws StreamReadException, DatabindException, IOException  {
     
     // Create the main window
     JFrame window = new JFrame(); 
-    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/resources/icon.png");
+    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/resources/images/icon.png");
     Image icon = imageIcon.getImage(); 
     
     

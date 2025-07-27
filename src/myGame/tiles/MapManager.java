@@ -3,6 +3,8 @@ package myGame.tiles;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import myGame.core.GamePanel;
 import myGame.entity.Player;
@@ -12,11 +14,11 @@ public class MapManager {
 	private GamePanel gp; // To draw the mapMatrix
     private Player player; 
 
-    private static final int TILE_TYPE_COUNT = 5; // Number of tile types
+    private static final int TILE_TYPE_COUNT = 3; // Number of tile types
     private int[][] tileMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     
-    private static final int OBJECT_TYPE_COUNT = 5; // Number of tile types
+    private static final int OBJECT_TYPE_COUNT = 7; // Number of object types
     private int[][] objectMatrix; // The map to manage
     private GameObject[] objectTypes; // Tiles types to read the mapMatrix
     
@@ -47,18 +49,15 @@ public class MapManager {
     private void loadImages() {
     	
         try {
-        	
+        	//tiles
             tileTypes[0] = Tile.createFromID(0);//snow ground
             
-            tileTypes[1] = Tile.createFromID(1);//tree
+            tileTypes[1] = Tile.createFromID(1);//wall
             
-            tileTypes[2] = Tile.createFromID(2);//wall
+            tileTypes[2] = Tile.createFromID(2);//water
             
-            tileTypes[3] = Tile.createFromID(3);//snowKitty
             
-            tileTypes[4] = Tile.createFromID(4);//water
-            
-         
+            //objects
             objectTypes[0] = GameObject.createFromID(0);//GameObject
             
             objectTypes[1] = GameObject.createFromID(1);//Door
@@ -69,7 +68,10 @@ public class MapManager {
            
             objectTypes[4] = GameObject.createFromID(4);//FishingRod
             
+            objectTypes[5] = GameObject.createFromID(5);//SnowMan
             
+            objectTypes[6] = GameObject.createFromID(6);//Tree
+          
         } catch (IOException e) {
             System.err.println("Error loading resources:");
             e.printStackTrace();
@@ -125,24 +127,21 @@ public class MapManager {
     }
 
     private void drawObject(Graphics2D g2, int objectID, int screenX, int screenY) {
-        if (objectID >= 0 && objectID < OBJECT_TYPE_COUNT) {
+        if (objectID >= 0 && objectID < OBJECT_TYPE_COUNT) { 
             GameObject obj = objectTypes[objectID];
             
-          
             if (obj.getImage() != null) {
                 g2.drawImage(obj.getImage()
                 , screenX, screenY, obj.getObjectSize(), obj.getObjectSize(), null);
             }
             
             if (obj instanceof Door) {
-                if (isPlayerNearDoor(screenX, screenY,obj.getObjectSize())) {
+                if (isPlayerNearDoor(screenX, screenY, obj.getObjectSize())) {
                     ((Door) obj).behavior();
                 }
             }
-        
         }
     }
-
     
     // Method to draw a tile based on its ID
     private void drawTile(Graphics2D g2, int tileID, int screenX, int screenY) {
@@ -220,7 +219,7 @@ public class MapManager {
             int y = playerCol + dir[1];
             
             if (x >= 0 && y >= 0 && x < tileMatrix.length && y < tileMatrix[0].length) {
-                if (tileMatrix[x][y] == 4) { // 4 = water tile
+                if (tileMatrix[x][y] == 2) { // 2 = water tile
                     return true;
                 }
             }

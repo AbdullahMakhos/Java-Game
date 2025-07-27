@@ -68,6 +68,7 @@ public class TileCollisionDetector {
         }  
 
         // Check if both tiles are not null and are crossable
-        return (tile1 != null && tile2 != null && tile1.isCrossable() && tile2.isCrossable());
-    }
-}
+	        return (tile1 == null || tile1.isCrossable()) && 
+	               (tile2 == null || tile2.isCrossable());
+		}
+	}

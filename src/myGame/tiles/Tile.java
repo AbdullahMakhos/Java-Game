@@ -48,32 +48,20 @@ public class Tile {
 		switch (itemId) {
 	        case 0:{
 	        	tile.setImage(ImageIO.read(
-	                    Tile.class.getResourceAsStream("/resources/snow.png")));
+	                    Tile.class.getResourceAsStream("/resources/images/external-pack/snow-tilemap.png")));
 	        	tile.setCrossable(true); // Snow tile is crossable
 	        	
 	        	return tile;
 	        }
 	        case 1:{
 	        	tile.setImage(ImageIO.read(
-	        			Tile.class.getResourceAsStream("/resources/tree.png")));
-	        	tile.setCrossable(false); // Wall tile is not crossable
+	        			Tile.class.getResourceAsStream("/resources/images/wall.png")));
+	        	tile.setCrossable(false); // wall tile is not crossable
 	        	return tile;
 	        }
-	        case 2:{
+	        case 2: {
 	        	tile.setImage(ImageIO.read(
-	        			Tile.class.getResourceAsStream("/resources/wall.png")));
-	        	tile.setCrossable(false); // snowKitty tile is not crossable
-	        	return tile;
-	        }
-	        case 3:{
-	        	tile.setImage(ImageIO.read(
-	        			Tile.class.getResourceAsStream("/resources/snowKitty.png")));
-	        	tile.setCrossable(false); // water tile is not crossable
-	        	return tile;
-	        }
-	        case 4: {
-	        	tile.setImage(ImageIO.read(
-	        			Tile.class.getResourceAsStream("/resources/water.png")));
+	        			Tile.class.getResourceAsStream("/resources/images/water.png")));
 	        	tile.setCrossable(false); // water tile is not crossable
 	        	return tile;
 	        }

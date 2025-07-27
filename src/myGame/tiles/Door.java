@@ -20,7 +20,7 @@ public class Door extends GameObject{
 		super.setPickable(false);
 		itemID = ID;
 		
-		imagePath = "/resources/closedDoor.png";
+		imagePath = "/resources/images/closedDoor.png";
 		
 
 		kh = gp.getKeyHandler();

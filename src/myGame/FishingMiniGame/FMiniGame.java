@@ -95,10 +95,10 @@ public class FMiniGame {
 	private void loadImages() throws IOException {
 		backGroundImage = ImageIO.read(getClass()
 		.getResourceAsStream
-		("/resources/FishingMenu.png"));
+		("/resources/images/FishingMenu.png"));
 		fishImage = ImageIO.read(getClass()
 		.getResourceAsStream
-		("/resources/fishIcon.png"));
+		("/resources/images/fishIcon.png"));
 	}
 
 	public void update() throws IOException {

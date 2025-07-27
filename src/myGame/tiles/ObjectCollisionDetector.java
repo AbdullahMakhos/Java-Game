@@ -67,6 +67,7 @@ public class ObjectCollisionDetector {
         }  
         
         // Check if both tiles are not null and are crossable
-        return (object1 != null && object2 != null && object1.isCrossable() && object2.isCrossable());
-    }
-}
+        return (object1 == null || object1.isCrossable()) && 
+               (object2 == null || object2.isCrossable());
+        }
+	}

@@ -37,7 +37,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>myGame.core.Game</mainClass>
+                  <mainClass>myGame.core.Penguime</mainClass>
                 </transformer>
               </transformers>
             </configuration>

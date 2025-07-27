@@ -78,7 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	//j s o n handling
 	ObjectMapper objectMapper = new ObjectMapper();
-	final String SAVE_FILE_PATH = "/home/abdullah/Projects/java/Penguime/src/main/data/lastSaveInfo.json";
+	final String SAVE_FILE_PATH = "/home/abdullah/Projects/java/Penguime/src/resources/save/lastSaveInfo.json";
 	
 	public GamePanel() throws StreamReadException, DatabindException, IOException {
 		
@@ -153,7 +153,6 @@ public class GamePanel extends JPanel implements Runnable{
 	}
 	
 	public void update() throws Exception { 
-		
 		
 		if(kh.escPressed) {
 			escCounter++;

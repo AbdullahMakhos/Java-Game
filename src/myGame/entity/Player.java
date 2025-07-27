@@ -134,28 +134,28 @@ public class Player extends Entity{
 		//get images once and storing them to be more efficient
 		try {
 			idleCharacterImage = ImageIO.read(getClass()
-		    .getResourceAsStream("/resources/penguin.png"));
+		    .getResourceAsStream("/resources/images/penguin.png"));
 			
 			rightCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinRight1.png")); 
+			.getResourceAsStream("/resources/images/penguinRight1.png")); 
 			rightCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinRight2.png")); 
+			.getResourceAsStream("/resources/images/penguinRight2.png")); 
 			
 			leftCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinLeft1.png")); 
+			.getResourceAsStream("/resources/images/penguinLeft1.png")); 
 			leftCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinLeft2.png")); 
+			.getResourceAsStream("/resources/images/penguinLeft2.png")); 
 			
 			
 			downCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinFront1.png")); 
+			.getResourceAsStream("/resources/images/penguinFront1.png")); 
 			downCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinFront2.png")); 
+			.getResourceAsStream("/resources/images/penguinFront2.png")); 
 			 
 			upCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinAss1.png"));
+			.getResourceAsStream("/resources/images/penguinAss1.png"));
 			upCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/penguinAss2.png")); 
+			.getResourceAsStream("/resources/images/penguinAss2.png")); 
 						
 		} catch (IOException e) {
 				e.printStackTrace();
