@@ -1,7 +1,9 @@
-package myGame.core;
+package myGame.Utilities;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import myGame.core.GamePanel;
 
 //to get user input
 public class KeyHandler implements KeyListener{
@@ -17,7 +19,7 @@ public class KeyHandler implements KeyListener{
 	public boolean f5Pressed = false;
 	
 	public KeyHandler(GamePanel gp){
-		this.gp = gp;
+		this.gp = GamePanel.getInstance();
 	}
 	
 	@Override

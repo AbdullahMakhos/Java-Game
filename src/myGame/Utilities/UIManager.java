@@ -1,4 +1,4 @@
-package myGame.core;
+package myGame.Utilities;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,9 +9,10 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import myGame.entity.playerThings.Inventory;
-import myGame.entity.playerThings.Item;
-import myGame.entity.playerThings.Status;
+import myGame.core.GamePanel;
+import myGame.entities.playerThings.Inventory;
+import myGame.entities.playerThings.Item;
+import myGame.entities.playerThings.Status;
 
 public class UIManager {
 	private GamePanel gp;
@@ -45,11 +46,11 @@ public class UIManager {
 	private void loadImages() {
 		try {
 			
-			heartImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/heart.png"));
-			hungerImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/hunger.png"));
-			menuImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/menu.png"));
-			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/sideInventory.png"));
-			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/selected.png"));
+			heartImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/UI/heart.png"));
+			hungerImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/UI/hunger.png"));
+			menuImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/UI/menu.png"));
+			sideInventoryImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/UI/sideInventory.png"));
+			selectedItemImage = ImageIO.read(getClass().getResourceAsStream("/resources/images/UI/selected.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -3,8 +3,8 @@ package myGame.tiles;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import myGame.core.KeyHandler;
-import myGame.levelsAndSaving.LevelManager;
+import myGame.Utilities.KeyHandler;
+import myGame.Utilities.LevelManager;
 
 
 public class Door extends GameObject{
@@ -20,8 +20,7 @@ public class Door extends GameObject{
 		super.setPickable(false);
 		itemID = ID;
 		
-		imagePath = "/resources/images/closedDoor.png";
-		
+		imagePath = "/resources/images/gameObjects/closedDoor.png";
 
 		kh = gp.getKeyHandler();
 		lm = gp.getLevelManager();

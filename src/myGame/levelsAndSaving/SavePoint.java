@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import myGame.entity.playerThings.Inventory;
-import myGame.entity.playerThings.Status;
+import myGame.entities.playerThings.Inventory;
+import myGame.entities.playerThings.Status;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Only include non-null fields
 public class SavePoint {

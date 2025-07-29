@@ -1,4 +1,4 @@
-package myGame.entity.playerThings;
+package myGame.entities.playerThings;
 
 import java.io.IOException;
 import java.util.ArrayList;

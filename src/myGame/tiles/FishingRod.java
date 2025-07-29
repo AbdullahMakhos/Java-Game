@@ -12,7 +12,7 @@ public class FishingRod extends GameObject{
 		super.setPickable(true);
 		
 		itemID = ID;
-		imagePath = "/resources/images/FishingRod.png";
+		imagePath = "/resources/images/gameObjects/FishingRod.png";
 		
 		loadImage();
 	}

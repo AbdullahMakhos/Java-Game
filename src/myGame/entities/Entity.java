@@ -1,4 +1,4 @@
-package myGame.entity;
+package myGame.entities;
 
 import java.awt.Rectangle;
 

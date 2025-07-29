@@ -1,20 +1,21 @@
-package myGame.tiles;
+package myGame.Utilities;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import myGame.core.GamePanel;
-import myGame.entity.Player;
+import myGame.entities.Player;
+import myGame.tiles.Door;
+import myGame.tiles.GameObject;
+import myGame.tiles.Tile;
 
 
 public class MapManager {
 	private GamePanel gp; // To draw the mapMatrix
     private Player player; 
 
-    private static final int TILE_TYPE_COUNT = 3; // Number of tile types
+    private static final int TILE_TYPE_COUNT = 19; // Number of tile types
     private int[][] tileMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     
@@ -50,12 +51,43 @@ public class MapManager {
     	
         try {
         	//tiles
-            tileTypes[0] = Tile.createFromID(0);//snow ground
+            tileTypes[0] = Tile.createFromID(0);//snow1
             
-            tileTypes[1] = Tile.createFromID(1);//wall
+            tileTypes[1] = Tile.createFromID(1);//snow2
             
-            tileTypes[2] = Tile.createFromID(2);//water
+            tileTypes[2] = Tile.createFromID(2);//water 1
             
+            tileTypes[3] = Tile.createFromID(3);//water 2
+   
+            tileTypes[4] = Tile.createFromID(4);//water 3
+            
+            tileTypes[5] = Tile.createFromID(5);//water 4
+            
+            tileTypes[6] = Tile.createFromID(6);//water 5
+            
+            tileTypes[7] = Tile.createFromID(7);//water 6
+            
+            tileTypes[8] = Tile.createFromID(8);//water 7
+            
+            tileTypes[9] = Tile.createFromID(9);//water 8
+            
+            tileTypes[10] = Tile.createFromID(10);//water 9
+            
+            tileTypes[11] = Tile.createFromID(11);//wall
+            
+            tileTypes[12] = Tile.createFromID(12);//rightRoad
+            
+            tileTypes[13] = Tile.createFromID(13);//leftRoad
+            
+            tileTypes[14] = Tile.createFromID(14);//topRoad
+            
+            tileTypes[15] = Tile.createFromID(15);//botoomRoad
+            
+            tileTypes[16] = Tile.createFromID(16);//horizontalRoad
+            
+            tileTypes[17] = Tile.createFromID(17);//verticalRoad
+            
+            tileTypes[18] = Tile.createFromID(18);//middleRoad
             
             //objects
             objectTypes[0] = GameObject.createFromID(0);//GameObject
@@ -219,7 +251,7 @@ public class MapManager {
             int y = playerCol + dir[1];
             
             if (x >= 0 && y >= 0 && x < tileMatrix.length && y < tileMatrix[0].length) {
-                if (tileMatrix[x][y] == 2) { // 2 = water tile
+                if (2  <= tileMatrix[x][y] && tileMatrix[x][y] <=10 ) { //water tiles
                     return true;
                 }
             }

@@ -1,8 +1,9 @@
 package myGame.tiles;
 
+import myGame.Utilities.MapManager;
 import myGame.core.GamePanel;
-import myGame.entity.Direction;
-import myGame.entity.Player;
+import myGame.entities.Direction;
+import myGame.entities.Player;
 
 
 public class TileCollisionDetector {

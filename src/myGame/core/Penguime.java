@@ -15,7 +15,7 @@ class Penguime {
     
     // Create the main window
     JFrame window = new JFrame(); 
-    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/resources/images/icon.png");
+    ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/resources/images/UI/icon.png");
     Image icon = imageIcon.getImage(); 
     
     

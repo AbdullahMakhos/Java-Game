@@ -1,4 +1,4 @@
-package myGame.entity;
+package myGame.entities;
 
 
 import java.awt.Graphics2D;
@@ -10,13 +10,13 @@ import javax.imageio.ImageIO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import myGame.core.KeyHandler;
-import myGame.entity.playerThings.Inventory;
-import myGame.entity.playerThings.Item;
-import myGame.tiles.MapManager;
+import myGame.Utilities.KeyHandler;
+import myGame.Utilities.MapManager;
+import myGame.entities.playerThings.Inventory;
+import myGame.entities.playerThings.Item;
+import myGame.entities.playerThings.Status;
 import myGame.tiles.ObjectCollisionDetector;
 import myGame.tiles.TileCollisionDetector;
-import myGame.entity.playerThings.Status;
 
 
 public class Player extends Entity{
@@ -134,28 +134,28 @@ public class Player extends Entity{
 		//get images once and storing them to be more efficient
 		try {
 			idleCharacterImage = ImageIO.read(getClass()
-		    .getResourceAsStream("/resources/images/penguin.png"));
+		    .getResourceAsStream("/resources/images/Character/penguin.png"));
 			
 			rightCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinRight1.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinRight1.png")); 
 			rightCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinRight2.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinRight2.png")); 
 			
 			leftCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinLeft1.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinLeft1.png")); 
 			leftCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinLeft2.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinLeft2.png")); 
 			
 			
 			downCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinFront1.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinFront1.png")); 
 			downCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinFront2.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinFront2.png")); 
 			 
 			upCharacterImage1 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinAss1.png"));
+			.getResourceAsStream("/resources/images/Character/penguinAss1.png"));
 			upCharacterImage2 = ImageIO.read(getClass()
-			.getResourceAsStream("/resources/images/penguinAss2.png")); 
+			.getResourceAsStream("/resources/images/Character/penguinAss2.png")); 
 						
 		} catch (IOException e) {
 				e.printStackTrace();

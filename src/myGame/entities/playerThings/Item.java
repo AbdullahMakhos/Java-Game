@@ -1,4 +1,4 @@
-package myGame.entity.playerThings;
+package myGame.entities.playerThings;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

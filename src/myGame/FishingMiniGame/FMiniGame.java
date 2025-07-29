@@ -95,10 +95,10 @@ public class FMiniGame {
 	private void loadImages() throws IOException {
 		backGroundImage = ImageIO.read(getClass()
 		.getResourceAsStream
-		("/resources/images/FishingMenu.png"));
+		("/resources/images/fishingUI/FishingMenu.png"));
 		fishImage = ImageIO.read(getClass()
 		.getResourceAsStream
-		("/resources/images/fishIcon.png"));
+		("/resources/images/fishingUI/fishIcon.png"));
 	}
 
 	public void update() throws IOException {
@@ -195,8 +195,8 @@ public class FMiniGame {
 	//collision detector 
 	private boolean isCaught() {
 		return
-		fishY > greenBarY &&
-		fishY < greenBarY + greenBarHeight;
+		fishY >= greenBarY &&
+		fishY <= greenBarY + greenBarHeight;
 	} 
 	
 	public void start() {

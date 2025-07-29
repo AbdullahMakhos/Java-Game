@@ -3,8 +3,8 @@ package myGame.tiles;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import myGame.core.KeyHandler;
-import myGame.levelsAndSaving.LevelManager;
+import myGame.Utilities.KeyHandler;
+import myGame.Utilities.LevelManager;
 
 
 public class SnowPearl extends GameObject{
@@ -19,7 +19,7 @@ public class SnowPearl extends GameObject{
 		super.setCrossable(true); 
         super.setPickable(true);
 		
-		imagePath = "/resources/images/snowPearl.png";
+		imagePath = "/resources/images/gameObjects/snowPearl.png";
 		
 		loadImage();
 		kh = gp.getKeyHandler();

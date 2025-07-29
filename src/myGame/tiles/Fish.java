@@ -3,7 +3,7 @@ package myGame.tiles;
 import java.io.IOException;
 
 import myGame.core.GamePanel;
-import myGame.entity.Player;
+import myGame.entities.Player;
 
 
 public class Fish extends GameObject {
@@ -14,7 +14,7 @@ public class Fish extends GameObject {
 		super.setCrossable(true); 
 		super.setPickable(true);
 		itemID = ID;
-		imagePath = "/resources/images/fish.png";
+		imagePath = "/resources/images/gameObjects/fish.png";
 		
 		loadImage();
 		

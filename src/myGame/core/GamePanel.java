@@ -15,14 +15,15 @@ import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import myGame.FishingMiniGame.FMiniGame;
-import myGame.entity.Player;
+import myGame.Utilities.KeyHandler;
+import myGame.Utilities.LevelManager;
+import myGame.Utilities.MapManager;
+import myGame.Utilities.UIManager;
+import myGame.entities.Player;
 import myGame.levelsAndSaving.Level;
-import myGame.levelsAndSaving.LevelManager;
 import myGame.levelsAndSaving.SavePoint;
-import myGame.tiles.MapManager;
 import myGame.tiles.ObjectCollisionDetector;
 import myGame.tiles.TileCollisionDetector;
-import myGame.entity.playerThings.Status;
 
 
 //this class represent the game panel so actions will be done here
