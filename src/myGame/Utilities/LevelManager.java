@@ -11,8 +11,10 @@ public class LevelManager {
 	private Level[] levels;
 	private boolean inside;
 	
-	public LevelManager(GamePanel gp) {
-		this.gp = gp;
+	private static final LevelManager instance = new LevelManager();
+	public static LevelManager getInstance() {return instance;}
+	private LevelManager() {
+		this.gp = GamePanel.getInstance();
 		currentLevelID = 0; 
 		levels = new Level[LEVELS_NUMBER];
 		updateInside();
@@ -122,7 +124,7 @@ public class LevelManager {
 	private void getOut() {
 		setCurrentLevelID(1);
 		getCurrentLevel().increaseInitialY();
-		gp.getPlayer().updateXY();
+		Player.getInstance().updateXY();
 		getCurrentLevel().resetXY();
 		updateInside();
 	}
@@ -131,7 +133,7 @@ public class LevelManager {
 	    setCurrentLevelID(0);
 	    
 	    // Clamp player position to house boundaries
-	    Player player = gp.getPlayer();
+	    Player player = Player.getInstance();
 	    getCurrentLevel().increaseInitialY();
 	    player.updateXY();
 	    getCurrentLevel().resetXY();

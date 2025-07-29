@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import myGame.core.GamePanel;
+import myGame.entities.Player;
 
 //to get user input
 public class KeyHandler implements KeyListener{
@@ -18,7 +19,10 @@ public class KeyHandler implements KeyListener{
 	public boolean f4Pressed = false;
 	public boolean f5Pressed = false;
 	
-	public KeyHandler(GamePanel gp){
+	
+	private static final KeyHandler instance = new KeyHandler();
+	public static KeyHandler getInstance() {return instance;}
+	private KeyHandler(){
 		this.gp = GamePanel.getInstance();
 	}
 	
@@ -67,43 +71,43 @@ public class KeyHandler implements KeyListener{
 		
 		 //item selection (side inventory) 
 		if(code == KeyEvent.VK_0) {
-			gp.getPlayer().getInventory().setSelectedItemId(-1);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(-1);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_1) {
-			gp.getPlayer().getInventory().setSelectedItemId(0);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(0);
+			UIManager.getInstance().updateSelectedItemId();
         }
 		
 		if(code == KeyEvent.VK_2) {
-			gp.getPlayer().getInventory().setSelectedItemId(1);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(1);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_3) {
-			gp.getPlayer().getInventory().setSelectedItemId(2);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(2);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_4) {
-			gp.getPlayer().getInventory().setSelectedItemId(3);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(3);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_5) {
-			gp.getPlayer().getInventory().setSelectedItemId(4);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(4);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_6) {
-			gp.getPlayer().getInventory().setSelectedItemId(5);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(5);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 		if(code == KeyEvent.VK_7) {
-			gp.getPlayer().getInventory().setSelectedItemId(6);
-			gp.getUIManager().updateSelectedItemId();
+			Player.getInstance().getInventory().setSelectedItemId(6);
+			UIManager.getInstance().updateSelectedItemId();
 		}
 		
 	}
@@ -134,7 +138,7 @@ public class KeyHandler implements KeyListener{
 		
 		if(code == KeyEvent.VK_SPACE) {
 			spacePressed = false;
-			gp.getPlayer().resetCounter();
+			Player.getInstance().resetCounter();
 		}
 		
 		if(code == KeyEvent.VK_ESCAPE) {

@@ -18,7 +18,6 @@ class Penguime {
     ImageIcon imageIcon = new ImageIcon("/home/abdullah/Projects/java/Penguime/src/resources/images/UI/icon.png");
     Image icon = imageIcon.getImage(); 
     
-    
     // Basic settings 
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Exit on close
     window.setResizable(false); // Prevent resizing

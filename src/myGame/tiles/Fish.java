@@ -2,7 +2,7 @@ package myGame.tiles;
 
 import java.io.IOException;
 
-import myGame.core.GamePanel;
+import myGame.Utilities.UIManager;
 import myGame.entities.Player;
 
 
@@ -21,12 +21,12 @@ public class Fish extends GameObject {
 	}
 
 	public void behavior() {
-		Player player = GamePanel.getInstance().getPlayer();
+		Player player = Player.getInstance();
 		
 		if(player.getStatus().canEat()) {
 				player.getInventory().removeItem(this);
 				player.getStatus().eat();
-				gp.getUIManager().updateStatus();
+				 UIManager.getInstance().updateStatus();
 	
 		}
 	}

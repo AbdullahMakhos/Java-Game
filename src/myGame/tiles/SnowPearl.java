@@ -22,8 +22,8 @@ public class SnowPearl extends GameObject{
 		imagePath = "/resources/images/gameObjects/snowPearl.png";
 		
 		loadImage();
-		kh = gp.getKeyHandler();
-		lm=gp.getLevelManager();
+		kh = KeyHandler.getInstance();
+		lm = LevelManager.getInstance();
 		
 	}
 

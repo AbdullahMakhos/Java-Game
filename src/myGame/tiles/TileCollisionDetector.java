@@ -9,7 +9,10 @@ import myGame.entities.Player;
 public class TileCollisionDetector {
     private GamePanel gp;
 
-    public TileCollisionDetector() {
+    private static final TileCollisionDetector instance = new TileCollisionDetector();
+   	public static TileCollisionDetector getInstance() {return instance;}
+    
+    private TileCollisionDetector() {
         gp  =GamePanel.getInstance(); 
     }
   
@@ -23,8 +26,8 @@ public class TileCollisionDetector {
     }
   
     public boolean canMove(Direction direction) { 
-        Player player = gp.getPlayer();
-        MapManager tm = gp.getMapManager();
+        Player player = Player.getInstance();
+        MapManager tm = MapManager.getInstance();
       
         int speed = player.getSpeed(); 
         int playerLeftWorldX = player.getWorldX() + player.getSolidAreaX();

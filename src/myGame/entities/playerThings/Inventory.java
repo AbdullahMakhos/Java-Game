@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
+import myGame.Utilities.UIManager;
 import myGame.core.GamePanel;
 import myGame.tiles.GameObject;
 
@@ -39,13 +40,13 @@ public class Inventory {
         // Item not found, add a new entry
         inventory.add(new Item(item, 1));
         sideInventoryLastUsedIndex++;
-        GamePanel.getInstance().getUIManager().updateInventory();
+        UIManager.getInstance().updateInventory();
     }
     @JsonIgnore
     public void addItem(GameObject item,int count) {
     	inventory.add(new Item(item, count));
         sideInventoryLastUsedIndex++;
-        GamePanel.getInstance().getUIManager().updateInventory();
+        UIManager.getInstance().updateInventory();
     }
     
     @JsonIgnore
@@ -64,7 +65,7 @@ public class Inventory {
                 }
             }
         }
-        GamePanel.getInstance().getUIManager().updateInventory();
+        UIManager.getInstance().updateInventory();
     }
     @JsonIgnore
     public <T extends GameObject> GameObject getItem(T item) {
@@ -84,7 +85,7 @@ public class Inventory {
     public void setInventory(ArrayList<Item> inventory) throws IOException {
         this.inventory = inventory;
         sideInventoryLastUsedIndex = inventory.size()-1;
-		GamePanel.getInstance().getUIManager().updateInventory();
+        UIManager.getInstance().updateInventory();
     }
 
 	@JsonIgnore
@@ -111,7 +112,7 @@ public class Inventory {
     @JsonIgnore
 	public void setSelectedItemId(int selectedItemId) {
 		this.selectedItemId = selectedItemId;
-        GamePanel.getInstance().getUIManager().updateInventory();
+		UIManager.getInstance().updateInventory();
 	}
     @JsonIgnore
 	public Item getSelectedItem() {

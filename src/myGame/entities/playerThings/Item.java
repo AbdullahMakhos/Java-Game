@@ -3,6 +3,8 @@ package myGame.entities.playerThings;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import myGame.Utilities.MapManager;
+import myGame.Utilities.UIManager;
 import myGame.core.GamePanel;
 import myGame.tiles.FishingRod;
 import myGame.tiles.GameObject;
@@ -26,7 +28,7 @@ public class Item {
     @JsonIgnore
     public GameObject getItem() {
         if (gameObject == null) {
-            gameObject = GamePanel.getInstance().getMapManager().getObjectTypesMatrix()[itemID];
+            gameObject = MapManager.getInstance().getObjectTypesMatrix()[itemID];
         }
         return gameObject;
     }
@@ -35,7 +37,7 @@ public class Item {
     public void useItem() {
     	if (getItem() != null) {
     		if(gameObject instanceof FishingRod) {
-    			if(GamePanel.getInstance().getMapManager().isPlayerNearWater()) {
+    			if(MapManager.getInstance().isPlayerNearWater()) {
     				getItem().behavior();
     			}
     		}else {

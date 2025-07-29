@@ -18,6 +18,7 @@ import myGame.FishingMiniGame.FMiniGame;
 import myGame.Utilities.KeyHandler;
 import myGame.Utilities.LevelManager;
 import myGame.Utilities.MapManager;
+import myGame.Utilities.SoundManager;
 import myGame.Utilities.UIManager;
 import myGame.entities.Player;
 import myGame.levelsAndSaving.Level;
@@ -62,13 +63,14 @@ public class GamePanel extends JPanel implements Runnable{
 	 
 	//game object initiating area
 	private KeyHandler kh;// to create a key handler object 
-	private LevelManager lm;
-	private Player player; 
-	private MapManager mm;
+	private LevelManager levelManager;
+	private SoundManager soundManager;
+	private	Player player; 
+	private MapManager mapManager;
 	private TileCollisionDetector td;
 	private ObjectCollisionDetector od;
 	private Thread gameThread; // to create a thread object 
-	private UIManager ui;
+	private UIManager uiManager;
 	private FMiniGame fMiniGame;
 	private int currentLevelID;
 	private SavePoint lastSavePoint;
@@ -88,18 +90,19 @@ public class GamePanel extends JPanel implements Runnable{
 		gameState = 0;
 		currentLevelID=0;
 		
-		kh= new KeyHandler(this); // to create key handler
-		lm = new LevelManager(this);
+		kh = KeyHandler.getInstance(); 
+		levelManager = LevelManager.getInstance();
+		soundManager = SoundManager.getInstance();
 		
-		currentLevel = lm.getCurrentLevel();
+		currentLevel = levelManager.getCurrentLevel();
 
-		player =  new Player();// to create a player object
-		mm = new MapManager(); //to create a tile manager
-		td = new TileCollisionDetector(); //to create colDetecer 
-		od = new ObjectCollisionDetector();
-		ui = new UIManager();
-		fMiniGame = new FMiniGame();
-		lastSavePoint = new SavePoint();
+		player = Player.getInstance();// to create a player object
+		mapManager = MapManager.getInstance(); //to create a tile manager
+		td = TileCollisionDetector.getInstance(); //to create colDetecer 
+		od = ObjectCollisionDetector.getInstance();
+		uiManager = UIManager.getInstance();
+		fMiniGame = FMiniGame.getInstance();
+		lastSavePoint = SavePoint.getInstance();
 		
 		maxWorldCol = getMapWidth();
 		maxWorldRow = getMapHeight();
@@ -120,7 +123,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public void startGameThread() {
 		gameThread = new Thread(this); //we pass the panel because run method is now one of its sub methods
 		gameThread.start(); //بسم الله الرحمن الرحيم
-		
+		soundManager.playMusic();
 	}
 	
 	//game loop is inside the run method
@@ -185,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable{
 		}
 		
 		if(gameState == 0) player.update(); //update player 
-		if(gameState == 2) ui.updateGameState(); //update player 
+		if(gameState == 2) uiManager.updateGameState(); //update player 
 		if(gameState == 3) fMiniGame.update();
 	
 		metabolismCounter++;
@@ -201,7 +204,7 @@ public class GamePanel extends JPanel implements Runnable{
 				player.getStatus().heal();					
 			}
 
-			ui.updateStatus();
+			uiManager.updateStatus();
 		}
 	}
 
@@ -213,9 +216,9 @@ public class GamePanel extends JPanel implements Runnable{
 		Graphics2D g2 = (Graphics2D) g; //convert the received graphics to 2d (usual procedure) because Graphics2d has some good functions  
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.white);
-		mm.draw(g2); //place it before player's draw
+		mapManager.draw(g2); //place it before player's draw
 		player.draw(g2);
-		ui.draw(g2);
+		uiManager.draw(g2);
 		if(gameState == 3) fMiniGame.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient	
 	}
@@ -235,7 +238,7 @@ public class GamePanel extends JPanel implements Runnable{
 	    mapper.writerWithDefaultPrettyPrinter()
         .writeValue(new File(SAVE_FILE_PATH), savePoint);
 	    
-	    ui.setSaveDrawCounter(35);
+	    uiManager.setSaveDrawCounter(35);
 	}
 
 	private void loadLastSaveInfo() throws Exception {
@@ -251,19 +254,19 @@ public class GamePanel extends JPanel implements Runnable{
 	        player.setY(savePoint.getY());
 	        player.setStatus(savePoint.getStatus());
 	        player.getInventory().setInventory(savePoint.getInventory().getInventory());
-	        lm.setCurrentLevelID(savePoint.getLevelId());
-	        lm.getCurrentLevel().setObjectMatrix(savePoint.getObjectMatrix());
+	        levelManager.setCurrentLevelID(savePoint.getLevelId());
+	        levelManager.getCurrentLevel().setObjectMatrix(savePoint.getObjectMatrix());
 	    }
 	    
-	    mm.updateMap();
-	    ui.updateStatus();
-	    ui.setloadDrawCounter(25);
+	    mapManager.updateMap();
+	    uiManager.updateStatus();
+	    uiManager.setloadDrawCounter(25);
 	}
 	
 	public void updateCurrentLevel(){
-		currentLevelID = lm.getCurrentLevelID();
-		currentLevel = lm.getCurrentLevel();
-		mm.updateMap();
+		currentLevelID = levelManager.getCurrentLevelID();
+		currentLevel = levelManager.getCurrentLevel();
+		mapManager.updateMap();
 	}
 	
 	public void resetMetabolismCounter() {
@@ -276,7 +279,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
-		ui.updateGameState();
+		uiManager.updateGameState();
 		if(getGameState() == 3) {
 			fMiniGame.start();
 		}else {
@@ -319,50 +322,6 @@ public class GamePanel extends JPanel implements Runnable{
 	public int getMaxScreenRow() {
 		return maxScreenRow;
 	}
-
-	public MapManager getMapManager() {
-		return mm;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-	
-	public KeyHandler getKeyHandler() {
-		return kh; 
-	}
-	
-	public TileCollisionDetector getTileCollisionDetecter() {
-		return td;
-	}
-	
-	public ObjectCollisionDetector getObjectCollisionDetecter() {
-		return od;
-	}
-
-	public UIManager getUIManager() {
-		return ui;
-	}
-	
-	public int[][] getTileMatrix(){
-		return currentLevel.getTileMatrix();
-	}
-
-	public int[][] getObjectMatrix() {
-		return currentLevel.getObjectMatrix();
-	}
-	
-	public int getCurrentLevelID() {
-		return currentLevelID;
-	}
-	
-	public Level getCurrentLevel() {
-		return currentLevel;
-	}
-	
-	public LevelManager getLevelManager() {
-		return lm;
-	}
 	
 	public void reseteEscCounter() {
 		escCounter = 0;
@@ -375,4 +334,9 @@ public class GamePanel extends JPanel implements Runnable{
 	public void resetF5Counter() {
 		f5Counter = 0;
 	}
+	
+	public int getScale() {
+		return scale;
+	}
+
 }

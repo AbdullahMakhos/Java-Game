@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import myGame.core.GamePanel;
+import myGame.entities.Player;
 import myGame.entities.playerThings.Inventory;
 import myGame.entities.playerThings.Item;
 import myGame.entities.playerThings.Status;
@@ -31,11 +32,12 @@ public class UIManager {
 	private int saveDrawCounter = 0;
 	private int loadDrawCounter = 0;
 
-	public UIManager() {
+	private static final UIManager instance = new UIManager();
+	public static UIManager getInstance() {return instance;}
+	private UIManager() {
 		gp = GamePanel.getInstance();
-		gp.getKeyHandler();
-		inventory = gp.getPlayer().getInventory();
-		playerStatus = gp.getPlayer().getStatus(); 
+		inventory = Player.getInstance().getInventory();
+		playerStatus = Player.getInstance().getStatus(); 
 		gameState = gp.getGameState();
 		tileSize = gp.getTileSize(); //used for general object size too
 		selectedItemId = inventory.getSelectedItemId();
@@ -174,7 +176,7 @@ public class UIManager {
 	}
 
 	public void updateStatus() {
-		playerStatus = gp.getPlayer().getStatus();
+		playerStatus = Player.getInstance().getStatus();
 	}
 	
 	public void updateSelectedItemId() {
@@ -190,7 +192,7 @@ public class UIManager {
 	}
 
 	public void updateInventory() {
-		inventory = gp.getPlayer().getInventory();
+		inventory = Player.getInstance().getInventory();
 	}
 
 	

@@ -29,14 +29,17 @@ public class MapManager {
     private int maxRows;
     private int maxCols;
     
-    public MapManager() {
+    private static final MapManager instance = new MapManager();
+	public static MapManager getInstance() {return instance;}
+    
+    private MapManager() {
         this.gp = GamePanel.getInstance();
-        player = gp.getPlayer();
+        player = Player.getInstance();
         
-        tileMatrix = gp.getTileMatrix();
+        tileMatrix = LevelManager.getInstance().getCurrentLevel().getTileMatrix();
         tileTypes = new Tile[TILE_TYPE_COUNT]; // Initialize tile types
         
-        objectMatrix = gp.getObjectMatrix();
+        objectMatrix = LevelManager.getInstance().getCurrentLevel().getObjectMatrix();
         objectTypes = new GameObject[OBJECT_TYPE_COUNT]; // Initialize tile types
         
         screenHeight = gp.getScreenHeight();
@@ -269,12 +272,12 @@ public class MapManager {
     	updateObjectMatrix();
     }
     private void updateObjectMatrix() {
-		objectMatrix = gp.getObjectMatrix();
+		objectMatrix = LevelManager.getInstance().getCurrentLevel().getObjectMatrix();
 		updateMaxRowsAndCols();
 	}
 
     private void updateTileMatrix() {
-    	tileMatrix = gp.getTileMatrix();
+    	tileMatrix = LevelManager.getInstance().getCurrentLevel().getTileMatrix();
     	updateMaxRowsAndCols();
     }
     

@@ -8,7 +8,10 @@ import myGame.entities.Player;
 public class ObjectCollisionDetector {
     private GamePanel gp;
 
-    public ObjectCollisionDetector() {
+    private static final ObjectCollisionDetector instance = new ObjectCollisionDetector();
+   	public static ObjectCollisionDetector getInstance() {return instance;}
+   	
+    private ObjectCollisionDetector() {
         gp = GamePanel.getInstance(); 
     }
   
@@ -22,8 +25,8 @@ public class ObjectCollisionDetector {
     }
     
     public boolean canMove(Direction direction) { 
-        Player player = gp.getPlayer();
-        MapManager om = gp.getMapManager();
+        Player player = Player.getInstance();
+        MapManager om = MapManager.getInstance();
       
         int speed = player.getSpeed(); 
         int playerLeftWorldX = player.getWorldX() + player.getSolidAreaX();

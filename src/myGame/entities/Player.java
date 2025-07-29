@@ -11,7 +11,9 @@ import javax.imageio.ImageIO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import myGame.Utilities.KeyHandler;
+import myGame.Utilities.LevelManager;
 import myGame.Utilities.MapManager;
+import myGame.Utilities.UIManager;
 import myGame.entities.playerThings.Inventory;
 import myGame.entities.playerThings.Item;
 import myGame.entities.playerThings.Status;
@@ -33,13 +35,16 @@ public class Player extends Entity{
 	,downCharacterImage1,downCharacterImage2;  //to hold player's images
 	  
 	private int tileSize; 
-	
 	private int counter = 0;
- 
-	public Player() {
+	
+	private static final Player instance = new Player();
+	public static Player getInstance() {
+		return instance;
+	}
+	private Player() {
 		super();
 		
-		kh = gp.getKeyHandler();
+		kh = KeyHandler.getInstance();
 		screenX = gp.screenWidth/2 - (gp.getTileSize()/2);
 		screenY = gp.screenHeight/2 - (gp.getTileSize()/2);
 		tileSize = gp.getTileSize();
@@ -52,7 +57,7 @@ public class Player extends Entity{
 	
 	private void setDefaultValues() {
 		//player's starting position 
-		speed = 5; 
+		speed = gp.getScale(); 
 		solidArea = new Rectangle(8 , 16 , 40 , 32);
 		worldX = (gp.getMapWidth() * gp.getTileSize())/2 - (gp.getTileSize()/2);;
 		worldY = gp.getTileSize()*2;
@@ -103,7 +108,7 @@ public class Player extends Entity{
 		
 		//player action
 		if(kh.pPressed) {
-			MapManager ob = gp.getMapManager();
+			MapManager ob = MapManager.getInstance();
 				int playerRow = getPlayerRow();
 				int playerCol = getPlayerCol();
 				
@@ -172,8 +177,8 @@ public class Player extends Entity{
 	
 	private boolean canMove(Direction direction) {
 
-		TileCollisionDetector cd = gp.getTileCollisionDetecter();
-		ObjectCollisionDetector od = gp.getObjectCollisionDetecter();
+		TileCollisionDetector cd = TileCollisionDetector.getInstance();
+		ObjectCollisionDetector od = ObjectCollisionDetector.getInstance();
 		
 		return cd.canMove(direction) && od.canMove(direction);
 	}
@@ -191,12 +196,12 @@ public class Player extends Entity{
 
 	public void setStatus(Status status) {
 		this.status = status;
-		gp.getUIManager().updateStatus();
+		UIManager.getInstance().updateStatus();
 	}
 
 	public void updateXY() {
-		worldX = gp.getLevelManager().getCurrentLevel().getInitialX();
-		worldY = gp.getLevelManager().getCurrentLevel().getInitialY();
+		worldX = LevelManager.getInstance().getCurrentLevel().getInitialX();
+		worldY = LevelManager.getInstance().getCurrentLevel().getInitialY();
 	}
 	
 	public void resetCounter() {
@@ -245,8 +250,5 @@ public class Player extends Entity{
 	
 	public void setInventory(Inventory inventory) {
 		this.inventory = inventory;	
-	}
-
-
-	
+	}	
 }

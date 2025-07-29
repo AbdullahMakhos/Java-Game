@@ -22,8 +22,8 @@ public class Door extends GameObject{
 		
 		imagePath = "/resources/images/gameObjects/closedDoor.png";
 
-		kh = gp.getKeyHandler();
-		lm = gp.getLevelManager();
+		kh = KeyHandler.getInstance();
+		lm = LevelManager.getInstance();
 		
 		loadImage();
 	}

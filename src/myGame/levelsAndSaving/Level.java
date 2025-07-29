@@ -6,7 +6,10 @@ import java.io.IOException;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import myGame.Utilities.MapManager;
 import myGame.core.GamePanel;
+import myGame.entities.Player;
+import myGame.entities.playerThings.Inventory;
 import myGame.tiles.Fish;
 
 public class Level {
@@ -38,10 +41,10 @@ public class Level {
 	public boolean canPass() throws IOException {
 		Fish fish = new Fish();
 		int ItemCount = 0;
-		
-		if(gp.getPlayer().getInventory().getItem(fish) != null) {
-			ItemCount = gp.getPlayer().getInventory()
-			.getItemCount(gp.getPlayer().getInventory().getItem(fish));
+		Inventory inventory = Player.getInstance().getInventory();
+		if(inventory.getItem(fish) != null) {
+			ItemCount = inventory
+			.getItemCount(inventory.getItem(fish));
 		}
 		
 		return ItemCount >= 26;

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import myGame.Utilities.UIManager;
 import myGame.entities.playerThings.Inventory;
 import myGame.entities.playerThings.Status;
 
@@ -18,6 +19,9 @@ public class SavePoint {
     private int[][] objectMatrix;
     private Status status;
     
+    private static final SavePoint instance = new SavePoint();
+	public static SavePoint getInstance() {return instance;}
+	
 	public SavePoint(int x, int y,Status status,Inventory inventory, int levelId , int[][] objectMatrix) {
         this.x = x;
         this.y = y;
@@ -27,7 +31,7 @@ public class SavePoint {
         this.objectMatrix = objectMatrix;
     }
     
-    public SavePoint() {
+    private SavePoint() {
         x = -1;
         y = -1;
     }
