@@ -17,8 +17,8 @@ import myGame.Utilities.UIManager;
 import myGame.entities.playerThings.Inventory;
 import myGame.entities.playerThings.Item;
 import myGame.entities.playerThings.Status;
-import myGame.tiles.ObjectCollisionDetector;
-import myGame.tiles.TileCollisionDetector;
+import myGame.tilesAndGameObjects.gameObjects.ObjectCollisionDetector;
+import myGame.tilesAndGameObjects.tiles.TileCollisionDetector;
 
 
 public class Player extends Entity{

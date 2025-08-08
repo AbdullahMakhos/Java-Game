@@ -6,22 +6,25 @@ import java.io.IOException;
 
 import myGame.core.GamePanel;
 import myGame.entities.Player;
-import myGame.tiles.Door;
-import myGame.tiles.GameObject;
-import myGame.tiles.Tile;
+import myGame.tilesAndGameObjects.gameObjects.Door;
+import myGame.tilesAndGameObjects.gameObjects.GameObject;
+import myGame.tilesAndGameObjects.gameObjects.Tree;
+import myGame.tilesAndGameObjects.tiles.Tile;
 
 
 public class MapManager {
 	private GamePanel gp; // To draw the mapMatrix
     private Player player; 
 
-    private static final int TILE_TYPE_COUNT = 19; // Number of tile types
+    private static final int TILE_TYPE_COUNT = 23; // Number of tile types
     private int[][] tileMatrix; // The map to manage
     private Tile[] tileTypes; // Tiles types to read the mapMatrix
     
-    private static final int OBJECT_TYPE_COUNT = 7; // Number of object types
+    private static final int OBJECT_TYPE_COUNT = 10; // Number of object types
     private int[][] objectMatrix; // The map to manage
     private GameObject[] objectTypes; // Tiles types to read the mapMatrix
+    
+    private static final int originalTileSize = GamePanel.getInstance().getTileSize();
     
     private int screenHeight;
     private int screenWidth;
@@ -92,6 +95,14 @@ public class MapManager {
             
             tileTypes[18] = Tile.createFromID(18);//middleRoad
             
+            tileTypes[19] = Tile.createFromID(19);//rightTopCorner
+            
+            tileTypes[20] = Tile.createFromID(20);//rightDownCorner
+            
+            tileTypes[21] = Tile.createFromID(21);//leftTopCorner
+            
+            tileTypes[22] = Tile.createFromID(22);//leftDownCorner
+            
             //objects
             objectTypes[0] = GameObject.createFromID(0);//GameObject
             
@@ -105,8 +116,14 @@ public class MapManager {
             
             objectTypes[5] = GameObject.createFromID(5);//SnowMan
             
-            objectTypes[6] = GameObject.createFromID(6);//Tree
-          
+            objectTypes[6] = GameObject.createFromID(6);//Tree1
+            
+            objectTypes[7] = GameObject.createFromID(7);//Tree2
+            
+            objectTypes[8] = GameObject.createFromID(8);//SticksPack
+            
+            objectTypes[9] = GameObject.createFromID(9);//iceEffect
+            
         } catch (IOException e) {
             System.err.println("Error loading resources:");
             e.printStackTrace();
@@ -130,6 +147,7 @@ public class MapManager {
         int playerScreenX = player.getScreenX();
         int playerScreenY = player.getScreenY();
         
+        // drawing tiles
         for (int row = startRow; row <= endRow; row++) {
             int worldY = row * tileSize;
             int screenY = worldY - (playerY - playerScreenY);
@@ -139,16 +157,30 @@ public class MapManager {
                 int screenX = worldX - (playerX - playerScreenX);
            
                 if (row >= 0 && row < maxRows && col >= 0 && col < maxCols) {
-                	
-                	if (isInView(worldX, worldY, playerX, playerY, tileSize)) {
-                		
-                		drawTile(g2, tileMatrix[row][col], screenX, screenY);
-                		drawObject(g2, objectMatrix[row][col], screenX, screenY);
-                		
-                	}
-                
+                    if (isInView(worldX, worldY, playerX, playerY, tileSize)) {
+                        drawTile(g2, tileMatrix[row][col], screenX, screenY);
+                    }
                 }
-                
+            }
+        }
+        
+        player.draw(g2);
+		
+        
+        // drawing objects
+        for (int row = startRow; row <= endRow; row++) {
+            int worldY = row * tileSize;
+            int screenY = worldY - (playerY - playerScreenY);
+            
+            for (int col = startCol; col <= endCol; col++) {
+                int worldX = col * tileSize;
+                int screenX = worldX - (playerX - playerScreenX);
+           
+                if (row >= 0 && row < maxRows && col >= 0 && col < maxCols) {
+                    if (isInView(worldX, worldY, playerX, playerY, tileSize)) {
+                        drawObject(g2, objectMatrix[row][col], screenX, screenY);
+                    }
+                }
             }
         }
     }
@@ -165,23 +197,38 @@ public class MapManager {
         if (objectID >= 0 && objectID < OBJECT_TYPE_COUNT) { 
             GameObject obj = objectTypes[objectID];
             
-            if (obj.getImage() != null) {
-                g2.drawImage(obj.getImage()
-                , screenX, screenY, obj.getObjectSize(), obj.getObjectSize(), null);
-            }
+            
+            if(obj instanceof Tree) {
+        		int treeID = ((Tree) obj).getTreeID();
+            	int drawX = screenX;
+            	int drawY = screenY;
+            	int size = obj.getObjectSize();
+            	    
+        	    if(treeID == 1 || treeID == 2){
+        	        	drawX -= (originalTileSize) / 2;
+        	            drawY -= originalTileSize;
+        	    }
+        	
+        	    if(obj.getImage() != null)
+        	    g2.drawImage(obj.getImage(), drawX, drawY,size,size,null);
+        	    
+            }else if (obj.getImage() != null) {
+                    g2.drawImage(obj.getImage()
+                    , screenX, screenY, obj.getObjectSize(), obj.getObjectSize(), null);
+                }
             
             if (obj instanceof Door) {
                 if (isPlayerNearDoor(screenX, screenY, obj.getObjectSize())) {
                     ((Door) obj).behavior();
                 }
             }
+           
         }
     }
     
     // Method to draw a tile based on its ID
     private void drawTile(Graphics2D g2, int tileID, int screenX, int screenY) {
-    	int tileSize = gp.getTileSize();
-		if (tileID >= 0 && tileID < tileTypes.length) {
+    	if (tileID >= 0 && tileID < tileTypes.length) {
             Tile tile = tileTypes[tileID];
             if (tile.getImage() != null) {
                 g2.drawImage(tile.getImage(), screenX, screenY
@@ -194,7 +241,7 @@ public class MapManager {
         } else {
             // Invalid tile ID
             g2.setColor(Color.MAGENTA);
-            g2.fillRect(screenX, screenY, tileSize, tileSize);
+            g2.fillRect(screenX, screenY, originalTileSize, originalTileSize);
         }
     }
 

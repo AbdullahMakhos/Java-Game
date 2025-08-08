@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import myGame.Utilities.MapManager;
 import myGame.Utilities.UIManager;
 import myGame.core.GamePanel;
-import myGame.tiles.FishingRod;
-import myGame.tiles.GameObject;
+import myGame.tilesAndGameObjects.gameObjects.FishingRod;
+import myGame.tilesAndGameObjects.gameObjects.GameObject;
 
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")

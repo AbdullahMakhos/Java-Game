@@ -12,7 +12,7 @@ import myGame.Utilities.KeyHandler;
 import myGame.Utilities.MapManager;
 import myGame.core.GamePanel;
 import myGame.entities.Player;
-import myGame.tiles.GameObject;
+import myGame.tilesAndGameObjects.gameObjects.GameObject;
 
 public class FMiniGame {
     private boolean running;

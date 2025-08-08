@@ -23,8 +23,8 @@ import myGame.Utilities.UIManager;
 import myGame.entities.Player;
 import myGame.levelsAndSaving.Level;
 import myGame.levelsAndSaving.SavePoint;
-import myGame.tiles.ObjectCollisionDetector;
-import myGame.tiles.TileCollisionDetector;
+import myGame.tilesAndGameObjects.gameObjects.ObjectCollisionDetector;
+import myGame.tilesAndGameObjects.tiles.TileCollisionDetector;
 
 
 //this class represent the game panel so actions will be done here
@@ -217,7 +217,6 @@ public class GamePanel extends JPanel implements Runnable{
 		g2.setFont(new Font("Arial", Font.BOLD, 20));
 		g2.setColor(Color.white);
 		mapManager.draw(g2); //place it before player's draw
-		player.draw(g2);
 		uiManager.draw(g2);
 		if(gameState == 3) fMiniGame.draw(g2);
 		g2.dispose(); //cleaning component to stay memory efficient	

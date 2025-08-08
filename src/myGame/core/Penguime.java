@@ -25,6 +25,7 @@ class Penguime {
     window.setIconImage(icon);
     
     GamePanel gamePanel = new GamePanel(); // Create game panel object
+    
     window.add(gamePanel); // Add panel to the window 
     window.pack(); // Apply size settings
     window.setLocationRelativeTo(null); // Center the window

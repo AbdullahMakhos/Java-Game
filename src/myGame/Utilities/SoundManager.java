@@ -21,7 +21,7 @@ public class SoundManager {
     private void loadSounds() {
         try {
             // Load background music
-            URL musicURL = getClass().getResource("/resources/sounds/The Life We Had.wav");
+            URL musicURL = getClass().getResource("/resources/sounds/Chippytoon.wav");
             AudioInputStream musicIn = AudioSystem.getAudioInputStream(musicURL);
             backgroundMusic = AudioSystem.getClip();
             backgroundMusic.open(musicIn);

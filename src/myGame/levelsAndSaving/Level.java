@@ -10,7 +10,7 @@ import myGame.Utilities.MapManager;
 import myGame.core.GamePanel;
 import myGame.entities.Player;
 import myGame.entities.playerThings.Inventory;
-import myGame.tiles.Fish;
+import myGame.tilesAndGameObjects.gameObjects.Fish;
 
 public class Level {
 	@JsonIgnore

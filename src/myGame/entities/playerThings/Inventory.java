@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import myGame.Utilities.UIManager;
 import myGame.core.GamePanel;
-import myGame.tiles.GameObject;
+import myGame.tilesAndGameObjects.gameObjects.GameObject;
 
 
 public class Inventory {
